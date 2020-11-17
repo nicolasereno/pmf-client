@@ -15,6 +15,11 @@ export const getMaskAnags = createSelector(
 	state => state.maskAnags
 );
 
+export const getQuestionsAnswers = createSelector(
+	selectMasksState,
+	state => state.questionsAnswers
+);
+
 export const getLoading = createSelector(
 	selectMasksState,
 	state => state.loading

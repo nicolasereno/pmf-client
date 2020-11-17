@@ -36,6 +36,18 @@ export class MasksEffects {
 		)
 	)
 
+	@Effect()
+	loadQuestionsAnswers$: Observable<Action> = this.actions$.pipe(
+		ofType(masksActions.MasksActionTypes.LoadQuestionsAnswers),
+		map((action: masksActions.LoadQuestionsAnswers) => action.payload),
+		mergeMap((id) =>
+			this.proxyMA.getQuestionsAndAnswers(id).pipe(
+				map(c => new masksActions.LoadQuestionsAnswersSuccess(c)),
+				catchError(err => of(new masksActions.LoadQuestionsAnswersFailure(err.statusText)))
+			)
+		)
+	)
+
 	constructor(
 		private actions$: Actions,
 		private proxyGO: GeoObjectsControllerService,

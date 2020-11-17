@@ -1,9 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, Input } from '@angular/core';
 
-import * as masksActions from '../store/masks.actions';
-import * as fromMasks from '../store/masks.reducer';
-import * as masksSelectors from '../store/masks.selectors';
 import { AnswerAnag } from '@enel/pmf-mock-be/model/answerAnag';
 
 @Component({
@@ -18,11 +14,9 @@ export class AnswerListComponent {
 		'description',
 		'priority',
 		'note',
-	];	
-	
+	];
+
 	@Input()
 	data: AnswerAnag[];
-	
-	constructor(private masksStore: Store<fromMasks.State>) { }
 
 }

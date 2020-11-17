@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 import { Store } from '@ngrx/store';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { MaskAnag } from '@enel/pmf-mock-be';
+import { MaskAnag, QuestionAnag } from '@enel/pmf-mock-be';
 
 import * as masksActions from '../store/masks.actions';
 import * as fromMasks from '../store/masks.reducer';
@@ -14,7 +15,14 @@ import * as masksSelectors from '../store/masks.selectors';
 @Component({
 	selector: 'pmf-mask-list',
 	templateUrl: './mask-list.component.html',
-	styleUrls: ['./mask-list.component.less']
+	styleUrls: ['./mask-list.component.less'],
+	animations: [
+		trigger('detailExpand', [
+			state('collapsed', style({ height: '0px', minHeight: '0' })),
+			state('expanded', style({ height: '*' })),
+			transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+		]),
+	],
 })
 export class MaskListComponent implements OnInit {
 
@@ -30,6 +38,9 @@ export class MaskListComponent implements OnInit {
 	compenso = 'option1';
 	filtro = '';
 
+	expandedElement: MaskAnag;
+	questionsAnswers: QuestionAnag[];
+
 	@ViewChild(MatSort) sort: MatSort;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -38,6 +49,7 @@ export class MaskListComponent implements OnInit {
 	ngOnInit(): void {
 		// FIXME Unsubscribe!!!
 		this.masksStore.select(masksSelectors.getMaskAnags).subscribe((d) => this.dataSource.data = d);
+		this.masksStore.select(masksSelectors.getQuestionsAnswers).subscribe((d) => this.questionsAnswers = d);
 		this.dataSource.filterPredicate = (data, filter) => data.code.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0 || data.description.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0;
 		this.ricaricaDati();
 	}
@@ -55,4 +67,12 @@ export class MaskListComponent implements OnInit {
 		this.masksStore.dispatch(new masksActions.LoadMaskAnags(this.compenso));
 	}
 
+	espandiMaschera(ma: MaskAnag) {
+		if (this.expandedElement === ma) {
+			this.expandedElement = null;
+			return;
+		}
+		this.expandedElement = ma;
+		this.masksStore.dispatch(new masksActions.LoadQuestionsAnswers(ma.id));
+	}
 }

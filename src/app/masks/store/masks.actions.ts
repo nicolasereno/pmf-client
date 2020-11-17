@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { GeoObject, MaskAnag } from '@enel/pmf-mock-be';
+import { GeoObject, MaskAnag, QuestionAnag } from '@enel/pmf-mock-be';
 
 export enum MasksActionTypes {
 	LoadGeoObjects = '[Masks] Load Geo Objects',
@@ -8,6 +8,10 @@ export enum MasksActionTypes {
 	LoadMaskAnags = '[Masks] Load Mask Anags',
 	LoadMaskAnagsSuccess = '[Masks] Load Mask Anags Success',
 	LoadMaskAnagsFailure = '[Masks] Load Mask Anags Failure',
+
+	LoadQuestionsAnswers = '[Masks] Load Questions Answers',
+	LoadQuestionsAnswersSuccess = '[Masks] Load Questions Answers Success',
+	LoadQuestionsAnswersFailure = '[Masks] Load Questions Answers Failure',
 }
 
 export class LoadGeoObjects implements Action {
@@ -39,10 +43,29 @@ export class LoadMaskAnagsFailure implements Action {
 	readonly type = MasksActionTypes.LoadMaskAnagsFailure;
 	constructor(public payload: string) { }
 }
+
+export class LoadQuestionsAnswers implements Action {
+	readonly type = MasksActionTypes.LoadQuestionsAnswers;
+	constructor(public payload: number) { }
+}
+
+export class LoadQuestionsAnswersSuccess implements Action {
+	readonly type = MasksActionTypes.LoadQuestionsAnswersSuccess;
+	constructor(public payload: QuestionAnag[]) { }
+}
+
+export class LoadQuestionsAnswersFailure implements Action {
+	readonly type = MasksActionTypes.LoadQuestionsAnswersFailure;
+	constructor(public payload: string) { }
+}
+
 export type MasksActions =
 	LoadGeoObjects |
 	LoadGeoObjectsSuccess |
 	LoadGeoObjectsFailure |
 	LoadMaskAnags |
 	LoadMaskAnagsSuccess |
-	LoadMaskAnagsFailure;
+	LoadMaskAnagsFailure |
+	LoadQuestionsAnswers |
+	LoadQuestionsAnswersSuccess |
+	LoadQuestionsAnswersFailure;

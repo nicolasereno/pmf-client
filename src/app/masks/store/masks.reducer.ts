@@ -1,12 +1,13 @@
 
 import { MasksActions, MasksActionTypes } from './masks.actions';
-import { GeoObject, MaskAnag } from '@enel/pmf-mock-be';
+import { GeoObject, MaskAnag, QuestionAnag } from '@enel/pmf-mock-be';
 
 export const masksFeatureKey = 'masks';
 
 export interface State {
 	geoObjects: GeoObject[],
 	maskAnags: MaskAnag[],
+	questionsAnswers: QuestionAnag[],
 	error: string,
 	loading: boolean,
 }
@@ -14,6 +15,7 @@ export interface State {
 export const initialState: State = {
 	geoObjects: [],
 	maskAnags: [],
+	questionsAnswers: [],
 	error: null,
 	loading: false,
 };
@@ -59,7 +61,25 @@ export function reducer(state = initialState, action: MasksActions): State {
 				loading: false,
 				error: action.payload
 			};
-
+		case MasksActionTypes.LoadQuestionsAnswers:
+			return {
+				...state,
+				loading: true,
+				error: null,
+				questionsAnswers: []
+			};
+		case MasksActionTypes.LoadQuestionsAnswersSuccess:
+			return {
+				...state,
+				loading: false,
+				questionsAnswers: action.payload
+			};
+		case MasksActionTypes.LoadQuestionsAnswersFailure:
+			return {
+				...state,
+				loading: false,
+				error: action.payload
+			};
 		default:
 			return state;
 	}
