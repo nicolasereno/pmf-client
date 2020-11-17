@@ -5,7 +5,6 @@ import { GeoObjectListComponent } from './geo-object-list/geo-object-list.compon
 import { GeoObjectDetailsComponent } from './geo-object-details/geo-object-details.component';
 import { MaskListComponent } from './mask-list/mask-list.component';
 import { MaskDetailsComponent } from './mask-details/mask-details.component';
-import { QuestionListComponent } from './question-list/question-list.component';
 
 const routes: Routes = [
 	{ path: 'geo-object-list', component: GeoObjectListComponent },
