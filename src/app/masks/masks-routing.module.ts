@@ -12,9 +12,6 @@ const routes: Routes = [
 	{ path: 'geo-object-details/:id', component: GeoObjectDetailsComponent },
 	{ path: 'mask-list', component: MaskListComponent },
 	{ path: 'mask-details/:id', component: MaskDetailsComponent },
-
-	// TEMP
-	{ path: 'question-list', component: QuestionListComponent },
 ];
 
 @NgModule({
