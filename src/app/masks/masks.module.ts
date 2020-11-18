@@ -8,7 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import * as fromMasks from './store/masks.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { MasksEffects } from './store/masks.effects';
-import { SharedModule } from '../shared.module';
+import { SharedModule } from '../material/shared.module';
 import { GeoObjectDetailsComponent } from './geo-object-details/geo-object-details.component';
 import { MaskListComponent } from './mask-list/mask-list.component';
 import { MaskDetailsComponent } from './mask-details/mask-details.component';

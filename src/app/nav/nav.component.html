@@ -5,8 +5,15 @@
 		[opened]="(isHandset$ | async) === false">
 	<mat-toolbar><img src="../assets/logo.png" width="120px" ></mat-toolbar>
 	<mat-nav-list>
-		<a *ngFor="let item of menuItems" mat-list-item [routerLink]="item.route" [routerLinkActive]="'selected'" role="menuItem">
-			<mat-icon aria-hidden="false">{{item.icon}}</mat-icon>{{item.label}}</a>
+		<!-- Home -->
+		<a mat-list-item [routerLink]="'/home'" [routerLinkActive]="'selected'" role="menuItem">
+			<mat-icon aria-hidden="false">home</mat-icon><div i18n="@@menuHome">Home</div></a>
+		<!-- GeoObjects -->
+		<a mat-list-item [routerLink]="'/masks/geo-object-list'" [routerLinkActive]="'selected'" role="menuItem">
+			<mat-icon aria-hidden="false">dashboard</mat-icon><div i18n="@@menuGeoObjects">Oggetti Geometrici</div></a>
+		<!-- maskAnags -->
+		<a mat-list-item [routerLink]="'/masks/mask-list'" [routerLinkActive]="'selected'" role="menuItem">
+			<mat-icon aria-hidden="false">fact_check</mat-icon><div i18n="@@menuMaskAnags">Anagrafica Maschere</div></a>
     </mat-nav-list>
 	</mat-sidenav>
 	<mat-sidenav-content>
@@ -17,7 +24,7 @@
         		*ngIf="isHandset$ | async">
         		<mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
 			</button>
-			<span>Pannello Modifica Formule</span>
+			<span i18n="Title of the application@@siteHeader">Pannello Modifica Formule</span>
     	</mat-toolbar>
     	<div class="contenuto">
 	    	<router-outlet></router-outlet>

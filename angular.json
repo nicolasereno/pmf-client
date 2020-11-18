@@ -37,6 +37,12 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "pmf",
+      "i18n": {
+        "sourceLocale": "it",
+        "locales": {
+          "en": "src/locale/messages.en.xlf"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -46,6 +52,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "localize": false,
             "aot": true,
             "assets": [
               "src/favicon.ico",
@@ -84,6 +91,9 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "en": {
+              "localize": ["en"]
             }
           }
         },
@@ -95,6 +105,9 @@
           "configurations": {
             "production": {
               "browserTarget": "pmf-client:build:production"
+            },
+            "en": {
+              "browserTarget": "pmf-client:build:en"
             }
           }
         },
