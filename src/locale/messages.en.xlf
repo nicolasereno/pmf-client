@@ -2,24 +2,43 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="it" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="homeTitle" datatype="html">
+        <source>Home</source>
+        <target>Home</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber"<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="it" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="homeTitle" datatype="html">
+        <source>Home</source>
+        <target>Network Elements</target>
+        <target>Home</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="menuHome" datatype="html">
         <source>Home</source>
+        <target>Home</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/nav/nav.component.html</context>
           <context context-type="linenumber">10</context>
         </context-group>
       </trans-unit>
       <trans-unit id="menuGeoObjects" datatype="html">
-        <source>Oggetti Geometrici</source>
-        <target>Geo Objects</target>
-        <context-group purpose="location">
+        <source>Elementi di Rete</source>
+        <target>Network Elements</target>
+       	<context-group purpose="location">
           <context context-type="sourcefile">src/app/nav/nav.component.html</context>
           <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="menuMaskAnags" datatype="html">
         <source>Anagrafica Maschere</source>
-        <target>Masks Data</target>
+        <target>Mask Data</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/nav/nav.component.html</context>
           <context context-type="linenumber">16</context>
@@ -33,6 +52,238 @@
           <context context-type="linenumber">27</context>
         </context-group>
         <note priority="1" from="description">Title of the application</note>
+      </trans-unit>
+      <trans-unit id="maskAnags-pageTitle" datatype="html">
+        <source>Lista delle Anagrafiche delle Maschere</source>
+        <target>List of Masks Data</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">1,2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-labelPayment" datatype="html">
+        <source>Compenso</source>
+        <target>Payment</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-labelFilter" datatype="html">
+        <source>Filtro</source>
+        <target>Filter</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-placeholderFilter" datatype="html">
+        <source>Filtra per codice o descrizione</source>
+        <target>Filter by code or description</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-code" datatype="html">
+        <source>Codice</source>
+        <target>Code</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-description" datatype="html">
+        <source>Descrizione</source>
+        <target>Description</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-tisp" datatype="html">
+        <source>TISP</source>
+        <target>TISP</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-technicalMask" datatype="html">
+        <source>maschera tecnica</source>
+        <target>Technical mask</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-version" datatype="html">
+        <source>Versione</source>
+        <target>Version</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="geoObjects-pageTitle" datatype="html">
+        <source>Lista degli Elementi di Rete</source>
+        <target>List of Network Elements</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/geo-object-list/geo-object-list.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="geoObjects-labelPayment" datatype="html">
+        <source>Compenso</source>
+        <target>Payment</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/geo-object-list/geo-object-list.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="geoObjects-labelFilter" datatype="html">
+        <source>Filtro</source>
+        <target>Filter</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/geo-object-list/geo-object-list.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="geoObjects-placeholderFilter" datatype="html">
+        <source>Filtra per codice o descrizione</source>
+        <target>Filter by code or description</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/geo-object-list/geo-object-list.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="geoObjects-geoObject" datatype="html">
+        <source>Elemento di Rete</source>
+        <target>Network Element</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/geo-object-list/geo-object-list.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="geoObjects-toolbox" datatype="html">
+        <source>Cassetta degli Attrezzi</source>
+        <target>Toolbox</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/geo-object-list/geo-object-list.component.html</context>
+          <context context-type="linenumber">33,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="geoObjects-adding" datatype="html">
+        <source>Sostituzione / Aggiunta / Rimozione Componente</source>
+        <target>Component Replacement / Adding / Deletion</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/geo-object-list/geo-object-list.component.html</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="geoObjects-time_ed" datatype="html">
+        <source>Attivita&agrave; Personale ED</source>
+        <target>Personal ED Activity</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/geo-object-list/geo-object-list.component.html</context>
+          <context context-type="linenumber">53,54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="geoObjects-demolition" datatype="html">
+        <source>Demolizione / Dismissione</source>
+        <target>Demolition / Disposition</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/geo-object-list/geo-object-list.component.html</context>
+          <context context-type="linenumber">63,64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="geoObjects-sicurezza" datatype="html">
+        <source>Sicurezza Lavori</source>
+        <target>Work Security</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/geo-object-list/geo-object-list.component.html</context>
+          <context context-type="linenumber">73,74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="answers-" datatype="html">
+        <source>Codice</source>
+        <target>Code</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/answer-list/answer-list.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="answers-description" datatype="html">
+        <source>Descrizione</source>
+        <target>Description</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/answer-list/answer-list.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="answers-priority" datatype="html">
+        <source>Priorit&agrave;</source>
+        <target>Priority</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/answer-list/answer-list.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="answers-note" datatype="html">
+        <source>Nota</source>
+        <target>Note</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/answer-list/answer-list.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questions-code" datatype="html">
+        <source>Codice</source>
+        <target>Code</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/question-list/question-list.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questions-description" datatype="html">
+        <source>Descrizione</source>
+        <target>Description</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/question-list/question-list.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questions-visibility" datatype="html">
+        <source>Visibilit&agrave; </source>
+        <target>Visibility</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/question-list/question-list.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questions-visibilityCondition" datatype="html">
+        <source>Condizione di visibilit&agrave;</source>
+        <target>Visibility condition</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/question-list/question-list.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questions-priority" datatype="html">
+        <source>Priorit&agrave;</source>
+        <target>Priority</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/question-list/question-list.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questions-note" datatype="html">
+        <source>Nota</source>
+        <target>Note</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/question-list/question-list.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
       </trans-unit>
     </body>
   </file>

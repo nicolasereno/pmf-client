@@ -2,23 +2,23 @@
 	<table mat-table [dataSource]="data" matSort>
 
 		<ng-container matColumnDef="code">
-		<th mat-header-cell *matHeaderCellDef>Code</th>
+		<th mat-header-cell *matHeaderCellDef i18n="@@answers-">Codice</th>
 		<td mat-cell *matCellDef="let element" [title]="element.id"><strong>{{element.code}}</strong>
 		</td>
 		</ng-container>
 
 		<ng-container matColumnDef="description">
-		<th mat-header-cell *matHeaderCellDef class="tabbed">Description</th>
-		<td mat-cell *matCellDef="let element" class="tabbed">{{element.description}}</td>
+		<th mat-header-cell *matHeaderCellDef i18n="@@answers-description">Descrizione</th>
+		<td mat-cell *matCellDef="let element">{{element.description}}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="priority">
-		<th mat-header-cell *matHeaderCellDef>Priority</th>
+		<th mat-header-cell *matHeaderCellDef i18n="@@answers-priority">Priorit&agrave;</th>
 		<td mat-cell *matCellDef="let element">{{element.priority}}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="note">
-		<th mat-header-cell *matHeaderCellDef>Note</th>
+		<th mat-header-cell *matHeaderCellDef i18n="@@answers-note">Nota</th>
 		<td mat-cell *matCellDef="let element">{{element.note}}</td>
 		</ng-container>
 

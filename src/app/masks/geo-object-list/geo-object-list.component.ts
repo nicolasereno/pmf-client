@@ -9,6 +9,7 @@ import { GeoObject, GeoObjectMaskAnag } from '@enel/pmf-mock-be';
 import * as masksActions from '../store/masks.actions';
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'pmf-geo-object-list',
@@ -26,6 +27,7 @@ export class GeoObjectListComponent implements OnInit, AfterViewInit {
 		'maskAnagCodeSEC',
 	];
 
+	loading$: Observable<boolean>;
 	dataSource: MatTableDataSource<GeoObject> = new MatTableDataSource([]);
 	compenso = 'option1';
 	filtro = '';
@@ -38,6 +40,7 @@ export class GeoObjectListComponent implements OnInit, AfterViewInit {
 	ngOnInit(): void {
 		// FIXME Unsubscribe!!!
 		this.masksStore.select(masksSelectors.getGeoObjects).subscribe((d) => this.dataSource.data = d);
+		this.loading$ = this.masksStore.select(masksSelectors.getLoading);
 		this.dataSource.filterPredicate = (data, filter) => data.code.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0 || data.description.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0;
 		this.ricaricaDati();
 	}

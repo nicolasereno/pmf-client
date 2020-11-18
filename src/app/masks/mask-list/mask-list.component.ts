@@ -11,6 +11,7 @@ import { MaskAnag, QuestionAnag } from '@enel/pmf-mock-be';
 import * as masksActions from '../store/masks.actions';
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'pmf-mask-list',
@@ -34,6 +35,8 @@ export class MaskListComponent implements OnInit {
 		'version',
 	];
 
+	loading$: Observable<boolean>;
+
 	dataSource: MatTableDataSource<MaskAnag> = new MatTableDataSource([]);
 	compenso = 'option1';
 	filtro = '';
@@ -50,6 +53,7 @@ export class MaskListComponent implements OnInit {
 		// FIXME Unsubscribe!!!
 		this.masksStore.select(masksSelectors.getMaskAnags).subscribe((d) => this.dataSource.data = d);
 		this.masksStore.select(masksSelectors.getQuestionsAnswers).subscribe((d) => this.questionsAnswers = d);
+		this.loading$ = this.masksStore.select(masksSelectors.getLoading);
 		this.dataSource.filterPredicate = (data, filter) => data.code.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0 || data.description.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0;
 		this.ricaricaDati();
 	}
