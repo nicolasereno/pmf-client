@@ -6,7 +6,9 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { ApiModule, Configuration } from '@enel/pmf-mock-be';
+import { ApiModule as MockApiModule, Configuration as MockConfiguration } from '@enel/pmf-mock-be';
+import { ApiModule as ApiModule, Configuration } from '@enel/pmf-be';
+
 
 import { environment } from '../environments/environment';
 
@@ -29,6 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		AppRoutingModule,
 		SharedModule,
 		HttpClientModule,
+		MockApiModule.forRoot(() => new MockConfiguration()),
 		ApiModule.forRoot(() => new Configuration()),
 		StoreModule.forRoot({}),
 		EffectsModule.forRoot([]),

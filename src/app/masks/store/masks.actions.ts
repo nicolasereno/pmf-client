@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { GeoObject, MaskAnag, QuestionAnag } from '@enel/pmf-mock-be';
+import { MaskAnag, QuestionAnag } from '@enel/pmf-mock-be';
+import { GeoObjectDTO } from '@enel/pmf-be';
 
 export enum MasksActionTypes {
 	LoadGeoObjects = '[Masks] Load Geo Objects',
@@ -21,7 +22,7 @@ export class LoadGeoObjects implements Action {
 
 export class LoadGeoObjectsSuccess implements Action {
 	readonly type = MasksActionTypes.LoadGeoObjectsSuccess;
-	constructor(public payload: GeoObject[]) { }
+	constructor(public payload: GeoObjectDTO[]) { }
 }
 
 export class LoadGeoObjectsFailure implements Action {

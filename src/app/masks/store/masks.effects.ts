@@ -4,7 +4,9 @@ import { mergeMap, map, catchError } from 'rxjs/operators';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import { GeoObjectsControllerService, MaskAnagsControllerService } from '@enel/pmf-mock-be';
+import { MaskAnagsControllerService } from '@enel/pmf-mock-be';
+
+import { MaskStructureService, GeoObjectDTO } from '@enel/pmf-be';
 
 import * as masksActions from './masks.actions';
 
@@ -17,8 +19,8 @@ export class MasksEffects {
 		ofType(masksActions.MasksActionTypes.LoadGeoObjects),
 		map((action: masksActions.LoadGeoObjects) => action.payload),
 		mergeMap(() =>
-			this.proxyGO.getAllGeoObjects().pipe(
-				map(c => new masksActions.LoadGeoObjectsSuccess(c)),
+			this.proxy.getAllGeoObjecsAndMasksUsingGET().pipe(
+				map(c => new masksActions.LoadGeoObjectsSuccess(c['body'].sort((a: GeoObjectDTO, b: GeoObjectDTO) => a.qgoDescription.localeCompare(b.qgoDescription)))),
 				catchError(err => of(new masksActions.LoadGeoObjectsFailure(err.statusText)))
 			)
 		)
@@ -29,8 +31,8 @@ export class MasksEffects {
 		ofType(masksActions.MasksActionTypes.LoadMaskAnags),
 		map((action: masksActions.LoadMaskAnags) => action.payload),
 		mergeMap(() =>
-			this.proxyMA.getAllMaskAnags().pipe(
-				map(c => new masksActions.LoadMaskAnagsSuccess(c)),
+			this.proxy.getAllMasksUsingGET().pipe(
+				map(c => new masksActions.LoadMaskAnagsSuccess(c['body'])),
 				catchError(err => of(new masksActions.LoadMaskAnagsFailure(err.statusText)))
 			)
 		)
@@ -50,7 +52,7 @@ export class MasksEffects {
 
 	constructor(
 		private actions$: Actions,
-		private proxyGO: GeoObjectsControllerService,
+		private proxy: MaskStructureService,
 		private proxyMA: MaskAnagsControllerService,
 	) { }
 }

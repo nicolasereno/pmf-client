@@ -1,11 +1,12 @@
 
 import { MasksActions, MasksActionTypes } from './masks.actions';
-import { GeoObject, MaskAnag, QuestionAnag } from '@enel/pmf-mock-be';
+import { MaskAnag, QuestionAnag } from '@enel/pmf-mock-be';
+import { GeoObjectDTO } from '@enel/pmf-be';
 
 export const masksFeatureKey = 'masks';
 
 export interface State {
-	geoObjects: GeoObject[],
+	geoObjects: GeoObjectDTO[],
 	maskAnags: MaskAnag[],
 	questionsAnswers: QuestionAnag[],
 	error: string,
