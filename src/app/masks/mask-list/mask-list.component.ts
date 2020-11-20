@@ -6,12 +6,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { MaskAnag, QuestionAnag } from '@enel/pmf-mock-be';
-
 import * as masksActions from '../store/masks.actions';
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
 import { Observable } from 'rxjs';
+import { MaskResponse, QuestionWithAnswerDTO } from '@enel/pmf-be';
 
 @Component({
 	selector: 'pmf-mask-list',
@@ -37,12 +36,12 @@ export class MaskListComponent implements OnInit {
 
 	loading$: Observable<boolean>;
 
-	dataSource: MatTableDataSource<MaskAnag> = new MatTableDataSource([]);
+	dataSource: MatTableDataSource<MaskResponse> = new MatTableDataSource([]);
 	compenso = 'option1';
 	filtro = '';
 
-	expandedElement: MaskAnag;
-	questionsAnswers: QuestionAnag[];
+	expandedElement: MaskResponse;
+	questionsAnswers: QuestionWithAnswerDTO[];
 
 	@ViewChild(MatSort) sort: MatSort;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
@@ -71,7 +70,7 @@ export class MaskListComponent implements OnInit {
 		this.masksStore.dispatch(new masksActions.LoadMaskAnags(this.compenso));
 	}
 
-	espandiMaschera(ma: MaskAnag) {
+	espandiMaschera(ma: MaskResponse) {
 		if (this.expandedElement === ma) {
 			this.expandedElement = null;
 			return;

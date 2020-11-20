@@ -58,8 +58,8 @@ export class MasksEffects {
 		ofType(masksActions.MasksActionTypes.LoadQuestionsAnswers),
 		map((action: masksActions.LoadQuestionsAnswers) => action.payload),
 		mergeMap((id) =>
-			this.proxyMA.getQuestionsAndAnswers(id).pipe(
-				map(c => new masksActions.LoadQuestionsAnswersSuccess(c)),
+			this.proxy.getQuestionAndAnswerOfMaskUsingGET(id).pipe(
+				map(c => new masksActions.LoadQuestionsAnswersSuccess(c['body'])),
 				catchError(err => {
 					this.snackBar.open(this.errorLoadQuestionsAnswers, this.error, { duration: 2000, })
 					return of(new masksActions.LoadQuestionsAnswersFailure(err.statusText));
