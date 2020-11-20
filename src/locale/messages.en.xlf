@@ -4,15 +4,6 @@
     <body>
       <trans-unit id="homeTitle" datatype="html">
         <source>Home</source>
-        <target>Home</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/home/home.component.html</context>
-          <context context-type="linenumber"<?xml version="1.0" encoding="UTF-8" ?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="it" datatype="plaintext" original="ng2.template">
-    <body>
-      <trans-unit id="homeTitle" datatype="html">
-        <source>Home</source>
         <target>Network Elements</target>
         <target>Home</target>
         <context-group purpose="location">
@@ -107,6 +98,38 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
           <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="masksEffects-error" datatype="html">
+        <source>ERRORE</source>
+        <target>ERROR</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="masksEffects-errorLoadGeoObjects" datatype="html">
+        <source>Errore nel caricamento dei dati degli elementi di rete</source>
+        <target>Error loading network elements data</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="masksEffects-errorLoadMaskAnags" datatype="html">
+        <source>Errore nel caricamento dei dati delle maschere</source>
+        <target>Error loading masks data</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="masksEffects-errorLoadQuestionsAnswers" datatype="html">
+        <source>Errore nel caricamento di domande e risposte</source>
+        <target>Error loading questions and answers data</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="maskAnags-technicalMask" datatype="html">
