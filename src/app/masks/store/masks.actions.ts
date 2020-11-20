@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { GeoObjectDTO, QuestionWithAnswerDTO, MaskResponse } from '@enel/pmf-be';
+import { MetricCalculation } from '@enel/pmf-mock-be/model/metricCalculation';
 
 export enum MasksActionTypes {
 	LoadGeoObjects = '[Masks] Load Geo Objects',
@@ -8,10 +9,12 @@ export enum MasksActionTypes {
 	LoadMaskAnags = '[Masks] Load Mask Anags',
 	LoadMaskAnagsSuccess = '[Masks] Load Mask Anags Success',
 	LoadMaskAnagsFailure = '[Masks] Load Mask Anags Failure',
-
 	LoadQuestionsAnswers = '[Masks] Load Questions Answers',
 	LoadQuestionsAnswersSuccess = '[Masks] Load Questions Answers Success',
 	LoadQuestionsAnswersFailure = '[Masks] Load Questions Answers Failure',
+	LoadMetricCalculations = '[Masks] Load Metric Calculations',
+	LoadMetricCalculationsSuccess = '[Masks] Load Metric Calculations Success',
+	LoadMetricCalculationsFailure = '[Masks] Load Metric Calculations Failure',
 }
 
 export class LoadGeoObjects implements Action {
@@ -59,6 +62,21 @@ export class LoadQuestionsAnswersFailure implements Action {
 	constructor(public payload: string) { }
 }
 
+export class LoadMetricCalculations implements Action {
+	readonly type = MasksActionTypes.LoadMetricCalculations;
+	constructor(public payload: string) { }
+}
+
+export class LoadMetricCalculationsSuccess implements Action {
+	readonly type = MasksActionTypes.LoadMetricCalculationsSuccess;
+	constructor(public payload: MetricCalculation[]) { }
+}
+
+export class LoadMetricCalculationsFailure implements Action {
+	readonly type = MasksActionTypes.LoadMetricCalculationsFailure;
+	constructor(public payload: string) { }
+}
+
 export type MasksActions =
 	LoadGeoObjects |
 	LoadGeoObjectsSuccess |
@@ -68,4 +86,7 @@ export type MasksActions =
 	LoadMaskAnagsFailure |
 	LoadQuestionsAnswers |
 	LoadQuestionsAnswersSuccess |
-	LoadQuestionsAnswersFailure;
+	LoadQuestionsAnswersFailure |
+	LoadMetricCalculations |
+	LoadMetricCalculationsSuccess |
+	LoadMetricCalculationsFailure;

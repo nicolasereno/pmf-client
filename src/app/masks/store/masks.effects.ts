@@ -68,6 +68,23 @@ export class MasksEffects {
 		)
 	)
 
+	errorLoadMetricCalculations = $localize`:@@masksEffects-errorLoadMetricCalculations:Errore nel caricamento delle prestazioni`;
+
+	@Effect()
+	loadMetricCalculations$: Observable<Action> = this.actions$.pipe(
+		ofType(masksActions.MasksActionTypes.LoadMetricCalculations),
+		map((action: masksActions.LoadMetricCalculations) => action.payload),
+		mergeMap((id) =>
+			this.proxyMA.getMetricCalculations(id).pipe(
+				map(c => new masksActions.LoadMetricCalculationsSuccess(c['body'])),
+				catchError(err => {
+					this.snackBar.open(this.errorLoadMetricCalculations, this.error, { duration: 2000, })
+					return of(new masksActions.LoadMetricCalculationsFailure(err.statusText));
+				})
+			)
+		)
+	)
+	
 	constructor(
 		private actions$: Actions,
 		private proxy: MaskStructureService,

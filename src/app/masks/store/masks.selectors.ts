@@ -20,6 +20,11 @@ export const getQuestionsAnswers = createSelector(
 	state => state.questionsAnswers
 );
 
+export const getMetricCalculations = createSelector(
+	selectMasksState,
+	state => state.metricCalculations
+);
+
 export const getLoading = createSelector(
 	selectMasksState,
 	state => state.loading
