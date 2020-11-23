@@ -43,6 +43,46 @@
           <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="matPaginator-itemsPerPage" datatype="html">
+        <source>Elementi per pagina</source>
+        <target>Elements per page</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/material/my-mat-paginator-intl.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="matPaginator-nextPage" datatype="html">
+        <source>Pagina successiva</source>
+        <target>Next page</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/material/my-mat-paginator-intl.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="matPaginator-previousPage" datatype="html">
+        <source>Pagina precedente</source>
+        <target>Previous page</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/material/my-mat-paginator-intl.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="matPaginator-firstPage" datatype="html">
+        <source>Prima pagina</source>
+        <target>First page</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/material/my-mat-paginator-intl.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="matPaginator-lastPage" datatype="html">
+        <source>Ultima pagina</source>
+        <target>Last page</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/material/my-mat-paginator-intl.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="masksEffects-error" datatype="html">
         <source>ERRORE</source>
         <target>ERROR</target>

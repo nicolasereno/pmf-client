@@ -43,7 +43,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { MatPaginatorIntlIt } from './mat-paginator-intl-it';
+import { MyMatPaginatorIntl } from './my-mat-paginator-intl';
 
 @NgModule({
 	exports: [
@@ -92,6 +92,6 @@ import { MatPaginatorIntlIt } from './mat-paginator-intl-it';
 		PortalModule,
 		ScrollingModule,
 	], 
-	providers: [{ provide: MatPaginatorIntl, useClass: MatPaginatorIntlIt }]
+	providers: [{ provide: MatPaginatorIntl, useClass: MyMatPaginatorIntl }]
 })
 export class SharedModule { }
