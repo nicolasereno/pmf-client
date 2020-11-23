@@ -20,7 +20,7 @@ Per servire l'applicazione in una lingua diversa da quella di default (italiano)
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-Per creare i cmpilati in tutte le lingue definite nella configurazione, lanciare `ng build --prod --localize`
+Per creare i cmpilati in tutte le lingue definite nella configurazione, lanciare `ng build --prod --baseHref "/pmf/" --localize`
 
 ## Files di traduzione
 
