@@ -3,7 +3,9 @@
 		[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
 		[mode]="(isHandset$ | async) ? 'over' : 'side'"
 		[opened]="(isHandset$ | async) === false">
-	<mat-toolbar><img src="assets/logo.png" width="120px" ></mat-toolbar>
+	<mat-toolbar><img src="assets/logo.png" width="120px" >
+	    <span class="example-spacer"></span>
+	</mat-toolbar>
 	<mat-nav-list>
 		<!-- Home -->
 		<a mat-list-item [routerLink]="'/home'" [routerLinkActive]="'selected'" role="menuItem">
@@ -25,6 +27,14 @@
         		<mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
 			</button>
 			<span i18n="Title of the application@@siteHeader">Pannello Modifica Formule</span>
+		    <span style="flex: 1 1 auto;"></span>
+			<button mat-icon-button [matMenuTriggerFor]="menu">
+			  <mat-icon>language</mat-icon>
+			</button>
+			<mat-menu #menu="matMenu">
+			  <a href="../it"><button mat-menu-item>Italiano</button></a>
+			  <a href="../en"><button mat-menu-item>English</button></a>
+			</mat-menu>
     	</mat-toolbar>
     	<div class="contenuto">
 	    	<router-outlet></router-outlet>
