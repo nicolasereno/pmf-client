@@ -16,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class MasksEffects {
 
 	error = $localize`:@@masksEffects-error:ERRORE`;
+	info = $localize`:@@masksEffects-info:INFORMAZIONE`;
 	
 	errorLoadGeoObjects = $localize`:@@masksEffects-errorLoadGeoObjects:Errore nel caricamento dei dati degli elementi di rete`;
 
@@ -69,6 +70,7 @@ export class MasksEffects {
 	)
 
 	errorLoadMetricCalculations = $localize`:@@masksEffects-errorLoadMetricCalculations:Errore nel caricamento delle prestazioni`;
+	noMetricCalculationsFound = $localize`:@@masksEffects-noMetricCalculationsFound:Nessun Codice Prestazione / Materiale / Ore ED associato alla risposta`;
 
 	@Effect()
 	loadMetricCalculations$: Observable<Action> = this.actions$.pipe(
@@ -76,7 +78,11 @@ export class MasksEffects {
 		map((action: masksActions.LoadMetricCalculations) => action.payload),
 		mergeMap((id) =>
 			this.proxyMA.getMetricCalculations(id).pipe(
-				map(c => new masksActions.LoadMetricCalculationsSuccess(c['body'])),
+				map(c => {
+					if (c.length == 0)
+						this.snackBar.open(this.noMetricCalculationsFound, this.info, { duration: 2000, })
+					return new masksActions.LoadMetricCalculationsSuccess(c);
+				}),
 				catchError(err => {
 					this.snackBar.open(this.errorLoadMetricCalculations, this.error, { duration: 2000, })
 					return of(new masksActions.LoadMetricCalculationsFailure(err.statusText));

@@ -14,10 +14,11 @@ import { MaskListComponent } from './mask-list/mask-list.component';
 import { MaskDetailsComponent } from './mask-details/mask-details.component';
 import { QuestionListComponent } from './question-list/question-list.component';
 import { AnswerListComponent } from './answer-list/answer-list.component';
+import { MetricCalculationListComponent } from './metric-calculation-list/metric-calculation-list.component';
 
 
 @NgModule({
-	declarations: [GeoObjectListComponent, GeoObjectDetailsComponent, MaskListComponent, MaskDetailsComponent, QuestionListComponent, AnswerListComponent],
+	declarations: [GeoObjectListComponent, GeoObjectDetailsComponent, MaskListComponent, MaskDetailsComponent, QuestionListComponent, AnswerListComponent, MetricCalculationListComponent],
 	imports: [
 		CommonModule,
 		MasksRoutingModule,

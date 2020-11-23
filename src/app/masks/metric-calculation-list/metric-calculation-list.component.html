@@ -1,0 +1,89 @@
+<div class="mat-elevation-z0">
+	<table mat-table [dataSource]="data" matSort>
+
+		<ng-container matColumnDef="provisionCode.code">
+		<th mat-header-cell *matHeaderCellDef i18n="@@metricCalculation-">Codice Prestazione / Materiale / Ore ED</th>
+		<td mat-cell *matCellDef="let element" [title]="element.id"><strong>{{element.provisionCode?.code}}</strong>
+		</td>
+		</ng-container>
+
+
+		<ng-container matColumnDef="provisionCode.provisionType.infoValue">
+		<th mat-header-cell *matHeaderCellDef
+			i18n="@@metricCalculation-provisionType">Tipo</th>
+		<td mat-cell *matCellDef="let element">{{element.provisionCode?.provisionType?.infoValue}}
+		</td>
+		</ng-container>
+
+		<ng-container matColumnDef="paymentList.code">
+		<th mat-header-cell *matHeaderCellDef
+			i18n="@@metricCalculation-paymentList">Elenco compensi</th>
+		<td mat-cell *matCellDef="let element">{{element.paymentList?.code}}
+		</td>
+		</ng-container>
+
+		<ng-container matColumnDef="parteEc.infoValue">
+		<th mat-header-cell *matHeaderCellDef
+			i18n="@@metricCalculation-parteEc">Parte Ec</th>
+		<td mat-cell *matCellDef="let element">{{element.parteEc?.infoValue}}
+		</td>
+		</ng-container>
+
+		<ng-container matColumnDef="questionCategory.infoValue">
+		<th mat-header-cell *matHeaderCellDef
+			i18n="@@metricCalculation-questionCategory">Categoria</th>
+		<td mat-cell *matCellDef="let element">{{element.questionCategory?.infoValue}}
+		</td>
+		</ng-container>
+
+		<ng-container matColumnDef="quantity">
+		<th mat-header-cell *matHeaderCellDef
+			i18n="@@metricCalculation-quantity">Quantit&agrave;</th>
+		<td mat-cell *matCellDef="let element">{{element.quantity}}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="answerCondition">
+		<th mat-header-cell *matHeaderCellDef
+			i18n="@@metricCalculation-answerCondition">Condizione</th>
+		<td mat-cell *matCellDef="let element">{{element.answerCondition}}
+		</td>
+		</ng-container>
+
+		<ng-container matColumnDef="checkCondition">
+		<th mat-header-cell *matHeaderCellDef
+			i18n="@@metricCalculation-checkCondition">Controllo</th>
+		<td mat-cell *matCellDef="let element">{{element.checkCondition}}
+		</td>
+		</ng-container>
+
+		<ng-container matColumnDef="executor.infoValue">
+		<th mat-header-cell *matHeaderCellDef
+			i18n="@@metricCalculation-executor">Esecutore</th>
+		<td mat-cell *matCellDef="let element">{{element.executor?.infoValue}}
+		</td>
+		</ng-container>
+
+		<ng-container matColumnDef="edType.infoValue">
+		<th mat-header-cell *matHeaderCellDef
+			i18n="@@metricCalculation-edType">Tipologia</th>
+		<td mat-cell *matCellDef="let element">{{element.edType?.infoValue}}
+		</td>
+		</ng-container>
+
+		<ng-container matColumnDef="edKey.infoValue">
+		<th mat-header-cell *matHeaderCellDef i18n="@@metricCalculation-edKey">Chiave</th>
+		<td mat-cell *matCellDef="let element">{{element.edKey?.infoValue}}
+		</td>
+		</ng-container>
+
+		<ng-container matColumnDef="note">
+		<th mat-header-cell *matHeaderCellDef i18n="@@metricCalculation-note">Note</th>
+		<td mat-cell *matCellDef="let element">{{element.note}}</td>
+		</ng-container>
+
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+	</table>
+
+</div>

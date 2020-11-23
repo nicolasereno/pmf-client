@@ -2,13 +2,6 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="it" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="homeTitle" datatype="html">
-        <source>Home</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/home/home.component.html</context>
-          <context context-type="linenumber">1</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="menuHome" datatype="html">
         <source>Home</source>
         <context-group purpose="location">
@@ -37,6 +30,125 @@
           <context context-type="linenumber">27</context>
         </context-group>
         <note priority="1" from="description">Title of the application</note>
+      </trans-unit>
+      <trans-unit id="homeTitle" datatype="html">
+        <source>Home</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="masksEffects-error" datatype="html">
+        <source>ERRORE</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="masksEffects-info" datatype="html">
+        <source>INFORMAZIONE</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="masksEffects-errorLoadGeoObjects" datatype="html">
+        <source>Errore nel caricamento dei dati degli elementi di rete</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="masksEffects-errorLoadMaskAnags" datatype="html">
+        <source>Errore nel caricamento dei dati delle maschere</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="masksEffects-errorLoadQuestionsAnswers" datatype="html">
+        <source>Errore nel caricamento di domande e risposte</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="masksEffects-errorLoadMetricCalculations" datatype="html">
+        <source>Errore nel caricamento delle prestazioni</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="masksEffects-noMetricCalculationsFound" datatype="html">
+        <source>Nessun Codice Prestazione / Materiale / Ore ED associato alla risposta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-pageTitle" datatype="html">
+        <source>Lista delle Anagrafiche delle Maschere</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">1,2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-labelPayment" datatype="html">
+        <source>Compenso</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-labelFilter" datatype="html">
+        <source>Filtro</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-placeholderFilter" datatype="html">
+        <source>Filtra per codice o descrizione</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-code" datatype="html">
+        <source>Codice</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-description" datatype="html">
+        <source>Descrizione</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-tisp" datatype="html">
+        <source>TISP</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-technicalMask" datatype="html">
+        <source>Maschera tecnica</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="maskAnags-version" datatype="html">
+        <source>Versione</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="geoObjects-pageTitle" datatype="html">
         <source>Lista degli Elementi di Rete</source>
@@ -108,97 +220,6 @@
           <context context-type="linenumber">73,74</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="masksEffects-error" datatype="html">
-        <source>ERRORE</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
-          <context context-type="linenumber">18</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="masksEffects-errorLoadGeoObjects" datatype="html">
-        <source>Errore nel caricamento dei dati degli elementi di rete</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
-          <context context-type="linenumber">20</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="masksEffects-errorLoadMaskAnags" datatype="html">
-        <source>Errore nel caricamento dei dati delle maschere</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
-          <context context-type="linenumber">38</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="masksEffects-errorLoadQuestionsAnswers" datatype="html">
-        <source>Errore nel caricamento di domande e risposte</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/store/masks.effects.ts</context>
-          <context context-type="linenumber">55</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="maskAnags-pageTitle" datatype="html">
-        <source>Lista delle Anagrafiche delle Maschere</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
-          <context context-type="linenumber">1,2</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="maskAnags-labelPayment" datatype="html">
-        <source>Compenso</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
-          <context context-type="linenumber">6</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="maskAnags-labelFilter" datatype="html">
-        <source>Filtro</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
-          <context context-type="linenumber">12</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="maskAnags-placeholderFilter" datatype="html">
-        <source>Filtra per codice o descrizione</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
-          <context context-type="linenumber">14</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="maskAnags-code" datatype="html">
-        <source>Codice</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
-          <context context-type="linenumber">25</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="maskAnags-description" datatype="html">
-        <source>Descrizione</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
-          <context context-type="linenumber">33</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="maskAnags-tisp" datatype="html">
-        <source>TISP</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
-          <context context-type="linenumber">39</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="maskAnags-technicalMask" datatype="html">
-        <source>Maschera tecnica</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
-          <context context-type="linenumber">45</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="maskAnags-version" datatype="html">
-        <source>Versione</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/masks/mask-list/mask-list.component.html</context>
-          <context context-type="linenumber">50</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="questions-code" datatype="html">
         <source>Codice</source>
         <context-group purpose="location">
@@ -241,32 +262,116 @@
           <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="answers-" datatype="html">
+      <trans-unit id="metricCalculation-" datatype="html">
+        <source>Codice Prestazione / Materiale / Ore ED</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/metric-calculation-list/metric-calculation-list.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="metricCalculation-provisionType" datatype="html">
+        <source>Tipo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/metric-calculation-list/metric-calculation-list.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="metricCalculation-paymentList" datatype="html">
+        <source>Elenco compensi</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/metric-calculation-list/metric-calculation-list.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="metricCalculation-parteEc" datatype="html">
+        <source>Parte Ec</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/metric-calculation-list/metric-calculation-list.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="metricCalculation-questionCategory" datatype="html">
+        <source>Categoria</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/metric-calculation-list/metric-calculation-list.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="metricCalculation-quantity" datatype="html">
+        <source>Quantità</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/metric-calculation-list/metric-calculation-list.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="metricCalculation-answerCondition" datatype="html">
+        <source>Condizione</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/metric-calculation-list/metric-calculation-list.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="metricCalculation-checkCondition" datatype="html">
+        <source>Controllo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/metric-calculation-list/metric-calculation-list.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="metricCalculation-executor" datatype="html">
+        <source>Esecutore</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/metric-calculation-list/metric-calculation-list.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="metricCalculation-edType" datatype="html">
+        <source>Tipologia</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/metric-calculation-list/metric-calculation-list.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="metricCalculation-edKey" datatype="html">
+        <source>Chiave</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/metric-calculation-list/metric-calculation-list.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="metricCalculation-note" datatype="html">
+        <source>Note</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/masks/metric-calculation-list/metric-calculation-list.component.html</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="answers-code" datatype="html">
         <source>Codice</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/masks/answer-list/answer-list.component.html</context>
-          <context context-type="linenumber">5</context>
+          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="answers-description" datatype="html">
         <source>Descrizione</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/masks/answer-list/answer-list.component.html</context>
-          <context context-type="linenumber">11</context>
+          <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="answers-priority" datatype="html">
         <source>Priorità</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/masks/answer-list/answer-list.component.html</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="answers-note" datatype="html">
         <source>Nota</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/masks/answer-list/answer-list.component.html</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
     </body>

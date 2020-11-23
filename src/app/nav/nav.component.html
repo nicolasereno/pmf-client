@@ -3,7 +3,7 @@
 		[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
 		[mode]="(isHandset$ | async) ? 'over' : 'side'"
 		[opened]="(isHandset$ | async) === false">
-	<mat-toolbar><img src="../assets/logo.png" width="120px" ></mat-toolbar>
+	<mat-toolbar><img src="assets/logo.png" width="120px" ></mat-toolbar>
 	<mat-nav-list>
 		<!-- Home -->
 		<a mat-list-item [routerLink]="'/home'" [routerLinkActive]="'selected'" role="menuItem">
