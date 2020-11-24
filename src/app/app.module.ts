@@ -1,6 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -17,7 +24,6 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from './material/shared.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
 	declarations: [
@@ -39,7 +45,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 			name: 'PMF DevTools',
 			maxAge: 25,
 			logOnly: environment.production,
-		})
+		}),
+		MatInputModule,
+		MatButtonModule,
+		MatSelectModule,
+		MatRadioModule,
+		MatCardModule,
+		ReactiveFormsModule
 	],
 	bootstrap: [AppComponent]
 })

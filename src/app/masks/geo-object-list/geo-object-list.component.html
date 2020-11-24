@@ -23,7 +23,7 @@
 			i18n="@@geoObjects-geoObject">Elemento di Rete</th>
 		<td mat-cell *matCellDef="let element" [title]="element.qgoId">
 			<h4>
-				<a [routerLink]="['/masks/geo-object-details/', element.qgoId]"><strong>{{element.qgoCode}}</strong></a>
+				<a [routerLink]="['/masks', 'geo-object-details', 'edit', element.qgoId]"><strong>{{element.qgoCode}}</strong></a>
 				{{element.qgoDescription}}
 			</h4>
 		</td>

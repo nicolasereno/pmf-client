@@ -1,14 +1,16 @@
 
 import { MasksActions, MasksActionTypes } from './masks.actions';
-import { GeoObjectDTO, QuestionWithAnswerDTO, MaskResponse } from '@enel/pmf-be';
+import { MaskResponse } from '@enel/pmf-be';
 import { MetricCalculation } from '@enel/pmf-mock-be/model/metricCalculation';
+import { QuestionWithAnswerResponse } from '@enel/pmf-be/model/questionWithAnswerResponse';
+import { GeoObjectResponse } from '@enel/pmf-be/model/geoObjectResponse';
 
 export const masksFeatureKey = 'masks';
 
 export interface State {
-	geoObjects: GeoObjectDTO[],
+	geoObjects: GeoObjectResponse[],
 	maskAnags: MaskResponse[],
-	questionsAnswers: QuestionWithAnswerDTO[],
+	questionsAnswers: QuestionWithAnswerResponse[],
 	metricCalculations: MetricCalculation[],
 	error: string,
 	loading: boolean,

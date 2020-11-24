@@ -8,7 +8,8 @@ import * as masksActions from '../store/masks.actions';
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
 import { Observable } from 'rxjs';
-import { GeoObjectDTO, GeoObjectMaskDTO } from '@enel/pmf-be';
+import { GeoObjectResponse } from '@enel/pmf-be/model/geoObjectResponse';
+import { GeoObjectMask } from '@enel/pmf-be/model/geoObjectMask';
 
 @Component({
 	selector: 'pmf-geo-object-list',
@@ -27,7 +28,7 @@ export class GeoObjectListComponent implements OnInit, AfterViewInit {
 	];
 
 	loading$: Observable<boolean>;
-	dataSource: MatTableDataSource<GeoObjectDTO> = new MatTableDataSource([]);
+	dataSource: MatTableDataSource<GeoObjectResponse> = new MatTableDataSource([]);
 	compenso = 'option1';
 	filtro = '';
 
@@ -57,7 +58,7 @@ export class GeoObjectListComponent implements OnInit, AfterViewInit {
 		this.masksStore.dispatch(new masksActions.LoadGeoObjects(this.compenso));
 	}
 
-	maschere(maskAnags: Array<GeoObjectMaskDTO>, tipo: string): Array<GeoObjectMaskDTO> {
+	maschere(maskAnags: Array<GeoObjectMask>, tipo: string): Array<GeoObjectMask> {
 		return maskAnags.filter(ma => ma.qrdInfoValue == tipo);
 	}
 }
