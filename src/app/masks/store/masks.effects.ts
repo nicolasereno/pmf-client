@@ -6,10 +6,11 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { MaskAnagsControllerService } from '@enel/pmf-mock-be';
 
-import { MaskStructureService, GeoObjectDTO } from '@enel/pmf-be';
+import { MaskStructureService } from '@enel/pmf-be';
 
 import * as masksActions from './masks.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { GeoObjectResponse } from '@enel/pmf-be/model/geoObjectResponse';
 
 
 @Injectable()
@@ -17,7 +18,7 @@ export class MasksEffects {
 
 	error = $localize`:@@masksEffects-error:ERRORE`;
 	info = $localize`:@@masksEffects-info:INFORMAZIONE`;
-	
+
 	errorLoadGeoObjects = $localize`:@@masksEffects-errorLoadGeoObjects:Errore nel caricamento dei dati degli elementi di rete`;
 
 	@Effect()
@@ -26,7 +27,7 @@ export class MasksEffects {
 		map((action: masksActions.LoadGeoObjects) => action.payload),
 		mergeMap(() =>
 			this.proxy.getAllGeoObjecsAndMasksUsingGET().pipe(
-				map(c => new masksActions.LoadGeoObjectsSuccess(c['body'].sort((a: GeoObjectDTO, b: GeoObjectDTO) => a.qgoDescription.localeCompare(b.qgoDescription)))),
+				map(c => new masksActions.LoadGeoObjectsSuccess(c['body'].sort((a: GeoObjectResponse, b: GeoObjectResponse) => a.qgoDescription.localeCompare(b.qgoDescription)))),
 				catchError(err => {
 					this.snackBar.open(this.errorLoadGeoObjects, this.error, { duration: 2000, })
 					return of(new masksActions.LoadGeoObjectsFailure(err.statusText));
@@ -77,11 +78,11 @@ export class MasksEffects {
 		ofType(masksActions.MasksActionTypes.LoadMetricCalculations),
 		map((action: masksActions.LoadMetricCalculations) => action.payload),
 		mergeMap((id) =>
-			this.proxyMA.getMetricCalculations(id).pipe(
+			this.proxy.getMetricCalculationsOfAnswerUsingGET(id).pipe(
 				map(c => {
 					if (c.length == 0)
 						this.snackBar.open(this.noMetricCalculationsFound, this.info, { duration: 2000, })
-					return new masksActions.LoadMetricCalculationsSuccess(c);
+					return new masksActions.LoadMetricCalculationsSuccess(c['body']);
 				}),
 				catchError(err => {
 					this.snackBar.open(this.errorLoadMetricCalculations, this.error, { duration: 2000, })
@@ -90,7 +91,7 @@ export class MasksEffects {
 			)
 		)
 	)
-	
+
 	constructor(
 		private actions$: Actions,
 		private proxy: MaskStructureService,

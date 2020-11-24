@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { QuestionWithAnswerResponse } from '@enel/pmf-be/model/questionWithAnswerResponse';
 
-import { QuestionWithAnswerDTO } from '@enel/pmf-be';
 
 @Component({
 	selector: 'pmf-question-list',
@@ -27,8 +27,8 @@ export class QuestionListComponent {
 	];
 
 	@Input()
-	data: QuestionWithAnswerDTO[];
-	expandedElement: QuestionWithAnswerDTO;
+	data: QuestionWithAnswerResponse[];
+	expandedElement: QuestionWithAnswerResponse;
 
 }
 

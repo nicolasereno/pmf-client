@@ -1,1 +1,67 @@
 <h1>GEO-OBJECT-DETAILS: {{id}}</h1>
+
+<form [formGroup]="geoObjectForm" novalidate (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title *ngIf="editMode">Modifica Elemento di Rete</mat-card-title>
+      <mat-card-title *ngIf="!editMode">Creazione nuovo Elemento di Rete</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col" *ngIf="editMode">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Identificativo" formControlName="id" readonly="true">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Codice" formControlName="code" [readonly]="editMode">
+            <mat-error *ngIf="geoObjectForm.controls['code'].hasError('required')">
+              Codice &egrave; <strong>richiesto</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Descrizione" formControlName="description">
+            <mat-error *ngIf="geoObjectForm.controls['description'].hasError('required')">
+              Tipologia &egrave; <strong>richiesto</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Versione" formControlName="version">
+            <mat-error *ngIf="geoObjectForm.controls['version'].hasError('required')">
+              Versione &egrave; <strong>richiesto</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Tipologia" formControlName="objectType">
+              <mat-option *ngFor="let type of objectTypes" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="geoObjectForm.controls['objectType'].hasError('required')">
+              Tipologia &egrave; <strong>richiesto</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+        	<div class="full-width">
+              <mat-checkbox matInput formControlName="copyable">Copiabile</mat-checkbox>
+        	</div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

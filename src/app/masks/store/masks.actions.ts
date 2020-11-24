@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
-import { GeoObjectDTO, QuestionWithAnswerDTO, MaskResponse } from '@enel/pmf-be';
+import { MaskResponse } from '@enel/pmf-be';
 import { MetricCalculation } from '@enel/pmf-mock-be/model/metricCalculation';
+import { QuestionWithAnswerResponse } from '@enel/pmf-be/model/questionWithAnswerResponse';
+import { GeoObjectResponse } from '@enel/pmf-be/model/geoObjectResponse';
 
 export enum MasksActionTypes {
 	LoadGeoObjects = '[Masks] Load Geo Objects',
@@ -24,7 +26,7 @@ export class LoadGeoObjects implements Action {
 
 export class LoadGeoObjectsSuccess implements Action {
 	readonly type = MasksActionTypes.LoadGeoObjectsSuccess;
-	constructor(public payload: GeoObjectDTO[]) { }
+	constructor(public payload: GeoObjectResponse[]) { }
 }
 
 export class LoadGeoObjectsFailure implements Action {
@@ -54,7 +56,7 @@ export class LoadQuestionsAnswers implements Action {
 
 export class LoadQuestionsAnswersSuccess implements Action {
 	readonly type = MasksActionTypes.LoadQuestionsAnswersSuccess;
-	constructor(public payload: QuestionWithAnswerDTO[]) { }
+	constructor(public payload: QuestionWithAnswerResponse[]) { }
 }
 
 export class LoadQuestionsAnswersFailure implements Action {
