@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, pipe } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import { MaskAnagsControllerService } from '@enel/pmf-mock-be';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { MaskAnagsControllerService } from '@enel/pmf-mock-be';
 import { MaskStructureService } from '@enel/pmf-be';
 
 import * as masksActions from './masks.actions';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { GeoObjectResponse } from '@enel/pmf-be/model/geoObjectResponse';
 
 
 @Injectable()
@@ -18,23 +17,6 @@ export class MasksEffects {
 
 	error = $localize`:@@masksEffects-error:ERRORE`;
 	info = $localize`:@@masksEffects-info:INFORMAZIONE`;
-
-	errorLoadGeoObjects = $localize`:@@masksEffects-errorLoadGeoObjects:Errore nel caricamento dei dati degli elementi di rete`;
-
-	@Effect()
-	loadGeoObjects$: Observable<Action> = this.actions$.pipe(
-		ofType(masksActions.MasksActionTypes.LoadGeoObjects),
-		map((action: masksActions.LoadGeoObjects) => action.payload),
-		mergeMap(() =>
-			this.proxy.getAllGeoObjecsAndMasksUsingGET().pipe(
-				map(c => new masksActions.LoadGeoObjectsSuccess(c['body'].sort((a: GeoObjectResponse, b: GeoObjectResponse) => a.qgoDescription.localeCompare(b.qgoDescription)))),
-				catchError(err => {
-					this.snackBar.open(this.errorLoadGeoObjects, this.error, { duration: 2000, })
-					return of(new masksActions.LoadGeoObjectsFailure(err.statusText));
-				})
-			)
-		)
-	)
 
 	errorLoadMaskAnags = $localize`:@@masksEffects-errorLoadMaskAnags:Errore nel caricamento dei dati delle maschere`;
 
@@ -46,7 +28,7 @@ export class MasksEffects {
 			this.proxy.getAllMasksUsingGET().pipe(
 				map(c => new masksActions.LoadMaskAnagsSuccess(c['body'])),
 				catchError(err => {
-					this.snackBar.open(this.errorLoadMaskAnags, this.error, { duration: 2000, })
+					this.snackBar.open(this.errorLoadMaskAnags, this.error, { duration: 5000, })
 					return of(new masksActions.LoadMaskAnagsFailure(err.statusText));
 				})
 			)
@@ -63,7 +45,7 @@ export class MasksEffects {
 			this.proxy.getQuestionAndAnswerOfMaskUsingGET(id).pipe(
 				map(c => new masksActions.LoadQuestionsAnswersSuccess(c['body'])),
 				catchError(err => {
-					this.snackBar.open(this.errorLoadQuestionsAnswers, this.error, { duration: 2000, })
+					this.snackBar.open(this.errorLoadQuestionsAnswers, this.error, { duration: 5000, })
 					return of(new masksActions.LoadQuestionsAnswersFailure(err.statusText));
 				})
 			)
@@ -85,7 +67,7 @@ export class MasksEffects {
 					return new masksActions.LoadMetricCalculationsSuccess(c['body']);
 				}),
 				catchError(err => {
-					this.snackBar.open(this.errorLoadMetricCalculations, this.error, { duration: 2000, })
+					this.snackBar.open(this.errorLoadMetricCalculations, this.error, { duration: 5000, })
 					return of(new masksActions.LoadMetricCalculationsFailure(err.statusText));
 				})
 			)
@@ -98,4 +80,5 @@ export class MasksEffects {
 		private proxyMA: MaskAnagsControllerService,
 		private snackBar: MatSnackBar,
 	) { }
+
 }

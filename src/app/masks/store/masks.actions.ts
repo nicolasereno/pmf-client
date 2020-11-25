@@ -1,13 +1,9 @@
 import { Action } from '@ngrx/store';
-import { MaskResponse } from '@enel/pmf-be';
-import { MetricCalculation } from '@enel/pmf-mock-be/model/metricCalculation';
-import { QuestionWithAnswerResponse } from '@enel/pmf-be/model/questionWithAnswerResponse';
-import { GeoObjectResponse } from '@enel/pmf-be/model/geoObjectResponse';
+
+import { MaskResponse, QuestionWithAnswerResponse } from '@enel/pmf-be';
+import { MetricCalculation } from '@enel/pmf-mock-be';
 
 export enum MasksActionTypes {
-	LoadGeoObjects = '[Masks] Load Geo Objects',
-	LoadGeoObjectsSuccess = '[Masks] Load Geo Objects Success',
-	LoadGeoObjectsFailure = '[Masks] Load Geo Objects Failure',
 	LoadMaskAnags = '[Masks] Load Mask Anags',
 	LoadMaskAnagsSuccess = '[Masks] Load Mask Anags Success',
 	LoadMaskAnagsFailure = '[Masks] Load Mask Anags Failure',
@@ -19,24 +15,9 @@ export enum MasksActionTypes {
 	LoadMetricCalculationsFailure = '[Masks] Load Metric Calculations Failure',
 }
 
-export class LoadGeoObjects implements Action {
-	readonly type = MasksActionTypes.LoadGeoObjects;
-	constructor(public payload: string) { }
-}
-
-export class LoadGeoObjectsSuccess implements Action {
-	readonly type = MasksActionTypes.LoadGeoObjectsSuccess;
-	constructor(public payload: GeoObjectResponse[]) { }
-}
-
-export class LoadGeoObjectsFailure implements Action {
-	readonly type = MasksActionTypes.LoadGeoObjectsFailure;
-	constructor(public payload: string) { }
-}
-
 export class LoadMaskAnags implements Action {
 	readonly type = MasksActionTypes.LoadMaskAnags;
-	constructor(public payload: string) { }
+	constructor(public payload: number) { }
 }
 
 export class LoadMaskAnagsSuccess implements Action {
@@ -80,9 +61,6 @@ export class LoadMetricCalculationsFailure implements Action {
 }
 
 export type MasksActions =
-	LoadGeoObjects |
-	LoadGeoObjectsSuccess |
-	LoadGeoObjectsFailure |
 	LoadMaskAnags |
 	LoadMaskAnagsSuccess |
 	LoadMaskAnagsFailure |

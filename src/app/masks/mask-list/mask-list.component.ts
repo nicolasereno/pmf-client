@@ -1,16 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
+import { MaskResponse, QuestionWithAnswerResponse, PaymentList, } from '@enel/pmf-be';
+
 import * as masksActions from '../store/masks.actions';
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
-import { Observable } from 'rxjs';
-import { MaskResponse, QuestionWithAnswerDTO } from '@enel/pmf-be';
+import * as fromUtility from '../../utility/store/utility.reducer';
+import * as utilitySelectors from '../../utility/store/utility.selectors';
+import { filter, take } from 'rxjs/operators';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
 	selector: 'pmf-mask-list',
@@ -24,7 +29,7 @@ import { MaskResponse, QuestionWithAnswerDTO } from '@enel/pmf-be';
 		]),
 	],
 })
-export class MaskListComponent implements OnInit {
+export class MaskListComponent implements OnInit, AfterViewInit {
 
 	displayedColumns: string[] = [
 		'code',
@@ -36,25 +41,35 @@ export class MaskListComponent implements OnInit {
 
 	loading$: Observable<boolean>;
 
+	paymentLists: PaymentList[]
+
 	dataSource: MatTableDataSource<MaskResponse> = new MatTableDataSource([]);
-	compenso = 'option1';
+	paymentList: number;
 	filtro = '';
 
 	expandedElement: MaskResponse;
-	questionsAnswers: QuestionWithAnswerDTO[];
+	questionsAnswers: QuestionWithAnswerResponse[];
 
 	@ViewChild(MatSort) sort: MatSort;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 
-	constructor(private masksStore: Store<fromMasks.State>) { }
+	constructor(
+		private utilityStore: Store<fromUtility.State>,
+		private masksStore: Store<fromMasks.State>) { }
 
 	ngOnInit(): void {
+		this.loading$ = this.masksStore.select(masksSelectors.getLoading);
 		// FIXME Unsubscribe!!!
 		this.masksStore.select(masksSelectors.getMaskAnags).subscribe((d) => this.dataSource.data = d);
 		this.masksStore.select(masksSelectors.getQuestionsAnswers).subscribe((d) => this.questionsAnswers = d);
-		this.loading$ = this.masksStore.select(masksSelectors.getLoading);
+		this.utilityStore.select(utilitySelectors.getPaymentLists).pipe(
+			filter(d => d != null),
+			take(1)).subscribe((d) => {
+				this.paymentLists = d.filter(d => d.code != null);
+				this.paymentList = this.paymentLists[0].id;
+				this.ricaricaDati();
+			});
 		this.dataSource.filterPredicate = (data, filter) => data.code.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0 || data.description.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0;
-		this.ricaricaDati();
 	}
 
 	ngAfterViewInit() {
@@ -67,7 +82,7 @@ export class MaskListComponent implements OnInit {
 	}
 
 	ricaricaDati() {
-		this.masksStore.dispatch(new masksActions.LoadMaskAnags(this.compenso));
+		this.masksStore.dispatch(new masksActions.LoadMaskAnags(this.paymentList));
 	}
 
 	espandiMaschera(ma: MaskResponse) {

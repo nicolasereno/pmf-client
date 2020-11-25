@@ -24,6 +24,7 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from './material/shared.module';
+import { UtilityModule } from './utility/utility.module';
 
 @NgModule({
 	declarations: [
@@ -37,6 +38,13 @@ import { SharedModule } from './material/shared.module';
 		AppRoutingModule,
 		SharedModule,
 		HttpClientModule,
+		ReactiveFormsModule,
+		UtilityModule,
+		MatInputModule,
+		MatButtonModule,
+		MatSelectModule,
+		MatRadioModule,
+		MatCardModule,
 		MockApiModule.forRoot(() => new MockConfiguration()),
 		ApiModule.forRoot(() => new Configuration()),
 		StoreModule.forRoot({}),
@@ -45,13 +53,7 @@ import { SharedModule } from './material/shared.module';
 			name: 'PMF DevTools',
 			maxAge: 25,
 			logOnly: environment.production,
-		}),
-		MatInputModule,
-		MatButtonModule,
-		MatSelectModule,
-		MatRadioModule,
-		MatCardModule,
-		ReactiveFormsModule
+		})
 	],
 	bootstrap: [AppComponent]
 })

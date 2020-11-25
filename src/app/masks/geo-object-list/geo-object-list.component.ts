@@ -1,15 +1,20 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { take, takeWhile, filter } from 'rxjs/operators';
+
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 
-import * as masksActions from '../store/masks.actions';
+import { GeoObjectResponse } from '@enel/pmf-be';
+import { GeoObjectMask } from '@enel/pmf-be';
+
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
-import { Observable } from 'rxjs';
-import { GeoObjectResponse } from '@enel/pmf-be/model/geoObjectResponse';
-import { GeoObjectMask } from '@enel/pmf-be/model/geoObjectMask';
+import * as fromUtility from '../../utility/store/utility.reducer';
+import * as utilitySelectors from '../../utility/store/utility.selectors';
+
 
 @Component({
 	selector: 'pmf-geo-object-list',
@@ -35,14 +40,16 @@ export class GeoObjectListComponent implements OnInit, AfterViewInit {
 	@ViewChild(MatSort) sort: MatSort;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 
-	constructor(private masksStore: Store<fromMasks.State>) { }
+	constructor(
+		private utilityStore: Store<fromUtility.State>,
+		private masksStore: Store<fromMasks.State>) { }
 
 	ngOnInit(): void {
-		// FIXME Unsubscribe!!!
-		this.masksStore.select(masksSelectors.getGeoObjects).subscribe((d) => this.dataSource.data = d);
+		this.utilityStore.select(utilitySelectors.getGeoObjects).pipe(
+			filter(d => d != null),
+			take(1)).subscribe((d) => this.dataSource.data = d);
 		this.loading$ = this.masksStore.select(masksSelectors.getLoading);
 		this.dataSource.filterPredicate = (data, filter) => data.qgoCode?.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0 || data.qgoDescription?.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0;
-		this.ricaricaDati();
 	}
 
 	ngAfterViewInit() {
@@ -52,10 +59,6 @@ export class GeoObjectListComponent implements OnInit, AfterViewInit {
 
 	applicaFiltro() {
 		this.dataSource.filter = this.filtro;
-	}
-
-	ricaricaDati() {
-		this.masksStore.dispatch(new masksActions.LoadGeoObjects(this.compenso));
 	}
 
 	maschere(maskAnags: Array<GeoObjectMask>, tipo: string): Array<GeoObjectMask> {

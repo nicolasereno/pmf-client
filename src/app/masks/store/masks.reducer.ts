@@ -1,23 +1,18 @@
-
 import { MasksActions, MasksActionTypes } from './masks.actions';
-import { MaskResponse } from '@enel/pmf-be';
-import { MetricCalculation } from '@enel/pmf-mock-be/model/metricCalculation';
-import { QuestionWithAnswerResponse } from '@enel/pmf-be/model/questionWithAnswerResponse';
-import { GeoObjectResponse } from '@enel/pmf-be/model/geoObjectResponse';
+
+import { MaskResponse, QuestionWithAnswerResponse, MetricCalculationsResponse } from '@enel/pmf-be';
 
 export const masksFeatureKey = 'masks';
 
 export interface State {
-	geoObjects: GeoObjectResponse[],
 	maskAnags: MaskResponse[],
 	questionsAnswers: QuestionWithAnswerResponse[],
-	metricCalculations: MetricCalculation[],
+	metricCalculations: MetricCalculationsResponse[],
 	error: string,
 	loading: boolean,
 }
 
 export const initialState: State = {
-	geoObjects: [],
 	maskAnags: [],
 	questionsAnswers: [],
 	metricCalculations: [],
@@ -27,26 +22,6 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: MasksActions): State {
 	switch (action.type) {
-
-		case MasksActionTypes.LoadGeoObjects:
-			return {
-				...state,
-				loading: true,
-				error: null,
-				geoObjects: []
-			};
-		case MasksActionTypes.LoadGeoObjectsSuccess:
-			return {
-				...state,
-				loading: false,
-				geoObjects: action.payload
-			};
-		case MasksActionTypes.LoadGeoObjectsFailure:
-			return {
-				...state,
-				loading: false,
-				error: action.payload
-			};
 		case MasksActionTypes.LoadMaskAnags:
 			return {
 				...state,

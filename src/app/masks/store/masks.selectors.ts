@@ -5,11 +5,6 @@ export const selectMasksState = createFeatureSelector<fromMasks.State>(
 	fromMasks.masksFeatureKey
 );
 
-export const getGeoObjects = createSelector(
-	selectMasksState,
-	state => state.geoObjects
-);
-
 export const getMaskAnags = createSelector(
 	selectMasksState,
 	state => state.maskAnags
