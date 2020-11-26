@@ -30,8 +30,9 @@ export class UtilityEffects implements OnInitEffects {
 			forkJoin(
 				this.proxy.getPaymentListByIdsUsingGET([0, 1]),
 				this.proxy.getAllGeoObjecsAndMasksUsingGET(),
+				this.proxy.getAllMasksUsingGET(),
 			).pipe(
-				map(c => new utilityActions.LoadCacheSuccess({ paymentList: c[0]['body'], geoObjects: c[1]['body'] })),
+				map(c => new utilityActions.LoadCacheSuccess({ paymentList: c[0]['body'], geoObjects: c[1]['body'], maskAnags: c[2]['body'] })),
 				catchError(err => {
 					this.snackBar.open(this.errorLoadCache, this.error, { duration: 5000 })
 					return of(new utilityActions.LoadCacheFailure(err.statusText));

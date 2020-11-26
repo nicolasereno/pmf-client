@@ -1,39 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { mergeMap, map, catchError, tap } from 'rxjs/operators';
+import { mergeMap, map, catchError } from 'rxjs/operators';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MaskAnagsControllerService } from '@enel/pmf-mock-be';
 import { MaskStructureService } from '@enel/pmf-be';
 
 import * as masksActions from './masks.actions';
-
 
 @Injectable()
 export class MasksEffects {
 
 	error = $localize`:@@masksEffects-error:ERRORE`;
 	info = $localize`:@@masksEffects-info:INFORMAZIONE`;
-
-	errorLoadMaskAnags = $localize`:@@masksEffects-errorLoadMaskAnags:Errore nel caricamento dei dati delle maschere`;
-
-	@Effect()
-	loadMaskAnags$: Observable<Action> = this.actions$.pipe(
-		ofType(masksActions.MasksActionTypes.LoadMaskAnags),
-		map((action: masksActions.LoadMaskAnags) => action.payload),
-		mergeMap(() =>
-			this.proxy.getAllMasksUsingGET().pipe(
-				map(c => new masksActions.LoadMaskAnagsSuccess(c['body'])),
-				catchError(err => {
-					this.snackBar.open(this.errorLoadMaskAnags, this.error, { duration: 5000, })
-					return of(new masksActions.LoadMaskAnagsFailure(err.statusText));
-				})
-			)
-		)
-	)
 
 	errorLoadQuestionsAnswers = $localize`:@@masksEffects-errorLoadQuestionsAnswers:Errore nel caricamento di domande e risposte`;
 
@@ -77,7 +58,6 @@ export class MasksEffects {
 	constructor(
 		private actions$: Actions,
 		private proxy: MaskStructureService,
-		private proxyMA: MaskAnagsControllerService,
 		private snackBar: MatSnackBar,
 	) { }
 

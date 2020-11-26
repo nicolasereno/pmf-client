@@ -1,11 +1,10 @@
 import { MasksActions, MasksActionTypes } from './masks.actions';
 
-import { MaskResponse, QuestionWithAnswerResponse, MetricCalculationsResponse } from '@enel/pmf-be';
+import { QuestionWithAnswerResponse, MetricCalculationsResponse } from '@enel/pmf-be';
 
 export const masksFeatureKey = 'masks';
 
 export interface State {
-	maskAnags: MaskResponse[],
 	questionsAnswers: QuestionWithAnswerResponse[],
 	metricCalculations: MetricCalculationsResponse[],
 	error: string,
@@ -13,7 +12,6 @@ export interface State {
 }
 
 export const initialState: State = {
-	maskAnags: [],
 	questionsAnswers: [],
 	metricCalculations: [],
 	error: null,
@@ -22,25 +20,6 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: MasksActions): State {
 	switch (action.type) {
-		case MasksActionTypes.LoadMaskAnags:
-			return {
-				...state,
-				loading: true,
-				error: null,
-				maskAnags: []
-			};
-		case MasksActionTypes.LoadMaskAnagsSuccess:
-			return {
-				...state,
-				loading: false,
-				maskAnags: action.payload
-			};
-		case MasksActionTypes.LoadMaskAnagsFailure:
-			return {
-				...state,
-				loading: false,
-				error: action.payload
-			};
 		case MasksActionTypes.LoadQuestionsAnswers:
 			return {
 				...state,

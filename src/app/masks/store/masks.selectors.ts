@@ -5,11 +5,6 @@ export const selectMasksState = createFeatureSelector<fromMasks.State>(
 	fromMasks.masksFeatureKey
 );
 
-export const getMaskAnags = createSelector(
-	selectMasksState,
-	state => state.maskAnags
-);
-
 export const getQuestionsAnswers = createSelector(
 	selectMasksState,
 	state => state.questionsAnswers

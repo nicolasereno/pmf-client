@@ -1,6 +1,6 @@
 import { UtilityActions, UtilityActionTypes } from './utility.actions';
 
-import { PaymentList, GeoObjectResponse } from '@enel/pmf-be';
+import { PaymentList, GeoObjectResponse, MaskResponse } from '@enel/pmf-be';
 
 export const utilityFeatureKey = 'utility';
 
@@ -8,6 +8,7 @@ export interface State {
 	cache: {
 		paymentLists: PaymentList[],
 		geoObjects: GeoObjectResponse[],
+		maskAnags: MaskResponse[],
 	},
 	error: string,
 	loading: boolean,
@@ -17,6 +18,7 @@ export const initialState: State = {
 	cache: {
 		paymentLists: null,
 		geoObjects: null,
+		maskAnags: null,
 	},
 	error: null,
 	loading: false,
@@ -31,6 +33,7 @@ export function reducer(state = initialState, action: UtilityActions): State {
 				cache: {
 					paymentLists: null,
 					geoObjects: null,
+					maskAnags: null,
 				},
 				loading: true
 			};
@@ -40,6 +43,7 @@ export function reducer(state = initialState, action: UtilityActions): State {
 				cache: {
 					paymentLists: action.payload.paymentList,
 					geoObjects: action.payload.geoObjects,
+					maskAnags: action.payload.maskAnags,
 				},
 				loading: false
 			};

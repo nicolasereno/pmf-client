@@ -15,3 +15,9 @@ export const getGeoObjects = createSelector(
 	selectUtilityState,
 	state => state.cache.geoObjects
 );
+
+export const getMaskAnags = createSelector(
+	selectUtilityState,
+	state => state.cache.maskAnags
+);
+

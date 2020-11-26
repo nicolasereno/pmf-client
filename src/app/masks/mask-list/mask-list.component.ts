@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Observable } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { MatSort } from '@angular/material/sort';
@@ -14,8 +15,7 @@ import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
-import { filter, take } from 'rxjs/operators';
-import { MatSelect } from '@angular/material/select';
+
 
 @Component({
 	selector: 'pmf-mask-list',
@@ -39,8 +39,6 @@ export class MaskListComponent implements OnInit, AfterViewInit {
 		'version',
 	];
 
-	loading$: Observable<boolean>;
-
 	paymentLists: PaymentList[]
 
 	dataSource: MatTableDataSource<MaskResponse> = new MatTableDataSource([]);
@@ -58,10 +56,10 @@ export class MaskListComponent implements OnInit, AfterViewInit {
 		private masksStore: Store<fromMasks.State>) { }
 
 	ngOnInit(): void {
-		this.loading$ = this.masksStore.select(masksSelectors.getLoading);
 		// FIXME Unsubscribe!!!
-		this.masksStore.select(masksSelectors.getMaskAnags).subscribe((d) => this.dataSource.data = d);
-		this.masksStore.select(masksSelectors.getQuestionsAnswers).subscribe((d) => this.questionsAnswers = d);
+		this.masksStore.select(masksSelectors.getQuestionsAnswers).subscribe((d) => {
+			this.questionsAnswers = d;
+		});
 		this.utilityStore.select(utilitySelectors.getPaymentLists).pipe(
 			filter(d => d != null),
 			take(1)).subscribe((d) => {
@@ -82,7 +80,7 @@ export class MaskListComponent implements OnInit, AfterViewInit {
 	}
 
 	ricaricaDati() {
-		this.masksStore.dispatch(new masksActions.LoadMaskAnags(this.paymentList));
+		this.utilityStore.select(utilitySelectors.getMaskAnags).pipe(filter(d => d != null), take(1)).subscribe((d) => this.dataSource.data/*.filter(m => m.paymentList.id == this.paymentList)*/ = d);
 	}
 
 	espandiMaschera(ma: MaskResponse) {
