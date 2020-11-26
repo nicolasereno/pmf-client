@@ -6,7 +6,8 @@ import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MaskStructureService } from '@enel/pmf-be';
+import { MaskStructureService, UtilityService } from '@enel/pmf-be';
+import { MaskRelationType } from '@enel/pmf-mock-be';
 
 import * as utilityActions from './utility.actions';
 import { UtilityActions } from './utility.actions';
@@ -32,7 +33,7 @@ export class UtilityEffects implements OnInitEffects {
 				this.proxy.getAllGeoObjecsAndMasksUsingGET(),
 				this.proxy.getAllMasksUsingGET(),
 			).pipe(
-				map(c => new utilityActions.LoadCacheSuccess({ paymentList: c[0]['body'], geoObjects: c[1]['body'], maskAnags: c[2]['body'] })),
+				map(c => new utilityActions.LoadCacheSuccess({ paymentList: c[0]['body'], geoObjects: c[1]['body'], maskAnags: c[2]['body'], maskRelationTypes: this.MASK_REL_TYPES })),
 				catchError(err => {
 					this.snackBar.open(this.errorLoadCache, this.error, { duration: 5000 })
 					return of(new utilityActions.LoadCacheFailure(err.statusText));
@@ -41,8 +42,11 @@ export class UtilityEffects implements OnInitEffects {
 		)
 	)
 
+	MASK_REL_TYPES: MaskRelationType[] = [{ "id": 32, "infoValue": "DEMOLITION", "infoParam": "Maschera di demolizione\\dismissione" }, { "id": 31, "infoValue": "TOOLBOX", "infoParam": "Maschera di inserimento Cassettina attrezzi" }, { "id": 30, "infoValue": "ADDING", "infoParam": "Maschera di inserimento GeoObject" }, { "id": 10077, "infoValue": "TIME_ED", "infoParam": "Maschera di inserimento ore" }, { "id": 10078, "infoValue": "SICUREZZA", "infoParam": "Maschera di sicurezza lavori" }]
+
 	constructor(private actions$: Actions<UtilityActions>,
 		private proxy: MaskStructureService,
+		private proxyUtils: UtilityService,
 		private snackBar: MatSnackBar
 	) { }
 

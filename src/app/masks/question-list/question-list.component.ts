@@ -6,7 +6,7 @@ import { QuestionWithAnswerResponse } from '@enel/pmf-be/model/questionWithAnswe
 @Component({
 	selector: 'pmf-question-list',
 	templateUrl: './question-list.component.html',
-	styleUrls: ['./question-list.component.less'],
+	styleUrls: ['./question-list.component.css'],
 	animations: [
 		trigger('detailExpand', [
 			state('collapsed', style({ height: '0px', minHeight: '0' })),

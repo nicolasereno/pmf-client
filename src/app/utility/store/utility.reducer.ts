@@ -1,6 +1,7 @@
 import { UtilityActions, UtilityActionTypes } from './utility.actions';
 
 import { PaymentList, GeoObjectResponse, MaskResponse } from '@enel/pmf-be';
+import { MaskRelationType } from '@enel/pmf-mock-be';
 
 export const utilityFeatureKey = 'utility';
 
@@ -9,6 +10,7 @@ export interface State {
 		paymentLists: PaymentList[],
 		geoObjects: GeoObjectResponse[],
 		maskAnags: MaskResponse[],
+		maskRelationTypes: MaskRelationType[],
 	},
 	error: string,
 	loading: boolean,
@@ -19,6 +21,7 @@ export const initialState: State = {
 		paymentLists: null,
 		geoObjects: null,
 		maskAnags: null,
+		maskRelationTypes: null,
 	},
 	error: null,
 	loading: false,
@@ -34,6 +37,7 @@ export function reducer(state = initialState, action: UtilityActions): State {
 					paymentLists: null,
 					geoObjects: null,
 					maskAnags: null,
+					maskRelationTypes: null,
 				},
 				loading: true
 			};
@@ -44,6 +48,7 @@ export function reducer(state = initialState, action: UtilityActions): State {
 					paymentLists: action.payload.paymentList,
 					geoObjects: action.payload.geoObjects,
 					maskAnags: action.payload.maskAnags,
+					maskRelationTypes: action.payload.maskRelationTypes,
 				},
 				loading: false
 			};

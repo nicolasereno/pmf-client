@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 @Component({
 	selector: 'pmf-answer-list',
 	templateUrl: './answer-list.component.html',
-	styleUrls: ['./answer-list.component.less'],
+	styleUrls: ['./answer-list.component.css'],
 	animations: [
 		trigger('detailExpand', [
 			state('collapsed', style({ height: '0px', minHeight: '0' })),

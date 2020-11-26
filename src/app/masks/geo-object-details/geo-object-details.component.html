@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col" *ngIf="editMode">
           <mat-form-field class="full-width">
-            <input matInput placeholder="Identificativo" formControlName="id">
+            <input matInput placeholder="Identificativo" formControlName="id" readonly>
           </mat-form-field>
         </div>
         <div class="col">
@@ -94,17 +94,18 @@
         </div>
         <div class="col">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Tipologia" formControlName="type">
-              <mat-option *ngFor="let type of maskTypes" [value]="type">
-                {{ type }}
-              </mat-option>
-            </mat-select>          
+		    <input formControlName="type" type="text" placeholder="Tipologia" matInput [matAutocomplete]="autoType">
+		    <mat-autocomplete autoActiveFirstOption #autoType="matAutocomplete">
+		      <mat-option *ngFor="let mrt of maskRelationTypes" [value]="mrt.infoValue">
+		        {{ mrt.infoValue }}: {{ mrt.infoParam }}
+		      </mat-option>
+		    </mat-autocomplete>
           </mat-form-field>
         </div>
         <div class="col">
           <mat-form-field class="full-width">
-		    <input formControlName="mask" type="text" placeholder="Maschera" matInput [matAutocomplete]="auto">
-		    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+		    <input formControlName="mask" type="text" placeholder="Maschera" matInput [matAutocomplete]="autoMask">
+		    <mat-autocomplete autoActiveFirstOption #autoMask="matAutocomplete">
 		      <mat-option *ngFor="let m of masksAutoComplete$ | async" [value]="m.code">
 		        {{ m.code }} - {{ m.description | titlecase}}
 		      </mat-option>
@@ -113,14 +114,14 @@
         </div>
         <div class="col">
     	  <mat-card-actions>
-      		<button mat-raised-button color="basic" type="submit">Aggiungi</button>
+      		<button mat-raised-button color="basic" type="submit" [disabled]="!addMaskForm.valid">Aggiungi</button>
     	  </mat-card-actions>
         </div>
       </div>
 	</form>
   	<mat-divider></mat-divider>
     <mat-card-actions>
-      <button mat-raised-button color="primary" type="button" (click)="onSubmit()">Invia</button>
+      <button mat-raised-button color="primary" type="button" (click)="onSubmit()">Salva</button>
     </mat-card-actions>
   </mat-card-content>
 </mat-card>

@@ -12,7 +12,7 @@ export interface MenuItem {
 @Component({
 	selector: 'pmf-nav',
 	templateUrl: './nav.component.html',
-	styleUrls: ['./nav.component.less']
+	styleUrls: ['./nav.component.css']
 })
 export class NavComponent {
 

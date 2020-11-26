@@ -4,7 +4,7 @@ import { MetricCalculation } from '@enel/pmf-mock-be';
 @Component({
 	selector: 'pmf-metric-calculation-list',
 	templateUrl: './metric-calculation-list.component.html',
-	styleUrls: ['./metric-calculation-list.component.less']
+	styleUrls: ['./metric-calculation-list.component.css']
 })
 export class MetricCalculationListComponent {
 

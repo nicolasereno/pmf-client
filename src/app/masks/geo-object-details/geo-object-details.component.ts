@@ -6,6 +6,7 @@ import { take, filter, startWith, debounceTime, switchMap, map } from 'rxjs/oper
 import { Store } from '@ngrx/store';
 
 import { GeoObjectResponse, MaskResponse } from '@enel/pmf-be';
+import { MaskRelationType } from '@enel/pmf-mock-be';
 
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
@@ -13,15 +14,19 @@ import * as utilitySelectors from '../../utility/store/utility.selectors';
 @Component({
 	selector: 'pmf-geo-object-details',
 	templateUrl: './geo-object-details.component.html',
-	styleUrls: ['./geo-object-details.component.less']
+	styleUrls: ['./geo-object-details.component.css']
 })
 export class GeoObjectDetailsComponent implements OnInit {
 
+	id: number;
+	editMode = false;
+
 	objectTypes = ['E', 'P'];
-	maskTypes = ['ADDING', 'DEMOLITION'];
+	maskRelationTypes: MaskRelationType[];
+	masksAutoComplete$: Observable<MaskResponse[]>;
 
 	geoObjectForm: FormGroup = this.fb.group({
-		id: { value: null, disabled: true },
+		id: null,
 		code: [null, Validators.required],
 		description: [null, Validators.required],
 		version: [null, Validators.required],
@@ -36,8 +41,6 @@ export class GeoObjectDetailsComponent implements OnInit {
 		mask: [null, Validators.required],
 	});
 
-	editMode = false;
-	id: number;
 	data: {
 		id: number,
 		code: string,
@@ -46,7 +49,6 @@ export class GeoObjectDetailsComponent implements OnInit {
 		masks: { order: number, type: string, mask: string }[];
 	} = { id: null, code: null, description: null, version: null, masks: [] };
 
-	masksAutoComplete$: Observable<MaskResponse[]>;
 
 	constructor(
 		private fb: FormBuilder,
@@ -56,6 +58,8 @@ export class GeoObjectDetailsComponent implements OnInit {
 	ngOnInit(): void {
 		this.id = this.route.snapshot.params['id'];
 		this.editMode = (this.id != null);
+		this.utilityStore.select(utilitySelectors.getMaskRelationTypes).pipe(
+			filter(d => d!= null), take(1)).subscribe(d => this.maskRelationTypes = d);
 		if (this.editMode)
 			this.geoObjectForm.disable();
 		if (this.editMode) {

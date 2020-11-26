@@ -19,7 +19,7 @@ import * as utilitySelectors from '../../utility/store/utility.selectors';
 @Component({
 	selector: 'pmf-mask-list',
 	templateUrl: './mask-list.component.html',
-	styleUrls: ['./mask-list.component.less'],
+	styleUrls: ['./mask-list.component.css'],
 	animations: [
 		trigger('detailExpand', [
 			state('collapsed', style({ height: '0px', minHeight: '0' })),

@@ -7,8 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 
-import { GeoObjectResponse } from '@enel/pmf-be';
-import { GeoObjectMask } from '@enel/pmf-be';
+import { GeoObjectResponse, GeoObjectMask } from '@enel/pmf-be';
 
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
@@ -19,7 +18,7 @@ import * as utilitySelectors from '../../utility/store/utility.selectors';
 @Component({
 	selector: 'pmf-geo-object-list',
 	templateUrl: './geo-object-list.component.html',
-	styleUrls: ['./geo-object-list.component.less']
+	styleUrls: ['./geo-object-list.component.css']
 })
 export class GeoObjectListComponent implements OnInit, AfterViewInit {
 
