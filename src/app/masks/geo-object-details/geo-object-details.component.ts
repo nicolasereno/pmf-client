@@ -1,13 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl, ValidationErrors, FormArray, AbstractControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators, FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { take, filter, startWith, debounceTime, switchMap, map, catchError } from 'rxjs/operators';
+import { take, filter, startWith, debounceTime, switchMap, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import { GeoObjectResponse } from '@enel/pmf-be';
-import { MaskAnagsControllerService } from '@enel/pmf-mock-be';
-import { ReferenceString } from '@enel/pmf-mock-be/model/referenceString';
+import { GeoObjectResponse, MaskResponse } from '@enel/pmf-be';
 
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
@@ -48,13 +46,12 @@ export class GeoObjectDetailsComponent implements OnInit {
 		masks: { order: number, type: string, mask: string }[];
 	} = { id: null, code: null, description: null, version: null, masks: [] };
 
-	masksAutoComplete$: Observable<ReferenceString[]>;
+	masksAutoComplete$: Observable<MaskResponse[]>;
 
 	constructor(
 		private fb: FormBuilder,
 		private route: ActivatedRoute,
-		private utilityStore: Store<fromUtility.State>,
-		private proxyMA: MaskAnagsControllerService) { }
+		private utilityStore: Store<fromUtility.State>) { }
 
 	ngOnInit(): void {
 		this.id = this.route.snapshot.params['id'];
@@ -78,26 +75,21 @@ export class GeoObjectDetailsComponent implements OnInit {
 					this.geoObjectForm.patchValue(this.data);
 				})
 		}
+		this.setupMaskAutoComplete();
+	}
+
+	setupMaskAutoComplete() {
 		this.masksAutoComplete$ = this.addMaskForm.controls['mask'].valueChanges.pipe(
 			startWith(''), debounceTime(300),
 			// use switch map so as to cancel previous subscribed events, before creating new once
 			switchMap(value => {
-				if (value != null && value !== '') {
-					// lookup from github
-					return this.lookup(value);
-				} else {
-					// if no value is pressent, return null
+				// Logica di lookup asincrono
+				if (value != null && value !== '')
+					return this.utilityStore.select(utilitySelectors.getMaskAnags).pipe(
+						filter(d => d != null), take(1),
+						map(d => d.filter(m => value != null && m.code.toUpperCase().indexOf(value?.toUpperCase()) >= 0)));
+				else
 					return of(null);
-				}
-			})
-		);
-	}
-
-	lookup(value: string): Observable<ReferenceString[]> {
-		return this.proxyMA.getMaskAnagsReference(value.toLowerCase()).pipe(
-			// catch errors
-			catchError(_ => {
-				return of(null);
 			})
 		);
 	}
@@ -106,7 +98,7 @@ export class GeoObjectDetailsComponent implements OnInit {
 		(<FormArray>this.geoObjectForm.controls.masks).removeAt(i);
 		this.data.masks.slice(i, i);
 	}
-	
+
 	maskControls(): AbstractControl[] {
 		return (<FormArray>this.geoObjectForm.controls.masks).controls;
 	}

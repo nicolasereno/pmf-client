@@ -12,8 +12,8 @@ export interface State {
 }
 
 export const initialState: State = {
-	questionsAnswers: [],
-	metricCalculations: [],
+	questionsAnswers: null,
+	metricCalculations: null,
 	error: null,
 	loading: false,
 };
@@ -25,7 +25,7 @@ export function reducer(state = initialState, action: MasksActions): State {
 				...state,
 				loading: true,
 				error: null,
-				questionsAnswers: []
+				questionsAnswers: null
 			};
 		case MasksActionTypes.LoadQuestionsAnswersSuccess:
 			return {
@@ -44,7 +44,7 @@ export function reducer(state = initialState, action: MasksActions): State {
 				...state,
 				loading: true,
 				error: null,
-				metricCalculations: []
+				metricCalculations: null
 			};
 		case MasksActionTypes.LoadMetricCalculationsSuccess:
 			return {
