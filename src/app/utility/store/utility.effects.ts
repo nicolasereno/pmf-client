@@ -6,7 +6,7 @@ import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MaskStructureService, UtilityService } from '@enel/pmf-be';
+import { MaskStructureService } from '@enel/pmf-be';
 import { MaskRelationType } from '@enel/pmf-mock-be';
 
 import * as utilityActions from './utility.actions';
@@ -46,7 +46,6 @@ export class UtilityEffects implements OnInitEffects {
 
 	constructor(private actions$: Actions<UtilityActions>,
 		private proxy: MaskStructureService,
-		private proxyUtils: UtilityService,
 		private snackBar: MatSnackBar
 	) { }
 
