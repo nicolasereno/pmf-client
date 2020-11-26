@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Observable } from 'rxjs';
 import { filter, take, takeWhile, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
@@ -15,7 +14,6 @@ import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
-import { MaskAnag } from '@enel/pmf-mock-be';
 
 
 @Component({
