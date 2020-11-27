@@ -44,8 +44,67 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MyMatPaginatorIntl } from './my-mat-paginator-intl';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { SelectElementComponent } from './select-element/select-element.component';
+import { CheckElementComponent } from './check-element/check-element.component';
+import { InputElementComponent } from './input-element/input-element.component';
 
 @NgModule({
+	declarations: [
+		InputElementComponent,
+		SelectElementComponent,
+		CheckElementComponent,
+	],
+	imports: [
+		A11yModule,
+		ClipboardModule,
+		CdkStepperModule,
+		CdkTableModule,
+		CdkTreeModule,
+		DragDropModule,
+		MatAutocompleteModule,
+		MatBadgeModule,
+		MatBottomSheetModule,
+		MatButtonModule,
+		MatButtonToggleModule,
+		MatCardModule,
+		MatCheckboxModule,
+		MatChipsModule,
+		MatStepperModule,
+		MatDatepickerModule,
+		MatDialogModule,
+		MatDividerModule,
+		MatExpansionModule,
+		MatGridListModule,
+		MatIconModule,
+		MatInputModule,
+		MatListModule,
+		MatMenuModule,
+		MatNativeDateModule,
+		MatPaginatorModule,
+		MatProgressBarModule,
+		MatProgressSpinnerModule,
+		MatRadioModule,
+		MatRippleModule,
+		MatSelectModule,
+		MatSidenavModule,
+		MatSliderModule,
+		MatSlideToggleModule,
+		MatSnackBarModule,
+		MatSortModule,
+		MatTableModule,
+		MatTabsModule,
+		MatToolbarModule,
+		MatTooltipModule,
+		MatTreeModule,
+		OverlayModule,
+		PortalModule,
+		ScrollingModule,
+		CommonModule,
+		FormsModule,
+		ReactiveFormsModule,
+	],
 	exports: [
 		A11yModule,
 		ClipboardModule,
@@ -91,7 +150,10 @@ import { MyMatPaginatorIntl } from './my-mat-paginator-intl';
 		OverlayModule,
 		PortalModule,
 		ScrollingModule,
-	], 
+		InputElementComponent,
+		SelectElementComponent,
+		CheckElementComponent,
+	],
 	providers: [{ provide: MatPaginatorIntl, useClass: MyMatPaginatorIntl }]
 })
 export class SharedModule { }

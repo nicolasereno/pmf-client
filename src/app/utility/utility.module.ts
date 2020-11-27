@@ -7,7 +7,6 @@ import * as fromUtility from './store/utility.reducer';
 import { UtilityEffects } from './store/utility.effects';
 
 @NgModule({
-	declarations: [],
 	imports: [
 		CommonModule,
 		StoreModule.forFeature(fromUtility.utilityFeatureKey, fromUtility.reducer),

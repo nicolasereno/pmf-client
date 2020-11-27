@@ -27,11 +27,9 @@ export class GeoObjectDetailsComponent implements OnInit {
 
 	geoObjectForm: FormGroup = this.fb.group({
 		id: null,
-		code: [null, Validators.required],
-		description: [null, Validators.required],
-		version: [null, Validators.required],
-		copyable: null,
-		objectType: [null, Validators.required],
+		code: null,
+		description: Validators.required,
+		version: Validators.required,
 		masks: this.fb.array([])
 	});
 
@@ -47,8 +45,7 @@ export class GeoObjectDetailsComponent implements OnInit {
 		description: string,
 		version: string,
 		masks: { order: number, type: string, mask: string }[];
-	} = { id: null, code: null, description: null, version: null, masks: [] };
-
+	};
 
 	constructor(
 		private fb: FormBuilder,
@@ -60,17 +57,18 @@ export class GeoObjectDetailsComponent implements OnInit {
 		this.editMode = (this.id != null);
 		this.utilityStore.select(utilitySelectors.getMaskRelationTypes).pipe(
 			filter(d => d!= null), take(1)).subscribe(d => this.maskRelationTypes = d);
-		if (this.editMode)
-			this.geoObjectForm.disable();
-		if (this.editMode) {
+		
+		if (this.id) {
 			this.utilityStore.select(utilitySelectors.getGeoObjects).pipe(
 				filter(d => d != null),
-				take(1)).subscribe(d => {
-					let val: GeoObjectResponse = (d.filter(e => e['qgoId'] == this.id)[0]) as GeoObjectResponse;
-					this.data.id = val.qgoId;
-					this.data.code = val.qgoCode;
-					this.data.description = val.qgoDescription;
-					this.data.version = val.qgoVersion;
+				take(1), map(d => d.filter(e => e['qgoId'] == this.id)[0])).subscribe((val) => {
+					this.data = {
+						id: val.qgoId,
+						code: val.qgoCode,
+						description: val.qgoDescription,
+						version: val.qgoVersion,
+						masks: []
+					};
 					val.geoObjectMasks.forEach(m => {
 						(<FormArray>this.geoObjectForm.controls.masks).push(this.fb.group({ type: null, order: null, mask: null, }));
 						this.data.masks.push({ order: m.qqqMaskOrder, type: m.qrdInfoValue, mask: m.qmaMaskCode });

@@ -1,36 +1,40 @@
 <h1 *ngIf="editMode">Modifica Dati Maschera</h1>
 <h1 *ngIf="!editMode">Creazione nuova Maschera</h1>
 
+<form [formGroup]="maskAnagForm" novalidate>
+
 <mat-card>
-  <mat-card-content>
-	<form [formGroup]="maskAnagForm" novalidate>
-      <div class="row">
-        <div class="col" *ngIf="editMode">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Identificativo" formControlName="id" readonly>
-          </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Codice" formControlName="code">
-            <mat-error *ngIf="maskAnagForm.controls['code'].hasError('required')">
-              Codice &egrave; <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <mat-select matInput placeholder="Lista compensi" formControlName="paymentList">
-              <mat-option *ngFor="let pl of paymentLists" [value]="pl">{{pl.code}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-	</form>
-  	<mat-divider></mat-divider>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" type="button" (click)="onSubmit()">Salva</button>
-    </mat-card-actions>
-  </mat-card-content>      
+	<mat-card-content>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="maskAnagForm" name="id" label="Identificativo" type="number"></pmf-input-element>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="maskAnagForm" name="code" label="Codice"></pmf-input-element>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="maskAnagForm" name="description" label="Descrizione"></pmf-input-element>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="maskAnagForm" name="tisp" label="Tisp"></pmf-input-element>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-select-element [form]="maskAnagForm" name="paymentList" label="Lista compensi" [options]="paymentLists" view="code"></pmf-select-element>
+				</div>
+			</div>
+		<mat-divider></mat-divider>
+		<mat-card-actions>
+			<button mat-raised-button color="primary" type="button" (click)="onSubmit()">Salva</button>
+		</mat-card-actions>
+	</mat-card-content>
+</mat-card>
+
+</form>

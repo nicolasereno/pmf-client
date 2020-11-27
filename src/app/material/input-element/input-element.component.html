@@ -1,0 +1,4 @@
+<mat-form-field class="full-width" [formGroup]="form">
+	<input matInput [placeholder]="label" [formControlName]="name" [type]="type">
+	<mat-error *ngIf="form.controls[name].hasError('required')">Valore richiesto</mat-error>
+</mat-form-field>

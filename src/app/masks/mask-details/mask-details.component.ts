@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
-import { MaskResponse, PaymentList } from '@enel/pmf-be';
+import { MaskResponse, PaymentList, TechSite } from '@enel/pmf-be';
 import { filter, take } from 'rxjs/operators';
 
 @Component({
@@ -19,11 +19,18 @@ export class MaskDetailsComponent implements OnInit {
 	editMode = false;
 
 	paymentLists: PaymentList[];
+	techSites: TechSite[];
 
 	maskAnagForm: FormGroup = this.fb.group({
 		id: null,
-		code: [null, Validators.required],
+		code: null,
+		description: null,
+		tisp: null,
+		technicalMask: null,
+		version: null,
 		paymentList: null,
+		techSite: null,
+		questions: this.fb.array([]),
 	});
 
 	constructor(
@@ -31,11 +38,7 @@ export class MaskDetailsComponent implements OnInit {
 		private route: ActivatedRoute,
 		private utilityStore: Store<fromUtility.State>) { }
 
-	data: MaskResponse = {
-		id: null,
-		code: null,
-		paymentList: null,
-	}
+	data: MaskResponse;
 
 	ngOnInit(): void {
 		this.id = +this.route.snapshot.paramMap.get('id');

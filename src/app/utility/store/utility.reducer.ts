@@ -1,7 +1,6 @@
 import { UtilityActions, UtilityActionTypes } from './utility.actions';
 
-import { PaymentList, GeoObjectResponse, MaskResponse } from '@enel/pmf-be';
-import { MaskRelationType } from '@enel/pmf-mock-be';
+import { PaymentList, GeoObjectResponse, MaskResponse, RemapType } from '@enel/pmf-be';
 
 export const utilityFeatureKey = 'utility';
 
@@ -10,7 +9,7 @@ export interface State {
 		paymentLists: PaymentList[],
 		geoObjects: GeoObjectResponse[],
 		maskAnags: MaskResponse[],
-		maskRelationTypes: MaskRelationType[],
+		maskRelationTypes: RemapType[],
 	},
 	error: string,
 	loading: boolean,

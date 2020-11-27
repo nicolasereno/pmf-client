@@ -1,127 +1,79 @@
 <h1 *ngIf="editMode">Modifica Elemento di Rete</h1>
 <h1 *ngIf="!editMode">Creazione nuovo Elemento di Rete</h1>
 
-<mat-card>
-  <mat-card-content>
-	<form [formGroup]="geoObjectForm" novalidate>
-      <div class="row">
-        <div class="col" *ngIf="editMode">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Identificativo" formControlName="id" readonly>
-          </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Codice" formControlName="code">
-            <mat-error *ngIf="geoObjectForm.controls['code'].hasError('required')">
-              Codice &egrave; <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Descrizione" formControlName="description">
-            <mat-error *ngIf="geoObjectForm.controls['description'].hasError('required')">
-              Tipologia &egrave; <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Versione" formControlName="version">
-            <mat-error *ngIf="geoObjectForm.controls['version'].hasError('required')">
-              Versione &egrave; <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field class="full-width">
-            <mat-select placeholder="Tipologia" formControlName="objectType">
-              <mat-option *ngFor="let type of objectTypes" [value]="type">
-                {{ type }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="geoObjectForm.controls['objectType'].hasError('required')">
-              Tipologia &egrave; <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col">
-        	<div class="full-width">
-              <mat-checkbox matInput formControlName="copyable">Copiabile</mat-checkbox>
-        	</div>
-        </div>
-      </div>
-      <mat-divider></mat-divider>
-  	  <div formArrayName="masks">
-        <div *ngFor="let comp of maskControls(); let i=index">
-      	  <div class="row" [formGroupName]="i">
-      	    <div class="col">
-              <mat-form-field class="full-width">
-                <input matInput type="number" placeholder="Ordine" formControlName="order" readonly>
-              </mat-form-field>
-            </div>
-      	    <div class="col">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Tipologia" formControlName="type" readonly>
-              </mat-form-field>
-            </div>
-      	    <div class="col">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Maschera" formControlName="mask" readonly>
-              </mat-form-field>
-            </div>
-            <div class="col">
-    	      <mat-card-actions>
-      		    <button mat-raised-button color="accent" type="button" (click)="onRemoveMask(i)">Rimuovi</button>
-    	      </mat-card-actions>
-            </div>            
-          </div>
-        </div>
-	  </div>
-	</form>
-  	<mat-divider></mat-divider>
-  	<form [formGroup]="addMaskForm" novalidate (ngSubmit)="onAddMask()">
-	  <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput type="number" placeholder="Ordine" formControlName="order">
-          </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field class="full-width">
-		    <input formControlName="type" type="text" placeholder="Tipologia" matInput [matAutocomplete]="autoType">
-		    <mat-autocomplete autoActiveFirstOption #autoType="matAutocomplete">
-		      <mat-option *ngFor="let mrt of maskRelationTypes" [value]="mrt.infoValue">
-		        {{ mrt.infoValue }}: {{ mrt.infoParam }}
-		      </mat-option>
-		    </mat-autocomplete>
-          </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field class="full-width">
-		    <input formControlName="mask" type="text" placeholder="Maschera" matInput [matAutocomplete]="autoMask">
-		    <mat-autocomplete autoActiveFirstOption #autoMask="matAutocomplete">
-		      <mat-option *ngFor="let m of masksAutoComplete$ | async" [value]="m.code">
-		        {{ m.code }} - {{ m.description | titlecase}}
-		      </mat-option>
-		    </mat-autocomplete>
-          </mat-form-field>
-        </div>
-        <div class="col">
-    	  <mat-card-actions>
-      		<button mat-raised-button color="basic" type="submit" [disabled]="!addMaskForm.valid">Aggiungi</button>
-    	  </mat-card-actions>
-        </div>
-      </div>
-	</form>
-  	<mat-divider></mat-divider>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" type="button" (click)="onSubmit()">Salva</button>
-    </mat-card-actions>
-  </mat-card-content>
+<mat-card *ngIf="data">
+	<mat-card-content>
+		<form [formGroup]="geoObjectForm" novalidate>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="geoObjectForm" name="id" label="Identificativo" type="number"></pmf-input-element>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="geoObjectForm" name="code" label="Codice"></pmf-input-element>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="geoObjectForm" name="description" label="Descrizione"></pmf-input-element>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="geoObjectForm" name="version" label="Versione"></pmf-input-element>
+				</div>
+			</div>
+			
+			<mat-divider></mat-divider>
+
+			<div formArrayName="masks">
+				<div *ngFor="let comp of maskControls(); let i=index" class="row" [formGroupName]="i">
+					<div class="col" class="full-width">
+						<pmf-input-element [form]="comp" name="order" label="Ordine" type="number"></pmf-input-element>
+					</div>
+					<div class="col" class="full-width">
+						<pmf-input-element [form]="comp" name="type" label="Tipologia"></pmf-input-element>
+					</div>
+					<div class="col" class="full-width">
+						<pmf-input-element [form]="comp" name="mask" label="Maschera"></pmf-input-element>
+					</div>
+					<div class="col">
+						<button mat-raised-button color="accent" type="button" (click)="onRemoveMask(i)">Rimuovi</button>
+					</div>            
+				</div>            
+			</div>
+		</form>
+
+		<mat-divider></mat-divider>
+
+		<form [formGroup]="addMaskForm" novalidate (ngSubmit)="onAddMask()">
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="addMaskForm" name="order" label="Ordine" type="number"></pmf-input-element>
+				</div>
+				<div class="col" class="full-width">
+					<pmf-select-element [form]="addMaskForm" name="type" label="Tipologia" [options]="maskRelationTypes" view="infoValue" get="infoValue"></pmf-select-element>
+				</div>
+				<div class="col" class="full-width">
+					<mat-form-field class="full-width">
+						<input formControlName="mask" type="text" placeholder="Maschera" matInput [matAutocomplete]="autoMask">
+						<mat-autocomplete autoActiveFirstOption #autoMask="matAutocomplete">
+							<mat-option *ngFor="let m of masksAutoComplete$ | async" [value]="m.code">{{ m.code }} - {{ m.description | titlecase}}</mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col">
+					<button mat-raised-button color="basic" type="submit" [disabled]="!addMaskForm.valid">Aggiungi</button>
+				 </div>
+			</div>
+		</form>
+
+		<mat-divider></mat-divider>
+
+		<mat-card-actions>
+			<button mat-raised-button color="primary" type="button" (click)="onSubmit()">Salva</button>
+		</mat-card-actions>
+
+	</mat-card-content>
 </mat-card>
