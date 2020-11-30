@@ -30,7 +30,96 @@
 					<pmf-select-element [form]="maskAnagForm" name="paymentList" label="Lista compensi" [options]="paymentLists" view="code"></pmf-select-element>
 				</div>
 			</div>
-		<mat-divider></mat-divider>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-select-element [form]="maskAnagForm" name="techSite" label="Sito tecnico" [options]="techSites" view="code"></pmf-select-element>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="maskAnagForm" name="version" label="Versione"></pmf-input-element>
+				</div>
+			</div>
+	</mat-card-content>
+
+	<mat-accordion formArrayName="questions">
+			<mat-expansion-panel *ngFor="let questionForm of questionControls(); let i=index" class="row" [formGroupName]="i">
+				<mat-expansion-panel-header>
+					<mat-panel-title><strong>DOMANDA {{i+1}}</strong></mat-panel-title>
+				</mat-expansion-panel-header>
+				<div class="row">
+					<div class="col" class="full-width">
+						<pmf-input-element [form]="questionForm" name="id" label="Identificativo" type="number"></pmf-input-element>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col" class="full-width">
+						<pmf-input-element [form]="questionForm" name="code" label="Codice"></pmf-input-element>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col" class="full-width">
+						<pmf-input-element [form]="questionForm" name="description" label="Descrizione"></pmf-input-element>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col" class="full-width">
+						<pmf-input-element [form]="questionForm" name="visibilityCond" label="Condizione di visibilit&agrave;"></pmf-input-element>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col" class="full-width">
+						<pmf-input-element [form]="questionForm" name="visibilityFlag" label="Visibilit&agrave;"></pmf-input-element>
+					</div>
+				</div>				
+				<div class="row">
+					<div class="col" class="full-width">
+						<pmf-input-element [form]="questionForm" name="priority" label="Priorit&agrave;" type="number"></pmf-input-element>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col" class="full-width">
+						<pmf-input-element [form]="questionForm" name="note" label="Nota"></pmf-input-element>
+					</div>
+				</div>
+				
+				<mat-accordion formArrayName="answers">
+					<mat-expansion-panel *ngFor="let answerForm of answerControls(i); let j=index" class="row" [formGroupName]="j">
+						<mat-expansion-panel-header>
+							<mat-panel-title><strong>RISPOSTA {{j+1}}</strong></mat-panel-title>
+						</mat-expansion-panel-header>
+						<div class="row">
+							<div class="col" class="full-width">
+								<pmf-input-element [form]="answerForm" name="id" label="Identificativo" type="number"></pmf-input-element>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col" class="full-width">
+								<pmf-input-element [form]="answerForm" name="code" label="Codice"></pmf-input-element>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col" class="full-width">
+								<pmf-input-element [form]="answerForm" name="description" label="Descrizione"></pmf-input-element>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col" class="full-width">
+								<pmf-input-element [form]="answerForm" name="priority" label="Priorit&agrave;" type="number"></pmf-input-element>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col" class="full-width">
+								<pmf-input-element [form]="answerForm" name="note" label="Nota"></pmf-input-element>
+							</div>
+						</div>
+					</mat-expansion-panel>
+			</mat-accordion>
+				
+			</mat-expansion-panel>
+	</mat-accordion>
+
+	<mat-card-content>
 		<mat-card-actions>
 			<button mat-raised-button color="primary" type="button" (click)="onSubmit()">Salva</button>
 		</mat-card-actions>

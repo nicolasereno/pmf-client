@@ -5,13 +5,14 @@ import { GeoObjectListComponent } from './geo-object-list/geo-object-list.compon
 import { GeoObjectDetailsComponent } from './geo-object-details/geo-object-details.component';
 import { MaskListComponent } from './mask-list/mask-list.component';
 import { MaskDetailsComponent } from './mask-details/mask-details.component';
+import { MaskDetailsResolverService } from './mask-details/mask-details-resolver.service';
 
 const routes: Routes = [
 	{ path: 'geo-object-list', component: GeoObjectListComponent },
 	{ path: 'geo-object-details/edit/:id', component: GeoObjectDetailsComponent },
 	{ path: 'geo-object-details/new', component: GeoObjectDetailsComponent },
 	{ path: 'mask-list', component: MaskListComponent },
-	{ path: 'mask-details/:id', component: MaskDetailsComponent },
+	{ path: 'mask-details/:id', component: MaskDetailsComponent, resolve: { data: MaskDetailsResolverService } },
 ];
 
 @NgModule({

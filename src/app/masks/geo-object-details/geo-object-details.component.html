@@ -28,7 +28,7 @@
 			<mat-divider></mat-divider>
 
 			<div formArrayName="masks">
-				<div *ngFor="let comp of maskControls(); let i=index" class="row" [formGroupName]="i">
+				<div *ngFor="let comp of maskControls(); let i=index" class="row" class="full-width" [formGroupName]="i">
 					<div class="col" class="full-width">
 						<pmf-input-element [form]="comp" name="order" label="Ordine" type="number"></pmf-input-element>
 					</div>
@@ -40,7 +40,7 @@
 					</div>
 					<div class="col">
 						<button mat-raised-button color="accent" type="button" (click)="onRemoveMask(i)">Rimuovi</button>
-					</div>            
+					</div>
 				</div>            
 			</div>
 		</form>
