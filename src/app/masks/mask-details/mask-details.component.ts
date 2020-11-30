@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
-import { PaymentList, TechSite } from '@enel/pmf-be';
+import { PaymentList, TechSite, RemapType } from '@enel/pmf-be';
 import { filter, take } from 'rxjs/operators';
 import { MaskAnagComplete } from './mask-details-resolver.service';
 
@@ -21,13 +21,21 @@ export class MaskDetailsComponent implements OnInit {
 
 	paymentLists: PaymentList[];
 	techSites: TechSite[];
+	executors: RemapType[];
+	categories: RemapType[];
+	dataTypes: RemapType[];
+	measurementUnits: RemapType[];
+	questionTypes: RemapType[];
+
+	flags = [null, "Y", "N"];
+	flagsPlus = [null, "Y", "N", "X"];
 
 	maskAnagForm: FormGroup = this.fb.group({
 		id: null,
 		code: null,
 		description: null,
 		tisp: null,
-		technicalMask: null,
+		tecnicalMask: null,
 		version: null,
 		paymentList: null,
 		techSite: null,
@@ -46,16 +54,21 @@ export class MaskDetailsComponent implements OnInit {
 		this.editMode = (this.id != null);
 		this.data = this.route.snapshot.data['data'];
 
-		console.log(this.data);
-		this.data.questions.forEach((q) => this.addQuestion(q.answers.length));
+		console.debug(this.data);
 
-		this.utilityStore.select(utilitySelectors.getPaymentLists).pipe(
-			filter(d => d != null), take(1)).subscribe(d => {
-				this.paymentLists = d;
-				this.maskAnagForm.patchValue(this.data);
-			});
+		this.data.questions.forEach((q) => this.addQuestion(q.answers.length));
+		// Decodifiche
+		this.utilityStore.select(utilitySelectors.getTechSites).pipe(filter(d => d != null), take(1)).subscribe(d => this.techSites = d);
+		this.utilityStore.select(utilitySelectors.getPaymentLists).pipe(filter(d => d != null), take(1)).subscribe(d => this.paymentLists = d);
+		this.utilityStore.select(utilitySelectors.getCategories).pipe(filter(d => d != null), take(1)).subscribe(d => this.categories = d);
+		this.utilityStore.select(utilitySelectors.getDataTypes).pipe(filter(d => d != null), take(1)).subscribe(d => this.dataTypes = d);
+		this.utilityStore.select(utilitySelectors.getMeasurementUnits).pipe(filter(d => d != null), take(1)).subscribe(d => this.measurementUnits = d);
+		this.utilityStore.select(utilitySelectors.getQuestionTypes).pipe(filter(d => d != null), take(1)).subscribe(d => this.questionTypes = d);
+		this.utilityStore.select(utilitySelectors.getExecutors).pipe(filter(d => d != null), take(1)).subscribe(d => this.executors = d);
+
+		this.maskAnagForm.patchValue(this.data);
 	}
-	
+
 	questionControls() {
 		return (<FormArray>this.maskAnagForm.controls.questions).controls;
 	}
@@ -66,9 +79,41 @@ export class MaskDetailsComponent implements OnInit {
 
 	addQuestion(n: number) {
 		const answers = this.fb.array([]);
-		(<FormArray>this.maskAnagForm.controls.questions).push(this.fb.group({ id: null, code: null, description: null, visibilityCond: null, visibilityFlag: null, priority: null, note: null, answers: answers}));
-		for (let i = 0; i < n; i++) 
-			answers.push(this.fb.group({ id: null, code: null, description: null, priority: null, note: null}));
+		(<FormArray>this.maskAnagForm.controls.questions).push(this.fb.group({
+			id: null, 
+			code: null, 
+			description: null, 
+			priority: null, 
+			category: null, 
+			type: null, 
+			dataType: null, 
+			maxLength: null, 
+			measurementUnit: null, 
+			operationType: null, 
+			visibilityCond: null, 
+			visibilityFlag: null, 
+			requiredFlag: null, 
+			modFlag: null, 
+			copyFlag: null, 
+			note: null, 
+			answers: answers
+		}));
+		for (let i = 0; i < n; i++)
+			answers.push(this.fb.group({
+				id: null, 
+				code: null, 
+				description: null, 
+				priority: null, 
+				type: null, 
+				highLimit: null, 
+				lowLimit: null, 
+				category: null, 
+				citAnag: null, 
+				defaultAns: null, 
+				executor: null, 
+				visibilityCond: null, 
+				note: null,
+			}));
 	}
 
 	onSubmit() {

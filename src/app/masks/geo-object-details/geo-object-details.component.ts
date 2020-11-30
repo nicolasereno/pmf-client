@@ -61,12 +61,12 @@ export class GeoObjectDetailsComponent implements OnInit {
 		if (this.id) {
 			this.utilityStore.select(utilitySelectors.getGeoObjects).pipe(
 				filter(d => d != null),
-				take(1), map(d => d.filter(e => e['qgoId'] == this.id)[0])).subscribe((val) => {
+				take(1), map(d => d.filter(e => e['id'] == this.id)[0])).subscribe((val) => {
 					this.data = {
-						id: val.qgoId,
-						code: val.qgoCode,
-						description: val.qgoDescription,
-						version: val.qgoVersion,
+						id: val.id,
+						code: val.code,
+						description: val.description,
+						version: val.version,
 						masks: []
 					};
 					val.geoObjectMasks.forEach(m => {

@@ -25,3 +25,34 @@ export const getMaskRelationTypes = createSelector(
 	selectUtilityState,
 	state => state.cache.maskRelationTypes
 );
+
+export const getExecutors = createSelector(
+	selectUtilityState,
+	state => state.cache.executors
+);
+
+export const getCategories = createSelector(
+	selectUtilityState,
+	state => state.cache.categories
+);
+
+export const getDataTypes = createSelector(
+	selectUtilityState,
+	state => state.cache.dataTypes
+);
+
+export const getMeasurementUnits = createSelector(
+	selectUtilityState,
+	state => state.cache.measurementUnits
+);
+
+export const getQuestionTypes = createSelector(
+	selectUtilityState,
+	state => state.cache.questionTypes
+);
+
+export const getTechSites = createSelector(
+	selectUtilityState,
+	state => state.cache.techSites
+);
+

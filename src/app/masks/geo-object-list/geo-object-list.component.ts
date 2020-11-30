@@ -23,7 +23,7 @@ import * as utilitySelectors from '../../utility/store/utility.selectors';
 export class GeoObjectListComponent implements OnInit, AfterViewInit {
 
 	displayedColumns: string[] = [
-		'qgoCode',
+		'code',
 		'maskAnagCodeToolbox',
 		'maskAnagCodeSARC',
 		'maskAnagCodeED',
@@ -48,7 +48,7 @@ export class GeoObjectListComponent implements OnInit, AfterViewInit {
 			filter(d => d != null),
 			take(1)).subscribe((d) => this.dataSource.data = d);
 		this.loading$ = this.masksStore.select(masksSelectors.getLoading);
-		this.dataSource.filterPredicate = (data, filter) => data.qgoCode?.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0 || data.qgoDescription?.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0;
+		this.dataSource.filterPredicate = (data, filter) => data.code?.toLowerCase().indexOf(filter.toLowerCase()) >= 0 || data.description?.toLowerCase().indexOf(filter.toLowerCase()) >= 0;
 	}
 
 	ngAfterViewInit() {

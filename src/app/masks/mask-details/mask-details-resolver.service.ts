@@ -31,7 +31,7 @@ export class MaskDetailsResolverService implements Resolve<MaskAnagComplete> {
 		const id = +route.params['id'];
 		this.masksStore.dispatch(new masksActions.LoadQuestionsAnswers(id));
 		return forkJoin(
-			this.utilityStore.select(utilitySelectors.getMaskAnags).pipe(filter(m => m != null), take(1), map(mm => mm.filter(m => m.id)[0])),
+			this.utilityStore.select(utilitySelectors.getMaskAnags).pipe(filter(m => m != null), take(1), map(mm => mm.filter(m => m.id == id)[0])),
 			this.masksStore.select(masksSelectors.getQuestionsAnswers).pipe(filter(m => m != null), take(1)),
 		).pipe(
 			map(c => {

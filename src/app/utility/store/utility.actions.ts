@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { GeoObjectResponse, PaymentList, MaskResponse, TechSite } from '@enel/pmf-be';
-import { MaskRelationType } from '@enel/pmf-mock-be';
+import { GeoObjectResponse, PaymentList, MaskResponse, TechSite, RemapType } from '@enel/pmf-be';
 
 export enum UtilityActionTypes {
 	LoadCache = '[Utility] Load Payment Lists',
@@ -15,7 +14,7 @@ export class LoadCache implements Action {
 
 export class LoadCacheSuccess implements Action {
 	readonly type = UtilityActionTypes.LoadCacheSuccess;
-	constructor(public payload: { paymentList: PaymentList[], geoObjects: GeoObjectResponse[], maskAnags: MaskResponse[], maskRelationTypes: MaskRelationType[], techSites: TechSite[] }) { }
+	constructor(public payload: { paymentList: PaymentList[], geoObjects: GeoObjectResponse[], maskAnags: MaskResponse[], categories: RemapType[], dataTypes: RemapType[], executors: RemapType[], maskRelationTypes: RemapType[], measurementUnits: RemapType[], questionTypes: RemapType[], techSites: TechSite[] }) { }
 }
 
 export class LoadCacheFailure implements Action {

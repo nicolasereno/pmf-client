@@ -15,4 +15,13 @@ export class SelectElementComponent {
 	@Input() get?: string;
 	@Input() options: [];
 
+	compareObjects(o1: any, o2: any): boolean {
+		if (o1 == null || o2 == null)
+			return false;
+		if (this.get)
+			return o1[this.get] === o2[this.get];
+		else 
+			return o1['id'] === o2['id'];
+	}
+
 }

@@ -24,7 +24,15 @@ export class MasksEffects {
 		map((action: masksActions.LoadQuestionsAnswers) => action.payload),
 		mergeMap((id) =>
 			this.proxy.getQuestionAndAnswerOfMaskUsingGET(id).pipe(
-				map(c => new masksActions.LoadQuestionsAnswersSuccess(c['body'])),
+				map(c => {
+					const qq = [];
+					c['body'].forEach(e => {
+						let q = JSON.parse(JSON.stringify(e.question));
+						q['answers'] = e.answers;
+						qq.push(q);
+					});
+					return new masksActions.LoadQuestionsAnswersSuccess(qq);
+				}),
 				catchError(err => {
 					this.snackBar.open(this.errorLoadQuestionsAnswers, this.error, { duration: 5000, })
 					return of(new masksActions.LoadQuestionsAnswersFailure(err.statusText));
