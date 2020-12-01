@@ -17,6 +17,7 @@ tr.detail-row {
 
 .mat-header-cell {
 	cursor: default;
+	background-color: #eee6ff;
 }
 
 mat-cell {

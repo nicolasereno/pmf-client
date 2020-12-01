@@ -63,6 +63,7 @@ export class MaskListComponent implements OnInit, OnDestroy, AfterViewInit {
 		this.masksStore.select(masksSelectors.getQuestionsAnswers).pipe(
 			filter(d => d != null), takeWhile(() => this.active)).subscribe(
 				(d) => {
+					console.log('CARICAMENTO');
 					this.questionsAnswers = d;
 				});
 		this.utilityStore.select(utilitySelectors.getPaymentLists).pipe(
@@ -70,9 +71,9 @@ export class MaskListComponent implements OnInit, OnDestroy, AfterViewInit {
 				(d) => {
 					this.paymentLists = d.filter(d => d.code != null);
 					this.paymentList = this.paymentLists[0].id;
-					this.ricaricaDati();
 				});
 		this.dataSource.filterPredicate = (data, filter) => data.code.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0 || data.description.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0;
+		this.ricaricaDati();
 	}
 
 	ngAfterViewInit() {
@@ -98,6 +99,7 @@ export class MaskListComponent implements OnInit, OnDestroy, AfterViewInit {
 			return;
 		}
 		this.expandedElement = ma;
+		this.questionsAnswers = [];
 		this.masksStore.dispatch(new masksActions.LoadQuestionsAnswers(ma.id));
 	}
 }

@@ -19,6 +19,7 @@ tr.detail-row {
 
 .mat-header-cell {
 	cursor: default;
+	background-color: #d2c2fd;
 }
 
 .mat-cell {

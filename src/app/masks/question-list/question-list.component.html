@@ -1,4 +1,5 @@
 <div class="mat-elevation-z8">
+	<mat-progress-bar mode="indeterminate" *ngIf="loading$ | async"></mat-progress-bar>
 	<table mat-table [dataSource]="data" multiTemplateDataRows>
 
 		<ng-container matColumnDef="code">

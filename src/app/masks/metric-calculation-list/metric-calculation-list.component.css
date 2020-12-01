@@ -8,6 +8,7 @@ tr:last-child > td {
 
 .mat-header-cell {
 	cursor: default;
+	background-color: #b39afd;
 }
 
 .mat-cell {
