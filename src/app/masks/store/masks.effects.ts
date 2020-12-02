@@ -6,9 +6,10 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MaskStructureService } from '@enel/pmf-be';
-
 import * as masksActions from './masks.actions';
+import { BaseResponse, Question } from 'src/app/model/model';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class MasksEffects {
@@ -23,21 +24,14 @@ export class MasksEffects {
 		ofType(masksActions.MasksActionTypes.LoadQuestionsAnswers),
 		map((action: masksActions.LoadQuestionsAnswers) => action.payload),
 		mergeMap((id) =>
-			this.proxy.getQuestionAndAnswerOfMaskUsingGET(id).pipe(
-				map(c => {
-					const qq = [];
-					c['body'].forEach(e => {
-						let q = JSON.parse(JSON.stringify(e.question));
-						q['answers'] = e.answers;
-						qq.push(q);
-					});
-					return new masksActions.LoadQuestionsAnswersSuccess(qq);
-				}),
-				catchError(err => {
-					this.snackBar.open(this.errorLoadQuestionsAnswers, this.error, { duration: 5000, })
-					return of(new masksActions.LoadQuestionsAnswersFailure(err.statusText));
-				})
-			)
+			this.http.get<BaseResponse<Question[]>>(environment.baseUrl + 'maskStructure/getQuestionAndAnswerOfMask',
+				{ params: new HttpParams().append('maskId', '' + id) }).pipe(
+					map((c) => new masksActions.LoadQuestionsAnswersSuccess(c['body'] as Question[])),
+					catchError(err => {
+						this.snackBar.open(this.errorLoadQuestionsAnswers, this.error, { duration: 5000, })
+						return of(new masksActions.LoadQuestionsAnswersFailure(err.statusText));
+					})
+				)
 		)
 	)
 
@@ -49,23 +43,24 @@ export class MasksEffects {
 		ofType(masksActions.MasksActionTypes.LoadMetricCalculations),
 		map((action: masksActions.LoadMetricCalculations) => action.payload),
 		mergeMap((id) =>
-			this.proxy.getMetricCalculationsOfAnswerUsingGET(id).pipe(
-				map(c => {
-					if (c.length == 0)
-						this.snackBar.open(this.noMetricCalculationsFound, this.info, { duration: 2000, })
-					return new masksActions.LoadMetricCalculationsSuccess(c['body']);
-				}),
-				catchError(err => {
-					this.snackBar.open(this.errorLoadMetricCalculations, this.error, { duration: 5000, })
-					return of(new masksActions.LoadMetricCalculationsFailure(err.statusText));
-				})
-			)
+			this.http.get<BaseResponse<Question[]>>(environment.baseUrl + 'maskStructure/getMetricCalculationsOfAnswer',
+				{ params: new HttpParams().append('answerCode', '' + id) }).pipe(
+					map(c => {
+						if (c.body.length == 0)
+							this.snackBar.open(this.noMetricCalculationsFound, this.info, { duration: 2000, })
+						return new masksActions.LoadMetricCalculationsSuccess(c['body']);
+					}),
+					catchError(err => {
+						this.snackBar.open(this.errorLoadMetricCalculations, this.error, { duration: 5000, })
+						return of(new masksActions.LoadMetricCalculationsFailure(err.statusText));
+					})
+				)
 		)
 	)
 
 	constructor(
 		private actions$: Actions,
-		private proxy: MaskStructureService,
+		private http: HttpClient,
 		private snackBar: MatSnackBar,
 	) { }
 

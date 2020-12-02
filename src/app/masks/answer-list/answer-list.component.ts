@@ -1,14 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { trigger, animate, style, state, transition } from '@angular/animations';
 
-import { AnswerAnag } from '@enel/pmf-mock-be/model/answerAnag';
-
 import * as masksActions from '../store/masks.actions';
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
 import { Store } from '@ngrx/store';
-import { MetricCalculation } from '@enel/pmf-mock-be';
 import { Observable } from 'rxjs';
+import { MetricCalculation, Answer } from 'src/app/model/model';
 
 @Component({
 	selector: 'pmf-answer-list',
@@ -34,8 +32,8 @@ export class AnswerListComponent implements OnInit {
 	loading$: Observable<boolean>;
 
 	@Input()
-	data: AnswerAnag[];
-	expandedElement: AnswerAnag;
+	data: Answer[];
+	expandedElement: Answer;
 	metricCalculations: MetricCalculation[];
 
 	constructor(private masksStore: Store<fromMasks.State>) { }
@@ -46,7 +44,7 @@ export class AnswerListComponent implements OnInit {
 		this.loading$ = this.masksStore.select(masksSelectors.getLoading);
 	}
 
-	espandiRisposta(ma: AnswerAnag) {
+	espandiRisposta(ma: Answer) {
 		if (this.expandedElement === ma) {
 			this.expandedElement = null;
 			return;

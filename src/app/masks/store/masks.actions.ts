@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
+import { Question, MetricCalculation } from 'src/app/model/model';
 
-import { QuestionWithAnswerResponse, MetricCalculationsResponse } from '@enel/pmf-be';
 
 export enum MasksActionTypes {
 	LoadQuestionsAnswers = '[Masks] Load Questions Answers',
@@ -18,7 +18,7 @@ export class LoadQuestionsAnswers implements Action {
 
 export class LoadQuestionsAnswersSuccess implements Action {
 	readonly type = MasksActionTypes.LoadQuestionsAnswersSuccess;
-	constructor(public payload: QuestionWithAnswerResponse[]) { }
+	constructor(public payload: Question[]) { }
 }
 
 export class LoadQuestionsAnswersFailure implements Action {
@@ -33,7 +33,7 @@ export class LoadMetricCalculations implements Action {
 
 export class LoadMetricCalculationsSuccess implements Action {
 	readonly type = MasksActionTypes.LoadMetricCalculationsSuccess;
-	constructor(public payload: MetricCalculationsResponse[]) { }
+	constructor(public payload: MetricCalculation[]) { }
 }
 
 export class LoadMetricCalculationsFailure implements Action {

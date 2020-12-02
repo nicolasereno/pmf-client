@@ -1,12 +1,12 @@
 import { MasksActions, MasksActionTypes } from './masks.actions';
 
-import { QuestionWithAnswerResponse, MetricCalculationsResponse } from '@enel/pmf-be';
+import { Question, MetricCalculation } from 'src/app/model/model';
 
 export const masksFeatureKey = 'masks';
 
 export interface State {
-	questionsAnswers: QuestionWithAnswerResponse[],
-	metricCalculations: MetricCalculationsResponse[],
+	questionsAnswers: Question[],
+	metricCalculations: MetricCalculation[],
 	error: string,
 	loading: boolean,
 }

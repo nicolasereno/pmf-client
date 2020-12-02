@@ -1,14 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { QuestionWithAnswerResponse } from '@enel/pmf-be/model/questionWithAnswerResponse';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromUtility from '../../utility/store/utility.reducer';
-import * as utilitySelectors from '../../utility/store/utility.selectors';
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
-
+import { Question } from 'src/app/model/model';
 
 @Component({
 	selector: 'pmf-question-list',
@@ -34,8 +31,8 @@ export class QuestionListComponent implements OnInit {
 	];
 
 	@Input()
-	data: QuestionWithAnswerResponse[];
-	expandedElement: QuestionWithAnswerResponse;
+	data: Question[];
+	expandedElement: Question;
 	loading$: Observable<boolean>;
 
 	constructor(

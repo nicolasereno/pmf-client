@@ -1,14 +1,14 @@
 import { UtilityActions, UtilityActionTypes } from './utility.actions';
 
-import { PaymentList, GeoObjectResponse, MaskResponse, RemapType, TechSite } from '@enel/pmf-be';
+import { GeoObject, PaymentList, Mask, RemapType, TechSite } from 'src/app/model/model';
 
 export const utilityFeatureKey = 'utility';
 
 export interface State {
 	cache: {
 		paymentLists: PaymentList[],
-		geoObjects: GeoObjectResponse[],
-		maskAnags: MaskResponse[],
+		geoObjects: GeoObject[],
+		maskAnags: Mask[],
 		categories: RemapType[],
 		dataTypes: RemapType[],
 		executors: RemapType[],

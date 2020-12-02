@@ -18,7 +18,7 @@
 		<td mat-cell *matCellDef="let element" [title]="element.id">
 			<h4>
 				<a [routerLink]="['/masks', 'geo-object-details', 'edit', element.id]"><strong>{{element.code}}</strong></a>
-				{{element.qgoDescription}}
+				{{element.description}}
 			</h4>
 		</td>
 		</ng-container>
@@ -27,9 +27,9 @@
 		<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-toolbox">Cassetta
 			degli Attrezzi</th>
 		<td mat-cell *matCellDef="let element"><a
-			*ngFor="let ma of maschere(element.geoObjectMasks, 'TOOLBOX')"
-			[title]="ma.qqqMaskOrder + ': ' + ma.qmaMaskName"
-			[routerLink]="['/masks/mask-details/',  ma.qmaId]">{{ma.qmaMaskCode}}
+			*ngFor="let ma of maschere(element.relations, 'TOOLBOX')"
+			[title]="ma.order + ': ' + ma.mask.description"
+			[routerLink]="['/masks/mask-details/',  ma.mask.id]">{{ma.mask.code}}
 		</a></td>
 		</ng-container>
 
@@ -37,9 +37,9 @@
 		<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-adding">Sostituzione
 			/ Aggiunta / Rimozione Componente</th>
 		<td mat-cell *matCellDef="let element"><a
-			*ngFor="let ma of maschere(element.geoObjectMasks, 'ADDING')"
-			[title]="ma.qqqMaskOrder + ': ' + ma.qmaMaskName"
-			[routerLink]="['/masks/mask-details/',  ma.qmaId]">{{ma.qmaMaskCode}}
+			*ngFor="let ma of maschere(element.relations, 'ADDING')"
+			[title]="ma.order + ': ' + ma.mask.description"
+			[routerLink]="['/masks/mask-details/',  ma.mask.id]">{{ma.mask.code}}
 		</a></td>
 		</ng-container>
 
@@ -47,9 +47,9 @@
 		<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-time_ed">Attivit&agrave;
 			Personale ED</th>
 		<td mat-cell *matCellDef="let element"><a
-			*ngFor="let ma of maschere(element.geoObjectMasks, 'TIME_ED')"
-			[title]="ma.qqqMaskOrder + ': ' + ma.qmaMaskName"
-			[routerLink]="['/masks/mask-details/',  ma.qmaId]">{{ma.qmaMaskCode}}
+			*ngFor="let ma of maschere(element.relations, 'TIME_ED')"
+			[title]="ma.order + ': ' + ma.mask.description"
+			[routerLink]="['/masks/mask-details/',  ma.mask.id]">{{ma.mask.code}}
 		</a></td>
 		</ng-container>
 
@@ -57,9 +57,9 @@
 		<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-demolition">Demolizione
 			/ Dismissione</th>
 		<td mat-cell *matCellDef="let element"><a
-			*ngFor="let ma of maschere(element.geoObjectMasks, 'DEMOLITION')"
-			[title]="ma.qqqMaskOrder + ': ' + ma.qmaMaskName"
-			[routerLink]="['/masks/mask-details/',  ma.qmaId]">{{ma.qmaMaskCode}}
+			*ngFor="let ma of maschere(element.relations, 'DEMOLITION')"
+			[title]="ma.order + ': ' + ma.mask.description"
+			[routerLink]="['/masks/mask-details/',  ma.mask.id]">{{ma.mask.code}}
 		</a></td>
 		</ng-container>
 
@@ -67,9 +67,9 @@
 		<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-sicurezza">Sicurezza
 			Lavori</th>
 		<td mat-cell *matCellDef="let element"><a
-			*ngFor="let ma of maschere(element.geoObjectMasks, 'SICUREZZA')"
-			[title]="ma.qqqMaskOrder + ': ' + ma.qmaMaskName"
-			[routerLink]="['/masks/mask-details/',  ma.qmaId]">{{ma.qmaMaskCode}}
+			*ngFor="let ma of maschere(element.relations, 'SICUREZZA')"
+			[title]="ma.order + ': ' + ma.mask.description"
+			[routerLink]="['/masks/mask-details/',  ma.mask.id]">{{ma.mask.code}}
 		</a></td>
 		</ng-container>
 

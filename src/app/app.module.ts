@@ -13,9 +13,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { ApiModule as MockApiModule, Configuration as MockConfiguration } from '@enel/pmf-mock-be';
-import { ApiModule as ApiModule, Configuration } from '@enel/pmf-be';
-
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,8 +40,6 @@ import { UtilityModule } from './utility/utility.module';
 		MatSelectModule,
 		MatRadioModule,
 		MatCardModule,
-		MockApiModule.forRoot(() => new MockConfiguration()),
-		ApiModule.forRoot(() => new Configuration({ basePath: 'http://s6aawipalf00/ext/pmfController' })),
 		StoreModule.forRoot({}),
 		EffectsModule.forRoot([]),
 		StoreDevtoolsModule.instrument({

@@ -5,11 +5,11 @@ import { Observable, of } from 'rxjs';
 import { take, filter, startWith, debounceTime, switchMap, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import { GeoObjectResponse, MaskResponse } from '@enel/pmf-be';
-import { MaskRelationType } from '@enel/pmf-mock-be';
 
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
+
+import { Mask, RemapType } from 'src/app/model/model';
 
 @Component({
 	selector: 'pmf-geo-object-details',
@@ -22,8 +22,8 @@ export class GeoObjectDetailsComponent implements OnInit {
 	editMode = false;
 
 	objectTypes = ['E', 'P'];
-	maskRelationTypes: MaskRelationType[];
-	masksAutoComplete$: Observable<MaskResponse[]>;
+	maskRelationTypes: RemapType[];
+	masksAutoComplete$: Observable<Mask[]>;
 
 	geoObjectForm: FormGroup = this.fb.group({
 		id: null,
@@ -56,8 +56,8 @@ export class GeoObjectDetailsComponent implements OnInit {
 		this.id = this.route.snapshot.params['id'];
 		this.editMode = (this.id != null);
 		this.utilityStore.select(utilitySelectors.getMaskRelationTypes).pipe(
-			filter(d => d!= null), take(1)).subscribe(d => this.maskRelationTypes = d);
-		
+			filter(d => d != null), take(1)).subscribe(d => this.maskRelationTypes = d);
+
 		if (this.id) {
 			this.utilityStore.select(utilitySelectors.getGeoObjects).pipe(
 				filter(d => d != null),
@@ -69,9 +69,9 @@ export class GeoObjectDetailsComponent implements OnInit {
 						version: val.version,
 						masks: []
 					};
-					val.geoObjectMasks.forEach(m => {
+					val.relations.forEach(m => {
 						(<FormArray>this.geoObjectForm.controls.masks).push(this.fb.group({ type: null, order: null, mask: null, }));
-						this.data.masks.push({ order: m.qqqMaskOrder, type: m.qrdInfoValue, mask: m.qmaMaskCode });
+						this.data.masks.push({ order: m.order, type: m.relationType, mask: m.mask.code });
 					});
 					this.sortByProperty(this.data.masks, 'type', 'order');
 					this.geoObjectForm.patchValue(this.data);

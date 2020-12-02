@@ -7,13 +7,12 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { MaskResponse, QuestionWithAnswerResponse, PaymentList, } from '@enel/pmf-be';
-
 import * as masksActions from '../store/masks.actions';
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
+import { PaymentList, Mask, Question } from 'src/app/model/model';
 
 
 @Component({
@@ -45,12 +44,12 @@ export class MaskListComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	paymentLists: PaymentList[]
 
-	dataSource: MatTableDataSource<MaskResponse> = new MatTableDataSource([]);
+	dataSource: MatTableDataSource<Mask> = new MatTableDataSource([]);
 	paymentList: number;
 	filtro = '';
 
-	expandedElement: MaskResponse;
-	questionsAnswers: QuestionWithAnswerResponse[];
+	expandedElement: Mask;
+	questionsAnswers: Question[];
 
 	@ViewChild(MatSort) sort: MatSort;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
@@ -93,7 +92,7 @@ export class MaskListComponent implements OnInit, OnDestroy, AfterViewInit {
 		).subscribe((d) => this.dataSource.data = d);
 	}
 
-	espandiMaschera(ma: MaskResponse) {
+	espandiMaschera(ma: Mask) {
 		if (this.expandedElement === ma) {
 			this.expandedElement = null;
 			return;

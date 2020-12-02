@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { MaskResponse, QuestionWithAnswerResponse } from '@enel/pmf-be';
 import { Store } from '@ngrx/store';
 
 import * as fromUtility from '../../utility/store/utility.reducer';
@@ -11,16 +10,13 @@ import * as masksSelectors from './../store/masks.selectors';
 import { take, map, filter } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 import * as masksActions from './../store/masks.actions';
+import { Mask } from 'src/app/model/model';
 
-
-export interface MaskAnagComplete extends MaskResponse {
-	questions?: QuestionWithAnswerResponse[];
-}
 
 @Injectable({
 	providedIn: 'root'
 })
-export class MaskDetailsResolverService implements Resolve<MaskAnagComplete> {
+export class MaskDetailsResolverService implements Resolve<Mask> {
 
 	constructor(
 		private utilityStore: Store<fromUtility.State>,
@@ -35,7 +31,7 @@ export class MaskDetailsResolverService implements Resolve<MaskAnagComplete> {
 			this.masksStore.select(masksSelectors.getQuestionsAnswers).pipe(filter(m => m != null), take(1)),
 		).pipe(
 			map(c => {
-				const mq: MaskAnagComplete = JSON.parse(JSON.stringify(c[0]));
+				const mq: Mask = JSON.parse(JSON.stringify(c[0]));
 				mq['questions'] = c[1];
 				return mq;
 			}),

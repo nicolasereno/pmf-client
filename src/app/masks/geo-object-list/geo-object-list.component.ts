@@ -7,12 +7,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 
-import { GeoObjectResponse, GeoObjectMask } from '@enel/pmf-be';
-
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
+import { GeoObject, Relation } from 'src/app/model/model';
 
 
 @Component({
@@ -32,7 +31,7 @@ export class GeoObjectListComponent implements OnInit, AfterViewInit {
 	];
 
 	loading$: Observable<boolean>;
-	dataSource: MatTableDataSource<GeoObjectResponse> = new MatTableDataSource([]);
+	dataSource: MatTableDataSource<GeoObject> = new MatTableDataSource([]);
 	compenso = 'option1';
 	filtro = '';
 
@@ -60,7 +59,7 @@ export class GeoObjectListComponent implements OnInit, AfterViewInit {
 		this.dataSource.filter = this.filtro;
 	}
 
-	maschere(maskAnags: Array<GeoObjectMask>, tipo: string): Array<GeoObjectMask> {
-		return maskAnags.filter(ma => ma.qrdInfoValue == tipo);
+	maschere(maskAnags: Array<Relation>, tipo: string): Array<Relation> {
+		return maskAnags.filter(ma => ma.relationType == tipo);
 	}
 }

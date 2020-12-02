@@ -6,10 +6,12 @@ import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MaskStructureService, InfoUtilsService } from '@enel/pmf-be';
-
 import * as utilityActions from './utility.actions';
 import { UtilityActions } from './utility.actions';
+import { HttpClient } from '@angular/common/http';
+
+import { BaseResponse, GeoObject, Mask, RemapType, PaymentList } from 'src/app/model/model';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class UtilityEffects implements OnInitEffects {
@@ -28,21 +30,21 @@ export class UtilityEffects implements OnInitEffects {
 		map((action: utilityActions.LoadCache) => action),
 		mergeMap(() =>
 			forkJoin(
-				this.proxyMS.getPaymentListByIdsUsingGET(),
-				this.proxyMS.getAllGeoObjecsAndMasksUsingGET(),
-				this.proxyMS.getAllMasksUsingGET(),
-				this.proxyIU.getRemapDataUsingGET(),
+				this.http.get<BaseResponse<PaymentList[]>>(environment.baseUrl + 'maskStructure/getPaymentListByIds'),
+				this.http.get<BaseResponse<GeoObject[]>>(environment.baseUrl + 'maskStructure/getAllGeoObjecsAndMasks'),
+				this.http.get<BaseResponse<Mask[]>>(environment.baseUrl + 'maskStructure/getAllMasks'),
+				this.http.get<BaseResponse<{ (key: string): RemapType[] }>>(environment.baseUrl + 'infoUtils/getRemapData'),
 			).pipe(
 				map(c => new utilityActions.LoadCacheSuccess({
-					paymentList: c[0]['body'],
-					geoObjects: c[1]['body'],
-					maskAnags: c[2]['body'],
-					categories: c[3]['body']['categories'],
-					dataTypes: c[3]['body']['dataTypes'],
-					executors: c[3]['body']['executors'],
-					maskRelationTypes: c[3]['body']['maskRelationTypes'],
-					measurementUnits: c[3]['body']['measurementUnits'],
-					questionTypes: c[3]['body']['questionTypes'],
+					paymentList: c[0].body,
+					geoObjects: c[1].body,
+					maskAnags: c[2].body,
+					categories: c[3].body['categories'],
+					dataTypes: c[3].body['dataTypes'],
+					executors: c[3].body['executors'],
+					maskRelationTypes: c[3].body['maskRelationTypes'],
+					measurementUnits: c[3].body['measurementUnits'],
+					questionTypes: c[3].body['questionTypes'],
 					techSites: this.TECH_SITES,
 				})),
 				catchError(err => {
@@ -56,9 +58,8 @@ export class UtilityEffects implements OnInitEffects {
 	TECH_SITES = [{ "id": 19, "code": "<CFT>-CBT-PTP", "tip": null }, { "id": 20, "code": "<CFT>-CBT-TR", "tip": null }, { "id": 18, "code": "<CFT>-GBT-2G", "tip": null }, { "id": 7, "code": "<CFT>-LBT-AEN", "tip": null }, { "id": 8, "code": "<CFT>-LBT-CVA", "tip": null }, { "id": 9, "code": "<CFT>-LBT-CVI", "tip": null }, { "id": 11, "code": "<CFT>-PRE-QCGE", "tip": null }, { "id": 10, "code": "<CFT>-PRE-SI", "tip": null }, { "id": 3, "code": "DX001xxxxxx", "tip": null }, { "id": 14, "code": "DX001xxxxxx-NE", "tip": null }, { "id": 12, "code": "DX001xxxxxx-SB1", "tip": null }, { "id": 16, "code": "DX001xxxxxx-SB2", "tip": null }, { "id": 15, "code": "DX001xxxxxx-SB3", "tip": null }, { "id": 4, "code": "DX001xxxxxx-TF", "tip": null }, { "id": 13, "code": "DX001xxxxxx-TT", "tip": null }, { "id": 1, "code": "Dxxxxxxxx-AEN", "tip": null }, { "id": 2, "code": "Dxxxxxxxx-CVA", "tip": null }, { "id": 6, "code": "Dxxxxxxxx-CVI", "tip": null }, { "id": 22, "code": "Dxxxxxxxx-GMT-GEMT", "tip": null }, { "id": 5, "code": "DYxx2xxxxxx", "tip": null }, { "id": 17, "code": "DYxx610001-AP-UP", "tip": null }, { "id": 21, "code": "DYxx610001-C2", "tip": null }];
 
 	constructor(
+		private http: HttpClient,
 		private actions$: Actions<UtilityActions>,
-		private proxyMS: MaskStructureService,
-		private proxyIU: InfoUtilsService,
 		private snackBar: MatSnackBar
 	) { }
 

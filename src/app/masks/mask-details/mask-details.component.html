@@ -7,12 +7,12 @@
 	<mat-card-content>
 			<div class="row">
 				<div class="col" class="full-width">
-					<pmf-input-element [form]="maskAnagForm" name="id" label="Identificativo" type="number"></pmf-input-element>
+					<pmf-input-element [form]="maskAnagForm" name="id" label="Identificativo" type="number" readonly></pmf-input-element>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col" class="full-width">
-					<pmf-input-element [form]="maskAnagForm" name="code" label="Codice"></pmf-input-element>
+					<pmf-input-element [form]="maskAnagForm" name="code" label="Codice" readonly></pmf-input-element>
 				</div>
 			</div>
 			<div class="row">
@@ -54,12 +54,12 @@
 				</mat-expansion-panel-header>
 				<div class="row">
 					<div class="col" class="full-width">
-						<pmf-input-element [form]="questionForm" name="id" label="Identificativo" type="number"></pmf-input-element>
+						<pmf-input-element [form]="questionForm" name="id" label="Identificativo" type="number" readonly></pmf-input-element>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col" class="full-width">
-						<pmf-input-element [form]="questionForm" name="code" label="Codice"></pmf-input-element>
+						<pmf-input-element [form]="questionForm" name="code" label="Codice" readonly></pmf-input-element>
 					</div>
 				</div>
 				<div class="row">
@@ -95,11 +95,6 @@
 				<div class="row">
 					<div class="col" class="full-width">
 						<pmf-select-element [form]="questionForm" name="measurementUnit" label="Unit&agrave;" [options]="measurementUnits" view="infoValue"></pmf-select-element>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-input-element [form]="questionForm" name="operationType" label="Tipo di operazione"></pmf-input-element>
 					</div>
 				</div>
 				<div class="row">
@@ -140,12 +135,12 @@
 						</mat-expansion-panel-header>
 						<div class="row">
 							<div class="col" class="full-width">
-								<pmf-input-element [form]="answerForm" name="id" label="Identificativo" type="number"></pmf-input-element>
+								<pmf-input-element [form]="answerForm" name="id" label="Identificativo" type="number" readonly></pmf-input-element>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col" class="full-width">
-								<pmf-input-element [form]="answerForm" name="code" label="Codice"></pmf-input-element>
+								<pmf-input-element [form]="answerForm" name="code" label="Codice" readonly></pmf-input-element>
 							</div>
 						</div>
 						<div class="row">
