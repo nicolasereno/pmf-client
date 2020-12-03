@@ -4,77 +4,74 @@ import { createPatch, Operation } from 'rfc6902';
 
 import { Mask, _Mask, _Question, _Answer } from '../model/model';
 
-export interface Difference {
-	masks: _Mask[];
-	geoObjects: any[];
-	answerCodes: any[];
-}
-
-
 @Injectable({ providedIn: 'root' })
 export class DifferencesService {
 
-	createMaskDifference(o1: Mask, o2: Mask): Difference {
+	createMaskDifference(o1: Mask, o2: Mask): _Mask {
 		let patch = createPatch(o1, o2);
 		if (patch.length == 0)
 			return null;
-		let difference: Difference = {
-			masks: [],
-			geoObjects: [],
-			answerCodes: [],
-		};
-		difference.masks.push({ id: o1.id, code: o2.code, patch: JSON.stringify(patch) });
-		difference.masks[0].operationType = o2.id == null ? 'INS' : (o2.id < 0 ? 'DEL' : 'MOD');
+		const maskDifference: _Mask = { id: o1.id, code: o2.code, operationType: this.operationType(o2.id), patch: JSON.stringify(patch) };
+		this.modifiedMaskProperties(patch).forEach(p => maskDifference[p] = o2[p]);
 
 		const qq = this.modifiedQuestions(patch);
 		if (qq.length > 0) {
-			difference.masks[0].questions = [];
+			maskDifference.questions = [];
 			qq.forEach(q => {
-				const qm: _Question = { id: o2.questions[q].id, code: o2.questions[q].code };
-				qm.operationType = qm.id == null ? 'INS' : (qm.id < 0 ? 'DEL' : 'MOD');
-				const qmp = this.modifiedQuestionProperties(q, patch);
-				qmp.forEach(p => qm[p] = o2.questions[q][p]);
-				qm.id = o1.questions[q]['id']
+				const question = o2.questions[q];
+				const qm: _Question = { code: question.code, operationType: this.operationType(question.id) };
+				this.modifiedQuestionProperties(q, patch).forEach(p => qm[p] = question[p]);
+				qm.id = Math.abs(question.id);
 				const aa = this.modifiedQuestionAnswers(q, patch);
 				if (qm.operationType != 'DEL' && aa.length > 0) {
 					qm.answers = [];
 					aa.forEach(a => {
-						const am: _Answer = { id: o2.questions[q].answers[a].id, code: o2.questions[q].answers[a].code };
-						const amp = this.modifiedQuestionAnswerProperties(q, a, patch);
-						amp.forEach(p => am[p] = o2.questions[q].answers[a][p]);
+						const answer = question.answers[a];
+						const am: _Answer = { code: answer.code, operationType: this.operationType(answer.id) };
 						am.operationType = am.id == null ? 'INS' : (am.id < 0 ? 'DEL' : 'MOD');
-						am.id = o1.questions[q].answers[a]['id'];
+						this.modifiedQuestionAnswerProperties(q, a, patch).forEach(p => am[p] = answer[p]);
+						am.id = Math.abs(answer.id);
 						qm.answers.push(am);
 					});
 				}
-				difference.masks[0].questions.push(qm);
+				maskDifference.questions.push(qm);
 			});
 		}
-		console.debug(JSON.stringify(difference));
-		this.modifiedQuestions(patch);
-		return difference;
+		console.debug(JSON.stringify(maskDifference));
+		return maskDifference;
+	}
+
+	private operationType(id: number) {
+		return id == null ? 'INS' : (id < 0 ? 'DEL' : 'MOD');
+	}
+
+	private extractString(patch: Operation[], start: string, index: number, exclude?: string) {
+		return this.distinct(patch.map(e => e.path).filter(o => o.startsWith(start)).map(e => e.split('/')[index]).filter(e => exclude == null || e != exclude));
+	}
+
+	private extractNumber(patch: Operation[], start: string, index: number) {
+		return this.distinct(patch.map(e => e.path).filter(o => o.startsWith(start)).map(e => +e.split('/')[index]));
+	}
+
+	private modifiedMaskProperties(patch: Operation[]) {
+		return this.extractString(patch, '/', 1, 'questions');
 	}
 
 	private modifiedQuestions(patch: Operation[]) {
-		const questions = patch.map(e => e.path).filter(o => o.startsWith('/questions/')).map(e => +e.split('/')[2]);
-		return this.distinct(questions);
+		return this.extractNumber(patch, '/questions/', 2)
 	}
 
 	private modifiedQuestionProperties(question: number, patch: Operation[]) {
-		const attributes = patch.map(e => e.path).filter(o => o.startsWith('/questions/' + question + '/') && !o.startsWith('/questions/' + question + '/answers/')).map(e => e.split('/')[3]);
-		return this.distinct(attributes);
+		return this.extractString(patch, '/questions/' + question + '/', 3, 'answers');
 	}
 
 	private modifiedQuestionAnswers(question: number, patch: Operation[]) {
-		const answers = patch.map(e => e.path).filter(o => o.startsWith('/questions/' + question + '/answers/')).map(e => +e.split('/')[4]);
-		return this.distinct(answers);
+		return this.extractNumber(patch, '/questions/' + question + '/answers/', 4);
 	}
 
 	private modifiedQuestionAnswerProperties(question: number, answer: number, patch: Operation[]) {
-		const attributes = patch.map(e => e.path).filter(o => o.startsWith('/questions/' + question + '/answers/' + answer + '/')).map(e => e.split('/')[5]);
-		return this.distinct(attributes);
+		return this.extractString(patch, '/questions/' + question + '/answers/' + answer + '/', 5);
 	}
-
 
 	private distinct(arrayWithDuplicates: any[]) {
 		return arrayWithDuplicates.filter((n, i) => arrayWithDuplicates.indexOf(n) === i);

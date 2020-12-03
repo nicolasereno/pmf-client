@@ -109,16 +109,16 @@ export interface Answer {
 
 // Objects for Deltas
 export interface _Mask extends Mask {
-	operationType?: string
+	operationType?: 'INS' | 'MOD' | 'DEL'
 	patch?: string;
 	questions?: _Question[];
 }
 
 export interface _Question extends Question {
-	operationType?: string
+	operationType?: 'INS' | 'MOD' | 'DEL'
 	answers?: _Answer[];
 }
 
 export interface _Answer extends Answer {
-	operationType?: string
+	operationType?: 'INS' | 'MOD' | 'DEL'
 }
