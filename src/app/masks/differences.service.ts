@@ -11,34 +11,34 @@ export class DifferencesService {
 		let patch = createPatch(o1, o2);
 		if (patch.length == 0)
 			return null;
-		const maskDifference: _Mask = { id: o1.id, code: o2.code, operationType: this.operationType(o2.id), patch: JSON.stringify(patch) };
-		this.modifiedMaskProperties(patch).forEach(p => maskDifference[p] = o2[p]);
+		const _mask: _Mask = { id: o1.id, code: o2.code, operationType: this.operationType(o2.id), patch: JSON.stringify(patch) };
+		this.modifiedMaskProperties(patch).forEach(p => _mask[p] = o2[p]);
 
 		const qq = this.modifiedQuestions(patch);
 		if (qq.length > 0) {
-			maskDifference.questions = [];
+			_mask.questions = [];
 			qq.forEach(q => {
 				const question = o2.questions[q];
-				const qm: _Question = { code: question.code, operationType: this.operationType(question.id) };
-				this.modifiedQuestionProperties(q, patch).forEach(p => qm[p] = question[p]);
-				qm.id = Math.abs(question.id);
+				const _question: _Question = { code: question.code, operationType: this.operationType(question.id) };
+				this.modifiedQuestionProperties(q, patch).forEach(p => _question[p] = question[p]);
+				_question.id = Math.abs(question.id);
 				const aa = this.modifiedQuestionAnswers(q, patch);
-				if (qm.operationType != 'DEL' && aa.length > 0) {
-					qm.answers = [];
+				if (_question.operationType != 'DEL' && aa.length > 0) {
+					_question.answers = [];
 					aa.forEach(a => {
 						const answer = question.answers[a];
-						const am: _Answer = { code: answer.code, operationType: this.operationType(answer.id) };
-						am.operationType = am.id == null ? 'INS' : (am.id < 0 ? 'DEL' : 'MOD');
-						this.modifiedQuestionAnswerProperties(q, a, patch).forEach(p => am[p] = answer[p]);
-						am.id = Math.abs(answer.id);
-						qm.answers.push(am);
+						const _answer: _Answer = { code: answer.code, operationType: this.operationType(answer.id) };
+						_answer.operationType = _answer.id == null ? 'INS' : (_answer.id < 0 ? 'DEL' : 'MOD');
+						this.modifiedQuestionAnswerProperties(q, a, patch).forEach(p => _answer[p] = answer[p]);
+						_answer.id = Math.abs(answer.id);
+						_question.answers.push(_answer);
 					});
 				}
-				maskDifference.questions.push(qm);
+				_mask.questions.push(_question);
 			});
 		}
-		console.debug(JSON.stringify(maskDifference));
-		return maskDifference;
+		console.debug(JSON.stringify(_mask));
+		return _mask;
 	}
 
 	private operationType(id: number) {
