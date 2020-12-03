@@ -106,3 +106,19 @@ export interface Answer {
 	type?: string;
 	visibilityCond?: string;
 }
+
+// Objects for Deltas
+export interface _Mask extends Mask {
+	operationType?: string
+	patch?: string;
+	questions?: _Question[];
+}
+
+export interface _Question extends Question {
+	operationType?: string
+	answers?: _Answer[];
+}
+
+export interface _Answer extends Answer {
+	operationType?: string
+}

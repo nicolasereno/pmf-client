@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 
 import { createPatch, Operation } from 'rfc6902';
 
-import { Mask } from '../model/model';
+import { Mask, _Mask, _Question, _Answer } from '../model/model';
 
 export interface Difference {
-	masks: any;
-	geoObjects: any;
-	answerCodes: any;
+	masks: _Mask[];
+	geoObjects: any[];
+	answerCodes: any[];
 }
 
 
@@ -23,31 +23,31 @@ export class DifferencesService {
 			geoObjects: [],
 			answerCodes: [],
 		};
-		difference.masks.push({ 'id': o1.id, 'code': o2.code, patch: JSON.stringify(patch) });
-		difference.masks[0]['operationType'] = o2.id == null ? 'INS' : (o2.id < 0 ? 'DEL' : 'MOD');
+		difference.masks.push({ id: o1.id, code: o2.code, patch: JSON.stringify(patch) });
+		difference.masks[0].operationType = o2.id == null ? 'INS' : (o2.id < 0 ? 'DEL' : 'MOD');
 
 		const qq = this.modifiedQuestions(patch);
 		if (qq.length > 0) {
-			difference.masks[0]['questions'] = [];
+			difference.masks[0].questions = [];
 			qq.forEach(q => {
-				const qm = { id: o2.questions[q]['id'], code: o2.questions[q]['code'] };
-				qm['operationType'] = qm.id == null ? 'INS' : (qm.id < 0 ? 'DEL' : 'MOD');
+				const qm: _Question = { id: o2.questions[q].id, code: o2.questions[q].code };
+				qm.operationType = qm.id == null ? 'INS' : (qm.id < 0 ? 'DEL' : 'MOD');
 				const qmp = this.modifiedQuestionProperties(q, patch);
 				qmp.forEach(p => qm[p] = o2.questions[q][p]);
 				qm.id = o1.questions[q]['id']
 				const aa = this.modifiedQuestionAnswers(q, patch);
-				if (qm['operationType'] != 'DEL' && aa.length > 0) {
-					qm['answers'] = [];
+				if (qm.operationType != 'DEL' && aa.length > 0) {
+					qm.answers = [];
 					aa.forEach(a => {
-						const am = { id:  o2.questions[q].answers[a]['id'], code: o2.questions[q].answers[a]['code'] };
+						const am: _Answer = { id: o2.questions[q].answers[a].id, code: o2.questions[q].answers[a].code };
 						const amp = this.modifiedQuestionAnswerProperties(q, a, patch);
 						amp.forEach(p => am[p] = o2.questions[q].answers[a][p]);
-						am['operationType'] = am.id == null ? 'INS' : (am.id < 0 ? 'DEL' : 'MOD');
-						am.id =  o1.questions[q].answers[a]['id'];
-						qm['answers'].push(am);
+						am.operationType = am.id == null ? 'INS' : (am.id < 0 ? 'DEL' : 'MOD');
+						am.id = o1.questions[q].answers[a]['id'];
+						qm.answers.push(am);
 					});
 				}
-				difference.masks[0]['questions'].push(qm);
+				difference.masks[0].questions.push(qm);
 			});
 		}
 		console.debug(JSON.stringify(difference));
