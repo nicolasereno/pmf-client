@@ -5,8 +5,9 @@ import { createPatch, Operation } from 'rfc6902';
 import { Mask } from '../model/model';
 
 export interface Difference {
-	view: any;
-	patch: Operation[];
+	masks: any;
+	geoObjects: any;
+	answerCodes: any;
 }
 
 
@@ -18,35 +19,38 @@ export class DifferencesService {
 		if (patch.length == 0)
 			return null;
 		let difference: Difference = {
-			view: {},
-			patch: patch
+			masks: [],
+			geoObjects: [],
+			answerCodes: [],
 		};
-		difference.view['mask'] = { 'id': o2.id, 'code': o2.code };
-		difference.view['mask']['operationType'] = o2.id == null ? 'INS' : (o2.id < 0 ? 'DEL' : 'MOD');
-		console.debug('Patch: ' + JSON.stringify(patch));
+		difference.masks.push({ 'id': o1.id, 'code': o2.code, patch: JSON.stringify(patch) });
+		difference.masks[0]['operationType'] = o2.id == null ? 'INS' : (o2.id < 0 ? 'DEL' : 'MOD');
 
-		console.debug('MaskId: ' + o2.id);
 		const qq = this.modifiedQuestions(patch);
 		if (qq.length > 0) {
-			difference.view['questions'] = [];
+			difference.masks[0]['questions'] = [];
 			qq.forEach(q => {
-				console.debug('  QuestionId: ' + o2.questions[q]['id']);
 				const qm = { id: o2.questions[q]['id'], code: o2.questions[q]['code'] };
 				qm['operationType'] = qm.id == null ? 'INS' : (qm.id < 0 ? 'DEL' : 'MOD');
-				const aa = this.modifiedAnswers(q, patch);
+				const qmp = this.modifiedQuestionProperties(q, patch);
+				qmp.forEach(p => qm[p] = o2.questions[q][p]);
+				qm.id = o1.questions[q]['id']
+				const aa = this.modifiedQuestionAnswers(q, patch);
 				if (qm['operationType'] != 'DEL' && aa.length > 0) {
 					qm['answers'] = [];
 					aa.forEach(a => {
-						console.debug('    AnswerId: ' + o2.questions[q].answers[a].id)
-						const am = { id: o2.questions[q].answers[a]['id'], code: o2.questions[q].answers[a]['code'] };
+						const am = { id:  o2.questions[q].answers[a]['id'], code: o2.questions[q].answers[a]['code'] };
+						const amp = this.modifiedQuestionAnswerProperties(q, a, patch);
+						amp.forEach(p => am[p] = o2.questions[q].answers[a][p]);
 						am['operationType'] = am.id == null ? 'INS' : (am.id < 0 ? 'DEL' : 'MOD');
+						am.id =  o1.questions[q].answers[a]['id'];
 						qm['answers'].push(am);
 					});
 				}
-				difference.view['questions'].push(qm);
+				difference.masks[0]['questions'].push(qm);
 			});
 		}
-		console.log(JSON.stringify(difference.view));
+		console.debug(JSON.stringify(difference));
 		this.modifiedQuestions(patch);
 		return difference;
 	}
@@ -56,12 +60,23 @@ export class DifferencesService {
 		return this.distinct(questions);
 	}
 
-	private modifiedAnswers(question: number, patch: Operation[]) {
+	private modifiedQuestionProperties(question: number, patch: Operation[]) {
+		const attributes = patch.map(e => e.path).filter(o => o.startsWith('/questions/' + question + '/') && !o.startsWith('/questions/' + question + '/answers/')).map(e => e.split('/')[3]);
+		return this.distinct(attributes);
+	}
+
+	private modifiedQuestionAnswers(question: number, patch: Operation[]) {
 		const answers = patch.map(e => e.path).filter(o => o.startsWith('/questions/' + question + '/answers/')).map(e => +e.split('/')[4]);
 		return this.distinct(answers);
 	}
 
-	private distinct(arrayWithDuplicates: number[]) {
+	private modifiedQuestionAnswerProperties(question: number, answer: number, patch: Operation[]) {
+		const attributes = patch.map(e => e.path).filter(o => o.startsWith('/questions/' + question + '/answers/' + answer + '/')).map(e => e.split('/')[5]);
+		return this.distinct(attributes);
+	}
+
+
+	private distinct(arrayWithDuplicates: any[]) {
 		return arrayWithDuplicates.filter((n, i) => arrayWithDuplicates.indexOf(n) === i);
 	}
 }

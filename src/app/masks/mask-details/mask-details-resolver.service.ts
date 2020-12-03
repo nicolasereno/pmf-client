@@ -32,7 +32,7 @@ export class MaskDetailsResolverService implements Resolve<Mask> {
 		).pipe(
 			map(c => {
 				const mq: Mask = JSON.parse(JSON.stringify(c[0]));
-				mq['questions'] = c[1];
+				mq['questions'] = JSON.parse(JSON.stringify(c[1]));
 				return mq;
 			}),
 		)

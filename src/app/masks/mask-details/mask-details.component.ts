@@ -33,15 +33,7 @@ export class MaskDetailsComponent implements OnInit {
 	flagsPlus = [null, "Y", "N", "X"];
 
 	maskAnagForm: FormGroup = this.fb.group({
-		id: null,
-		code: null,
-		description: null,
-		tisp: null,
-		tecnicalMask: null,
-		version: null,
-		paymentList: null,
-		techSite: null,
-		questions: this.fb.array([]),
+		id: null, code: null, description: null, tisp: null, tecnicalMask: null, version: null, paymentList: null, techSite: null, questions: this.fb.array([]),
 	});
 
 	constructor(
@@ -56,7 +48,10 @@ export class MaskDetailsComponent implements OnInit {
 		this.id = +this.route.snapshot.paramMap.get('id');
 		this.editMode = (this.id != null);
 		this.data = this.route.snapshot.data['data'];
-		this.data.questions.forEach((q) => this.addQuestion(q.answers.length));
+		this.data.questions.forEach((q) => {
+			this.addQuestion();
+			q.answers.forEach((a) => this.addAnswer(this.questionControls().length - 1));
+		});
 		// Decodifiche
 		this.utilityStore.select(utilitySelectors.getTechSites).pipe(filter(d => d != null), take(1)).subscribe(d => this.techSites = d);
 		this.utilityStore.select(utilitySelectors.getPaymentLists).pipe(filter(d => d != null), take(1)).subscribe(d => this.paymentLists = d);
@@ -66,7 +61,6 @@ export class MaskDetailsComponent implements OnInit {
 		this.utilityStore.select(utilitySelectors.getQuestionTypes).pipe(filter(d => d != null), take(1)).subscribe(d => this.questionTypes = d);
 		this.utilityStore.select(utilitySelectors.getExecutors).pipe(filter(d => d != null), take(1)).subscribe(d => this.executors = d);
 
-		console.log(JSON.stringify(this.data));
 		this.maskAnagForm.setValue(this.data);
 	}
 
@@ -75,53 +69,57 @@ export class MaskDetailsComponent implements OnInit {
 	}
 
 	answerControls(i: number) {
-		return (<FormArray>(<FormGroup>(<FormArray>this.maskAnagForm.controls.questions).controls[i]).controls.answers).controls;
+		return (<FormArray>(<FormGroup>this.questionControls()[i]).controls.answers).controls;
 	}
 
-	addQuestion(n: number) {
+	questionFormGroup(i: number) {
+		return (<FormGroup>this.questionControls()[i]);
+	}
+
+	answerFormGroup(i: number, j: number) {
+		return (<FormGroup>this.answerControls(i)[j]);
+	}
+
+	addQuestion() {
 		const answers = this.fb.array([]);
 		(<FormArray>this.maskAnagForm.controls.questions).push(this.fb.group({
-			id: null,
-			code: null,
-			description: null,
-			priority: null,
-			category: null,
-			type: null,
-			dataType: null,
-			maxLength: null,
-			measurementUnit: null,
-			visibilityCond: null,
-			visibilityFlag: null,
-			requiredFlag: null,
-			modFlag: null,
-			copyFlag: null,
-			note: null,
-			answers: answers
+			id: null, code: null, description: null, priority: null, category: null, type: null, dataType: null, maxLength: null, measurementUnit: null, visibilityCond: null, visibilityFlag: null, requiredFlag: null, modFlag: null, copyFlag: null, note: null, answers: answers
 		}));
-		for (let i = 0; i < n; i++)
-			this.addAnswer(answers);
+		if ((<FormArray>this.maskAnagForm.controls.questions).length > this.data.questions.length)
+			this.data.questions.push({ answers: [] });
 	}
 
-	addAnswer(answers: FormArray) {
-		answers.push(this.fb.group({
-				id: null,
-				code: null,
-				description: null,
-				priority: null,
-				type: null,
-				highLimit: null,
-				lowLimit: null,
-				category: null,
-				citAnag: null,
-				defaultAns: null,
-				executor: null,
-				visibilityCond: null,
-				note: null,
-			}));
+	addAnswer(i: number) {
+		(<FormArray>(<FormGroup>this.questionControls()[i]).controls.answers).push(this.fb.group({
+			id: null, code: null, description: null, priority: null, type: null, highLimit: null, lowLimit: null, category: null, citAnag: null, defaultAns: null, executor: null, visibilityCond: null, note: null,
+		}));
+		if ((<FormArray>(<FormGroup>this.questionControls()[i]).controls.answers).length > this.data.questions[i].answers.length)
+			this.data.questions[i].answers.push({});
+	}
+
+	removeQuestion(i: number, e?: MouseEvent) {
+		if (e)
+			e.stopPropagation();
+		if (this.questionFormGroup(i).controls['id'].value == null) {
+			// non presente in db: lo elimino
+			this.questionControls().splice(i, 1);
+			this.data.questions.splice(i, 1);
+		} else
+			this.questionFormGroup(i).controls['id'].setValue(-1 * this.questionFormGroup(i).controls['id'].value);
+	}
+
+	removeAnswer(i: number, j: number, e?: MouseEvent) {
+		if (e)
+			e.stopPropagation();
+		if (this.answerFormGroup(i, j).controls['id'].value == null) {
+			// non presente in db: lo elimino
+			this.answerControls(i).splice(j, 1);
+			this.data.questions[i].answers.splice(j, 1);
+		} else
+			this.answerFormGroup(i, j).controls['id'].setValue(-1 * this.answerFormGroup(i, j).controls['id'].value);
 	}
 
 	onSubmit() {
 		const difference = this.diff.createMaskDifference(this.data, this.maskAnagForm.value);
-		console.log('DIFFERENCE: ' + JSON.stringify(difference));
 	}
 }

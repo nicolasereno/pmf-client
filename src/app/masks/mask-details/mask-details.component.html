@@ -5,11 +5,7 @@
 
 <mat-card>
 	<mat-card-content>
-			<div class="row">
-				<div class="col" class="full-width">
-					<pmf-input-element [form]="maskAnagForm" name="id" label="Identificativo" type="number" readonly></pmf-input-element>
-				</div>
-			</div>
+			<input type="hidden" name="id"> 
 			<div class="row">
 				<div class="col" class="full-width">
 					<pmf-input-element [form]="maskAnagForm" name="code" label="Codice" readonly></pmf-input-element>
@@ -47,167 +43,169 @@
 			</div>
 	</mat-card-content>
 
-	<mat-accordion formArrayName="questions">
-			<mat-expansion-panel *ngFor="let questionForm of questionControls(); let i=index" class="row" [formGroupName]="i">
-				<mat-expansion-panel-header>
-					<mat-panel-title><strong>DOMANDA: {{data.questions[i].code}}</strong></mat-panel-title>
-				</mat-expansion-panel-header>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-input-element [form]="questionForm" name="id" label="Identificativo" type="number" readonly></pmf-input-element>
-					</div>
+	<mat-accordion>
+		<div *ngFor="let questionForm of questionControls(); let i=index" formArrayName="questions">
+		<mat-expansion-panel *ngIf="questionFormGroup(i).controls['id']?.value >= 0" class="row" [formGroupName]="i">
+			<mat-expansion-panel-header>
+				<mat-panel-title><strong>DOMANDA: {{questionFormGroup(i).controls['code']?.value}}</strong></mat-panel-title>			
+				<mat-icon class="delete-button" (click)="removeQuestion(i, $event)">remove_circle</mat-icon>
+			</mat-expansion-panel-header>
+			<input type="hidden" name="id"> 
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="questionForm" name="code" label="Codice" readonly></pmf-input-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-input-element [form]="questionForm" name="code" label="Codice" readonly></pmf-input-element>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="questionForm" name="description" label="Descrizione"></pmf-input-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-input-element [form]="questionForm" name="description" label="Descrizione"></pmf-input-element>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="questionForm" name="priority" label="Priorit&agrave;" type="number"></pmf-input-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-input-element [form]="questionForm" name="priority" label="Priorit&agrave;" type="number"></pmf-input-element>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-select-element [form]="questionForm" name="category" label="Categoria" [options]="categories" view="infoValue"></pmf-select-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-select-element [form]="questionForm" name="category" label="Categoria" [options]="categories" view="infoValue"></pmf-select-element>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-select-element [form]="questionForm" name="type" label="Tipo" [options]="questionTypes" view="infoValue"></pmf-select-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-select-element [form]="questionForm" name="type" label="Tipo" [options]="questionTypes" view="infoValue"></pmf-select-element>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-select-element [form]="questionForm" name="dataType" label="Tipo di dato" [options]="dataTypes" view="infoValue"></pmf-select-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-select-element [form]="questionForm" name="dataType" label="Tipo di dato" [options]="dataTypes" view="infoValue"></pmf-select-element>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="questionForm" name="maxLength" label="Lunghezza massima" type="number"></pmf-input-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-input-element [form]="questionForm" name="maxLength" label="Lunghezza massima" type="number"></pmf-input-element>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-select-element [form]="questionForm" name="measurementUnit" label="Unit&agrave;" [options]="measurementUnits" view="infoValue"></pmf-select-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-select-element [form]="questionForm" name="measurementUnit" label="Unit&agrave;" [options]="measurementUnits" view="infoValue"></pmf-select-element>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="questionForm" name="visibilityCond" label="Condizione di visibilit&agrave;"></pmf-input-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-input-element [form]="questionForm" name="visibilityCond" label="Condizione di visibilit&agrave;"></pmf-input-element>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-select-element [form]="questionForm" name="visibilityFlag" label="Visibilit&agrave;" [options]="flags"></pmf-select-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-select-element [form]="questionForm" name="visibilityFlag" label="Visibilit&agrave;" [options]="flags"></pmf-select-element>
-					</div>
-				</div>	
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-select-element [form]="questionForm" name="requiredFlag" label="Richiesto" [options]="flags"></pmf-select-element>
-					</div>
+			</div>	
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-select-element [form]="questionForm" name="requiredFlag" label="Richiesto" [options]="flags"></pmf-select-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-select-element [form]="questionForm" name="modFlag" label="modFlag" [options]="flags"></pmf-select-element>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-select-element [form]="questionForm" name="modFlag" label="modFlag" [options]="flags"></pmf-select-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-select-element [form]="questionForm" name="copyFlag" label="Copia" [options]="flags"></pmf-select-element>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-select-element [form]="questionForm" name="copyFlag" label="Copia" [options]="flags"></pmf-select-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-input-element [form]="questionForm" name="note" label="Nota"></pmf-input-element>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="questionForm" name="note" label="Nota"></pmf-input-element>
 				</div>
-				
-				<mat-accordion formArrayName="answers">
-					<mat-expansion-panel *ngFor="let answerForm of answerControls(i); let j=index" class="row" [formGroupName]="j">
-						<mat-expansion-panel-header>
-							<mat-panel-title><strong>RISPOSTA: {{data.questions[i].answers[j].code}}</strong></mat-panel-title>
-						</mat-expansion-panel-header>
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-input-element [form]="answerForm" name="id" label="Identificativo" type="number" readonly></pmf-input-element>
-							</div>
+			</div>
+			<mat-accordion>
+				<div *ngFor="let answerForm of answerControls(i); let j=index" formArrayName="answers">
+				<mat-expansion-panel *ngIf="answerFormGroup(i, j).controls['id']?.value >= 0" class="row" [formGroupName]="j">
+					<mat-expansion-panel-header>
+						<mat-panel-title><strong>RISPOSTA: {{answerFormGroup(i, j).controls['code']?.value}}</strong></mat-panel-title>
+						<mat-icon class="delete-button" (click)="removeAnswer(i, j, $event)">remove_circle</mat-icon>
+					</mat-expansion-panel-header>
+					<input type="hidden" name="id"> 
+					<div class="row">
+						<div class="col" class="full-width">
+							<pmf-input-element [form]="answerForm" name="code" label="Codice" readonly></pmf-input-element>
 						</div>
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-input-element [form]="answerForm" name="code" label="Codice" readonly></pmf-input-element>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col" class="full-width">
+							<pmf-input-element [form]="answerForm" name="description" label="Descrizione"></pmf-input-element>
 						</div>
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-input-element [form]="answerForm" name="description" label="Descrizione"></pmf-input-element>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col" class="full-width">
+							<pmf-select-element [form]="answerForm" name="defaultAns" label="Risposta default" [options]="flagsPlus"></pmf-select-element>
 						</div>
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-select-element [form]="answerForm" name="defaultAns" label="Risposta default" [options]="flagsPlus"></pmf-select-element>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col" class="full-width">
+							<pmf-input-element [form]="answerForm" name="priority" label="Priorit&agrave;" type="number"></pmf-input-element>
 						</div>
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-input-element [form]="answerForm" name="priority" label="Priorit&agrave;" type="number"></pmf-input-element>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col" class="full-width">
+							<pmf-input-element [form]="answerForm" name="type" label="Tipo"></pmf-input-element>
 						</div>
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-input-element [form]="answerForm" name="type" label="Tipo"></pmf-input-element>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col" class="full-width">
+							<pmf-input-element [form]="answerForm" name="visibilityCond" label="Condizione di visibilit&agrave;"></pmf-input-element>
 						</div>
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-input-element [form]="answerForm" name="visibilityCond" label="Condizione di visibilit&agrave;"></pmf-input-element>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col" class="full-width">
+							<pmf-select-element [form]="answerForm" name="category" label="Categoria" [options]="categories" view="infoValue"></pmf-select-element>
 						</div>
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-select-element [form]="answerForm" name="category" label="Categoria" [options]="categories" view="infoValue"></pmf-select-element>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col" class="full-width">
+							<pmf-select-element [form]="answerForm" name="executor" label="Esecutore" [options]="executors" view="infoValue"></pmf-select-element>
 						</div>
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-select-element [form]="answerForm" name="executor" label="Esecutore" [options]="executors" view="infoValue"></pmf-select-element>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col" class="full-width">
+							<pmf-input-element [form]="answerForm" name="citAnag" label="Cit" type="number"></pmf-input-element>
 						</div>
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-input-element [form]="answerForm" name="citAnag" label="Cit" type="number"></pmf-input-element>
-							</div>
-						</div>
+					</div>
 
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-input-element [form]="answerForm" name="lowLimit" label="Limite inferiore" type="number"></pmf-input-element>
-							</div>
+					<div class="row">
+						<div class="col" class="full-width">
+							<pmf-input-element [form]="answerForm" name="lowLimit" label="Limite inferiore" type="number"></pmf-input-element>
 						</div>
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-input-element [form]="answerForm" name="highLimit" label="Limite superiore" type="number"></pmf-input-element>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col" class="full-width">
+							<pmf-input-element [form]="answerForm" name="highLimit" label="Limite superiore" type="number"></pmf-input-element>
 						</div>
-						
-						<div class="row">
-							<div class="col" class="full-width">
-								<pmf-input-element [form]="answerForm" name="note" label="Nota"></pmf-input-element>
-							</div>
+					</div>
+					
+					<div class="row">
+						<div class="col" class="full-width">
+							<pmf-input-element [form]="answerForm" name="note" label="Nota"></pmf-input-element>
 						</div>
-					</mat-expansion-panel>
+					</div>
+				</mat-expansion-panel>
+				</div>
 			</mat-accordion>
-				
-			</mat-expansion-panel>
+			<mat-card-content>
+				<mat-card-actions>
+					<button mat-raised-button color="primary" type="button" (click)="addAnswer(i)">Aggiungi Risposta</button>
+				</mat-card-actions>
+			</mat-card-content>
+		</mat-expansion-panel>
+		</div>
 	</mat-accordion>
 
 	<mat-card-content>
 		<mat-card-actions>
+			<button mat-raised-button color="primary" type="button" (click)="addQuestion()">Aggiungi Domanda</button>
 			<button mat-raised-button color="primary" type="button" (click)="onSubmit()">Salva</button>
 		</mat-card-actions>
 	</mat-card-content>
