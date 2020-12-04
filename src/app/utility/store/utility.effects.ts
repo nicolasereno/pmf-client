@@ -37,8 +37,10 @@ export class UtilityEffects implements OnInitEffects {
 				this.http.get<BaseResponse<{ (key: string): TechSite[] }>>(environment.baseUrl + 'infoUtils/getTechSites'),
 			).pipe(
 				map(c => {
-					// FIXME temporanea...
+					// FIX dati temporanea...
+					c[1].body.forEach(g => g.relations.forEach(r => { r.mask = { id: r.mask.id, description: r.mask.description, code: r.mask.code } }));
 					c[2].body.forEach(m => { delete m['patch']; delete m['operationType']; });
+					// END FIX dati
 					return new utilityActions.LoadCacheSuccess({
 						paymentList: c[0].body,
 						geoObjects: c[1].body,
