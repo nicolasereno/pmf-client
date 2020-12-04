@@ -10,6 +10,7 @@ a {
 	color: black;
 	margin-right: 5px;
 	display: block;
+	text-decoration: underline;
 }
 
 tr.detail-row {

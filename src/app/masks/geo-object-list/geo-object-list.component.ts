@@ -23,11 +23,11 @@ export class GeoObjectListComponent implements OnInit, AfterViewInit {
 
 	displayedColumns: string[] = [
 		'code',
-		'maskAnagCodeToolbox',
 		'maskAnagCodeSARC',
-		'maskAnagCodeED',
 		'maskAnagCodeREM',
 		'maskAnagCodeSEC',
+		'maskAnagCodeED',
+		'maskAnagCodeToolbox',
 	];
 
 	loading$: Observable<boolean>;
