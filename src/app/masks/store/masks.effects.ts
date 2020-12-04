@@ -26,7 +26,12 @@ export class MasksEffects {
 		mergeMap((id) =>
 			this.http.get<BaseResponse<Question[]>>(environment.baseUrl + 'maskStructure/getQuestionAndAnswerOfMask',
 				{ params: new HttpParams().append('maskId', '' + id) }).pipe(
-					map((c) => new masksActions.LoadQuestionsAnswersSuccess(c['body'] as Question[])),
+					map((c) => {
+						// FIXME temporanea...
+						const mm = c.body;
+						mm.forEach(q => {delete q['operationType'];delete q['patch'];q.answers.forEach(a => {delete a['operationType'];delete a['patch'];});});							
+						return new masksActions.LoadQuestionsAnswersSuccess(mm);
+					}),
 					catchError(err => {
 						this.snackBar.open(this.errorLoadQuestionsAnswers, this.error, { duration: 5000, })
 						return of(new masksActions.LoadQuestionsAnswersFailure(err.statusText));

@@ -1,18 +1,21 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Router } from '@angular/router';
 import { filter, take, takeWhile, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 
 import * as masksActions from '../store/masks.actions';
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
-import { PaymentList, Mask, Question } from 'src/app/model/model';
+import { PaymentList, Mask, Question, MetricCalculation } from 'src/app/model/model';
+import { MetricCalculationsDialogComponent } from '../metric-calculation-list/metric-calculations-dialog.component';
 
 
 @Component({
@@ -30,7 +33,7 @@ import { PaymentList, Mask, Question } from 'src/app/model/model';
 export class MaskListComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	active = true;
-	ngOnDestroy(): void {
+	ngOnDestroy() {
 		this.active = false;
 	}
 
@@ -56,13 +59,14 @@ export class MaskListComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	constructor(
 		private utilityStore: Store<fromUtility.State>,
-		private masksStore: Store<fromMasks.State>) { }
+		private masksStore: Store<fromMasks.State>,
+		private dialog: MatDialog,
+		private router: Router) { }
 
 	ngOnInit(): void {
 		this.masksStore.select(masksSelectors.getQuestionsAnswers).pipe(
 			filter(d => d != null), takeWhile(() => this.active)).subscribe(
 				(d) => {
-					console.log('CARICAMENTO');
 					this.questionsAnswers = d;
 				});
 		this.utilityStore.select(utilitySelectors.getPaymentLists).pipe(
@@ -72,7 +76,24 @@ export class MaskListComponent implements OnInit, OnDestroy, AfterViewInit {
 					this.paymentList = this.paymentLists[0].id;
 				});
 		this.dataSource.filterPredicate = (data, filter) => data.code.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0 || data.description.toLowerCase().indexOf(filter.toLocaleLowerCase()) >= 0;
+		this.masksStore.select(masksSelectors.getMetricCalculations).pipe(
+			filter(d => d != null && d.length > 0), takeWhile(() => this.active)).subscribe(
+				(d) => {
+					this.openDialog(d);
+				});
 		this.ricaricaDati();
+	}
+
+	onModifyMask(id: number, e: MouseEvent) {
+		e.stopPropagation();
+		this.router.navigate(['/masks', 'mask-details', id + '']);
+	}
+
+	openDialog(data: MetricCalculation[]): void {
+		this.dialog.open(MetricCalculationsDialogComponent, {
+			width: '80vw',
+			data: data,
+		});
 	}
 
 	ngAfterViewInit() {

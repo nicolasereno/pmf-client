@@ -29,3 +29,7 @@ tr.detail-row {
 	cursor: pointer;
 }
 
+.edit-mask {
+	vertical-align: middle;
+	margin-left: 10px;
+}

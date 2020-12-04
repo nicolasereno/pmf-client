@@ -1,5 +1,5 @@
 table {
-	width: 100%;	
+	width: 100%;
 }
 
 a {
@@ -24,4 +24,9 @@ tr.detail-row {
 
 .mat-cell {
 	cursor: pointer;
+}
+
+.link-prestazioni {
+	vertical-align: middle;
+	margin-left: 10px;
 }

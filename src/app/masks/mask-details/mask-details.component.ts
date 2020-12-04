@@ -1,14 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { filter, take, takeWhile } from 'rxjs/operators';
 
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
-import { filter, take } from 'rxjs/operators';
+import * as fromMasks from '../store/masks.reducer';
+import * as masksActions from '../store/masks.actions';
+import * as maskSelectors from '../store/masks.selectors';
 
-import { Mask, PaymentList, TechSite, RemapType } from 'src/app/model/model';
+import { Mask, PaymentList, TechSite, RemapType, MetricCalculation } from 'src/app/model/model';
 import { DifferencesService } from '../differences.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MetricCalculationsDialogComponent } from '../metric-calculation-list/metric-calculations-dialog.component';
 
 
 @Component({
@@ -16,7 +21,12 @@ import { DifferencesService } from '../differences.service';
 	templateUrl: './mask-details.component.html',
 	styleUrls: ['./mask-details.component.css']
 })
-export class MaskDetailsComponent implements OnInit {
+export class MaskDetailsComponent implements OnInit, OnDestroy {
+
+	active = true;
+	ngOnDestroy() {
+		this.active = false;
+	}
 
 	id: number;
 	editMode = false;
@@ -40,7 +50,9 @@ export class MaskDetailsComponent implements OnInit {
 		private fb: FormBuilder,
 		private route: ActivatedRoute,
 		private utilityStore: Store<fromUtility.State>,
-		private diff: DifferencesService) { }
+		private masksStore: Store<fromMasks.State>,
+		private diff: DifferencesService,
+		private dialog: MatDialog) { }
 
 	data: Mask;
 
@@ -61,7 +73,21 @@ export class MaskDetailsComponent implements OnInit {
 		this.utilityStore.select(utilitySelectors.getQuestionTypes).pipe(filter(d => d != null), take(1)).subscribe(d => this.questionTypes = d);
 		this.utilityStore.select(utilitySelectors.getExecutors).pipe(filter(d => d != null), take(1)).subscribe(d => this.executors = d);
 
+		this.masksStore.select(maskSelectors.getMetricCalculations).pipe(filter(d => d != null && d.length > 0), takeWhile(() => this.active)).subscribe(d => this.openDialog(d));
+
 		this.maskAnagForm.setValue(this.data);
+	}
+
+	showMetricCalculations(answerCode: string, e: MouseEvent) {
+		e.stopPropagation();
+		this.masksStore.dispatch(new masksActions.LoadMetricCalculations(answerCode));
+	}
+
+	openDialog(data: MetricCalculation[]): void {
+		this.dialog.open(MetricCalculationsDialogComponent, {
+			width: '80vw',
+			data: data,
+		});
 	}
 
 	questionControls() {

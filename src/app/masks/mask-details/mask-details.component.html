@@ -126,7 +126,8 @@
 				<mat-expansion-panel *ngIf="answerFormGroup(i, j).controls['id']?.value >= 0" class="row" [formGroupName]="j">
 					<mat-expansion-panel-header>
 						<mat-panel-title><strong>RISPOSTA: {{answerFormGroup(i, j).controls['code']?.value}}</strong></mat-panel-title>
-						<mat-icon class="delete-button" (click)="removeAnswer(i, j, $event)">remove_circle</mat-icon>
+						<mat-icon class="delete-button" (click)="showMetricCalculations(answerFormGroup(i, j).controls['code'].value, $event)" title="Visualizza la lista delle presazioni">view_list</mat-icon>
+						<mat-icon class="delete-button" (click)="removeAnswer(i, j, $event)" title="Elimina questa risposta">remove_circle</mat-icon>
 					</mat-expansion-panel-header>
 					<input type="hidden" name="id"> 
 					<div class="row">

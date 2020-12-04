@@ -18,6 +18,7 @@ import { MetricCalculationListComponent } from './metric-calculation-list/metric
 import { FixMaskCodePipe } from './fix-mask-code.pipe';
 
 import * as fromMasks from './store/masks.reducer';
+import { MetricCalculationsDialogComponent } from './metric-calculation-list/metric-calculations-dialog.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import * as fromMasks from './store/masks.reducer';
 		AnswerListComponent,
 		MetricCalculationListComponent,
 		FixMaskCodePipe,
+		MetricCalculationsDialogComponent,
 	],
 	imports: [
 		CommonModule,
@@ -39,6 +41,9 @@ import * as fromMasks from './store/masks.reducer';
 		SharedModule,
 		StoreModule.forFeature(fromMasks.masksFeatureKey, fromMasks.reducer),
 		EffectsModule.forFeature([MasksEffects])
-	]
+	],
+	entryComponents: [
+		MetricCalculationsDialogComponent
+	],
 })
 export class MasksModule { }
