@@ -1,8 +1,9 @@
 table {
 	width: 100%;
+	background-color: #eee6ff;
 }
 
-tr:last-child > td {
+tr:last-child>td {
 	border-bottom: none;
 }
 
@@ -17,7 +18,6 @@ tr.detail-row {
 
 .mat-header-cell {
 	cursor: default;
-	background-color: #eee6ff;
 }
 
 mat-cell {

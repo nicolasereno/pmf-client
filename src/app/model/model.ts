@@ -37,7 +37,7 @@ export interface ProvisionCode {
 }
 
 export interface Relation {
-    mask?: Mask;
+    mask?: MaskRef;
     order?: number;
     relationType?: string;
 }
@@ -60,10 +60,13 @@ export interface RemapType {
 	infoValue?: string;
 }
 
-export interface Mask {
+export interface MaskRef {
 	code?: string;
 	description?: string;
 	id?: number;
+}
+
+export interface Mask extends MaskRef {
 	paymentList?: PaymentList;
 	techSite?: TechSite;
 	tecnicalMask?: string;

@@ -45,7 +45,7 @@
 
 	<mat-accordion>
 		<div *ngFor="let questionForm of questionControls(); let i=index" formArrayName="questions">
-		<mat-expansion-panel *ngIf="questionFormGroup(i).controls['id']?.value >= 0" class="row" [formGroupName]="i">
+		<mat-expansion-panel *ngIf="questionFormGroup(i).controls['id']?.value >= 0" class="row" [formGroupName]="i" class="question">
 			<mat-expansion-panel-header>
 				<mat-panel-title><strong>DOMANDA: {{questionFormGroup(i).controls['code']?.value}}</strong></mat-panel-title>			
 				<mat-icon class="delete-button" (click)="removeQuestion(i, $event)">remove_circle</mat-icon>
@@ -123,7 +123,7 @@
 			</div>
 			<mat-accordion>
 				<div *ngFor="let answerForm of answerControls(i); let j=index" formArrayName="answers">
-				<mat-expansion-panel *ngIf="answerFormGroup(i, j).controls['id']?.value >= 0" class="row" [formGroupName]="j">
+				<mat-expansion-panel *ngIf="answerFormGroup(i, j).controls['id']?.value >= 0" class="row" [formGroupName]="j" class="answer">
 					<mat-expansion-panel-header>
 						<mat-panel-title><strong>RISPOSTA: {{answerFormGroup(i, j).controls['code']?.value}}</strong></mat-panel-title>
 						<mat-icon class="delete-button" (click)="showMetricCalculations(answerFormGroup(i, j).controls['code'].value, $event)" title="Visualizza la lista delle presazioni">view_list</mat-icon>

@@ -5,3 +5,11 @@
 .delete-button {
 	padding-right: 20px;
 }
+
+.question {
+	background-color: #eee6ff;
+}
+
+.answer {
+	background-color: #d2c2fd;
+}
