@@ -20,14 +20,12 @@ import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from './material/shared.module';
 import { UtilityModule } from './utility/utility.module';
-import { TestFormComponent } from './test-form/test-form.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		NavComponent,
 		HomeComponent,
-		TestFormComponent,
 	],
 	imports: [
 		BrowserModule,
