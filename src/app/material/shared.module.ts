@@ -49,12 +49,14 @@ import { CommonModule } from '@angular/common';
 import { SelectElementComponent } from './select-element/select-element.component';
 import { CheckElementComponent } from './check-element/check-element.component';
 import { InputElementComponent } from './input-element/input-element.component';
+import { AutocompleteElementComponent } from './autocomplete-element/autocomplete-element.component';
 
 @NgModule({
 	declarations: [
 		InputElementComponent,
 		SelectElementComponent,
 		CheckElementComponent,
+		AutocompleteElementComponent,
 	],
 	imports: [
 		A11yModule,
@@ -153,6 +155,7 @@ import { InputElementComponent } from './input-element/input-element.component';
 		InputElementComponent,
 		SelectElementComponent,
 		CheckElementComponent,
+		AutocompleteElementComponent
 	],
 	providers: [{ provide: MatPaginatorIntl, useClass: MyMatPaginatorIntl }]
 })

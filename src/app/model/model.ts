@@ -37,9 +37,10 @@ export interface ProvisionCode {
 }
 
 export interface Relation {
-    mask?: MaskRef;
-    order?: number;
+    id?: number;
+	order?: number;
     relationType?: string;
+    mask?: MaskRef;
 }
 
 export interface TechSite {

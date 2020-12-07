@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { take, filter, startWith, debounceTime, switchMap, map } from 'rxjs/operators';
+import { take, filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
 
-import { Mask, RemapType } from 'src/app/model/model';
+import { GeoObject, RemapType, MaskRef } from 'src/app/model/model';
 
 @Component({
 	selector: 'pmf-geo-object-details',
@@ -23,29 +22,17 @@ export class GeoObjectDetailsComponent implements OnInit {
 
 	objectTypes = ['E', 'P'];
 	maskRelationTypes: RemapType[];
-	masksAutoComplete$: Observable<Mask[]>;
+	maskRefs: MaskRef[];
 
 	geoObjectForm: FormGroup = this.fb.group({
 		id: null,
 		code: null,
 		description: Validators.required,
 		version: Validators.required,
-		masks: this.fb.array([])
+		relations: this.fb.array([])
 	});
 
-	addMaskForm: FormGroup = this.fb.group({
-		type: null,
-		order: [null, Validators.required],
-		mask: [null, Validators.required],
-	});
-
-	data: {
-		id: number,
-		code: string,
-		description: string,
-		version: string,
-		masks: { order: number, type: string, mask: string }[];
-	};
+	data: GeoObject;
 
 	constructor(
 		private fb: FormBuilder,
@@ -57,81 +44,56 @@ export class GeoObjectDetailsComponent implements OnInit {
 		this.editMode = (this.id != null);
 		this.utilityStore.select(utilitySelectors.getMaskRelationTypes).pipe(
 			filter(d => d != null), take(1)).subscribe(d => this.maskRelationTypes = d);
+		this.utilityStore.select(utilitySelectors.getMaskAnags).pipe(filter(d => d != null),
+			take(1), map(d => d.map(e => <MaskRef>{ id: e.id, code: e.code, description: e.description })))
+			.subscribe(d => this.maskRefs = d);
 
 		if (this.id) {
 			this.utilityStore.select(utilitySelectors.getGeoObjects).pipe(
 				filter(d => d != null),
 				take(1), map(d => d.filter(e => e['id'] == this.id)[0])).subscribe((val) => {
-					this.data = {
-						id: val.id,
-						code: val.code,
-						description: val.description,
-						version: val.version,
-						masks: []
-					};
-					val.relations.forEach(m => {
-						(<FormArray>this.geoObjectForm.controls.masks).push(this.fb.group({ type: null, order: null, mask: null, }));
-						this.data.masks.push({ order: m.order, type: m.relationType, mask: m.mask.code });
-					});
-					this.sortByProperty(this.data.masks, 'type', 'order');
+					this.data = JSON.parse(JSON.stringify(val));
+					console.log(this.data);
+					this.data.relations.forEach((q) => { this.addRelation(); });
 					this.geoObjectForm.patchValue(this.data);
 				})
 		}
-		this.setupMaskAutoComplete();
-	}
-
-	setupMaskAutoComplete() {
-		this.masksAutoComplete$ = this.addMaskForm.controls['mask'].valueChanges.pipe(
-			startWith(''), debounceTime(300),
-			// use switch map so as to cancel previous subscribed events, before creating new once
-			switchMap(value => {
-				// Logica di lookup asincrono
-				if (value != null && value !== '')
-					return this.utilityStore.select(utilitySelectors.getMaskAnags).pipe(
-						filter(d => d != null), take(1),
-						map(d => d.filter(m => value != null && m.code.toUpperCase().indexOf(value?.toUpperCase()) >= 0)));
-				else
-					return of(null);
-			})
-		);
 	}
 
 	onRemoveMask(i: number) {
 		(<FormArray>this.geoObjectForm.controls.masks).removeAt(i);
-		this.data.masks.slice(i, i);
+		this.data.relations.slice(i, i);
 	}
 
-	maskControls(): AbstractControl[] {
-		return (<FormArray>this.geoObjectForm.controls.masks).controls;
+	relationsControls(): AbstractControl[] {
+		return (<FormArray>this.geoObjectForm.controls.relations).controls;
 	}
 
-	onAddMask() {
-		(<FormArray>this.geoObjectForm.controls.masks).push(this.fb.group({ type: null, order: null, mask: null, }));
-		this.data.masks.push(this.addMaskForm.value);
-		this.addMaskForm.reset();
-		this.addMaskForm.clearValidators();
-		this.sortByProperty(this.data.masks, 'type', 'order');
-		this.geoObjectForm.patchValue(this.data);
-		console.log(JSON.stringify(this.data.masks));
+	relationsFormGroup(i: number) {
+		return (<FormGroup>this.relationsControls()[i]);
+	}
+
+	addRelation() {
+		(<FormArray>this.geoObjectForm.controls.relations).push(this.fb.group({
+			id: null, order: null, relationType: null, mask: null
+		}));
+		if ((<FormArray>this.geoObjectForm.controls.relations).length > this.data.relations.length)
+			this.data.relations.push({});
+	}
+
+	removeRelation(i: number, e?: MouseEvent) {
+		if (e)
+			e.stopPropagation();
+		if (this.relationsFormGroup(i).controls['id'].value == null) {
+			// non presente in db: lo elimino
+			this.relationsControls().splice(i, 1);
+			this.data.relations.splice(i, 1);
+		} else
+			this.relationsFormGroup(i).controls['id'].setValue(-1 * this.relationsFormGroup(i).controls['id'].value);
 	}
 
 	onSubmit() {
-		this.geoObjectForm.enable();
 		console.log(JSON.stringify(this.geoObjectForm.value));
-		this.geoObjectForm.disable();
 	}
 
-	sortByProperty<T>(array: T[], prop1: keyof T, prop2: keyof T): void {
-		array.sort((a, b) => {
-			if (a[prop1] < b[prop1])
-				return -1;
-			if (a[prop1] > b[prop1])
-				return 1;
-			if (a[prop2] < b[prop2])
-				return -1;
-			if (a[prop2] > b[prop2])
-				return 1;
-			return 0;
-		});
-	}
 }
