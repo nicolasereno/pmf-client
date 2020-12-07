@@ -25,7 +25,7 @@
 
 	<mat-accordion>
 		<div *ngFor="let comp of relationsControls(); let i=index" formArrayName="relations">
-		<mat-expansion-panel class="row" [formGroupName]="i" class="relation">
+		<mat-expansion-panel *ngIf="relationsFormGroup(i).controls['id']?.value >= 0" class="row" [formGroupName]="i" class="relation">
 			<mat-expansion-panel-header>
 				<mat-panel-title><strong>{{relationsFormGroup(i).controls['order']?.value}} - {{relationsFormGroup(i).controls['relationType']?.value}}: {{relationsFormGroup(i).controls['mask']?.value?.description}}</strong></mat-panel-title>			
 				<mat-icon class="delete-button" (click)="removeRelation(i, $event)">remove_circle</mat-icon>

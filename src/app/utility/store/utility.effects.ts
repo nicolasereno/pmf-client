@@ -38,7 +38,7 @@ export class UtilityEffects implements OnInitEffects {
 			).pipe(
 				map(c => {
 					// FIX dati temporanea...
-					c[1].body.forEach(g => g.relations.forEach(r => { r.mask = { id: r.mask.id, description: r.mask.description, code: r.mask.code } }));
+					c[1].body.forEach(g => g.relations.forEach(r => { r.id = 1, r.mask = { id: r.mask.id, description: r.mask.description, code: r.mask.code } }));
 					c[2].body.forEach(m => { delete m['patch']; delete m['operationType']; });
 					// END FIX dati
 					return new utilityActions.LoadCacheSuccess({

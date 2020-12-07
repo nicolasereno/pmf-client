@@ -1,6 +1,6 @@
 <mat-form-field class="full-width" [formGroup]="form">
 	<input type="text" [placeholder]="label" matInput [formControlName]="name" [matAutocomplete]="auto">
 	<mat-autocomplete #auto="matAutocomplete" [displayWith]="display">
-		<mat-option *ngFor="let o of filteredOptions$ | async" [value]="get?o[get]:o">{{view?o[view]:o}}</mat-option>
+		<mat-option *ngFor="let o of filteredOptions$ | async" [value]="get?o[get]:o">{{ view ? o[view] : o }}</mat-option>
 	</mat-autocomplete>
 </mat-form-field>

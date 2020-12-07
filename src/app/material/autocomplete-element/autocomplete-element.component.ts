@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs';
-import {map, startWith, tap} from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
 	selector: 'pmf-autocomplete-element',
@@ -34,9 +34,16 @@ export class AutocompleteElementComponent implements OnInit {
 		return this.options.filter(option => option[this.view].toLowerCase().indexOf(filterValue) >= 0);
 	}
 
-//FIXME: Non prende correttamente il view
+	//FIXME: Non prende correttamente il view
 	display(data: any): string {
 		return data && data['description'] ? data['description'] : '';
-//		return data && data[this.view] ? data[this.view] : '';
+		//		return data && data[this.view] ? data[this.view] : '';
 	}
+}
+
+export function inOptions(options: any[]): ValidatorFn {
+	return (control: AbstractControl): { [key: string]: any } | null => {
+		let value = control.value;
+		return (options.filter(e => options.indexOf(value) >= 0).length == 0) ? { invalidValue: 'Selezionare un elemento della lista' } : null;
+	};
 }

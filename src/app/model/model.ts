@@ -126,3 +126,13 @@ export interface _Question extends Question {
 export interface _Answer extends Answer {
 	operationType?: 'INS' | 'MOD' | 'DEL'
 }
+
+export interface _GeoObject extends GeoObject {
+	operationType?: 'INS' | 'MOD' | 'DEL'
+	patch?: string;
+	relations?: _Relation[];
+}
+
+export interface _Relation extends Relation {
+	operationType?: 'INS' | 'MOD' | 'DEL'
+}

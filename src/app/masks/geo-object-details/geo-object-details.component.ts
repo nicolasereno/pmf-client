@@ -4,11 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { take, filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
 
 import { GeoObject, RemapType, MaskRef } from 'src/app/model/model';
+
+import { inOptions } from '../../material/autocomplete-element/autocomplete-element.component'
+import { DifferencesService } from '../differences.service';
 
 @Component({
 	selector: 'pmf-geo-object-details',
@@ -37,6 +39,7 @@ export class GeoObjectDetailsComponent implements OnInit {
 	constructor(
 		private fb: FormBuilder,
 		private route: ActivatedRoute,
+		private diff: DifferencesService,
 		private utilityStore: Store<fromUtility.State>) { }
 
 	ngOnInit(): void {
@@ -53,8 +56,7 @@ export class GeoObjectDetailsComponent implements OnInit {
 				filter(d => d != null),
 				take(1), map(d => d.filter(e => e['id'] == this.id)[0])).subscribe((val) => {
 					this.data = JSON.parse(JSON.stringify(val));
-					console.log(this.data);
-					this.data.relations.forEach((q) => { this.addRelation(); });
+					this.data.relations.forEach(() => { this.addRelation(); });
 					this.geoObjectForm.patchValue(this.data);
 				})
 		}
@@ -75,7 +77,7 @@ export class GeoObjectDetailsComponent implements OnInit {
 
 	addRelation() {
 		(<FormArray>this.geoObjectForm.controls.relations).push(this.fb.group({
-			id: null, order: null, relationType: null, mask: null
+			id: null, order: null, relationType: null, mask: [null, inOptions(this.maskRefs)]
 		}));
 		if ((<FormArray>this.geoObjectForm.controls.relations).length > this.data.relations.length)
 			this.data.relations.push({});
@@ -93,7 +95,7 @@ export class GeoObjectDetailsComponent implements OnInit {
 	}
 
 	onSubmit() {
-		console.log(JSON.stringify(this.geoObjectForm.value));
+		const difference = this.diff.createGeoObjectDifference(this.data, this.geoObjectForm.value);
 	}
 
 }

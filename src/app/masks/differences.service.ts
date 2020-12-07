@@ -2,10 +2,32 @@ import { Injectable } from '@angular/core';
 
 import { createPatch, Operation } from 'rfc6902';
 
-import { Mask, _Mask, _Question, _Answer } from '../model/model';
+import { Mask, _Mask, _Question, _Answer, GeoObject, _GeoObject, _Relation } from '../model/model';
 
 @Injectable({ providedIn: 'root' })
 export class DifferencesService {
+
+	createGeoObjectDifference(o1: GeoObject, o2: GeoObject) {
+		let patch = createPatch(o1, o2);
+		if (patch.length == 0)
+			return null;
+		const _geoObject: _GeoObject = { id: o1.id, code: o2.code, operationType: this.operationType(o2.id), patch: JSON.stringify(patch) };
+		this.modifiedGeoObjectProperties(patch).forEach(p => _geoObject[p] = o2[p]);
+
+		const rr = this.modifiedRelations(patch);
+		if (rr.length > 0) {
+			_geoObject.relations = [];
+			rr.forEach(r => {
+				const relation = o2.relations[r];
+				const _relation: _Relation = { id: relation.id, operationType: this.operationType(relation.id) };
+				this.modifiedQuestionProperties(r, patch).forEach(p => _relation[p] = relation[p]);
+				_relation.id = Math.abs(relation.id);
+				_geoObject.relations.push(_relation);
+			});
+		}
+		console.debug(JSON.stringify(_geoObject));
+		return _geoObject;
+	}
 
 	createMaskDifference(o1: Mask, o2: Mask): _Mask {
 		let patch = createPatch(o1, o2);
@@ -75,5 +97,13 @@ export class DifferencesService {
 
 	private distinct(arrayWithDuplicates: any[]) {
 		return arrayWithDuplicates.filter((n, i) => arrayWithDuplicates.indexOf(n) === i);
+	}
+
+	private modifiedGeoObjectProperties(patch: Operation[]) {
+		return this.extractString(patch, '/', 1, 'relations');
+	}
+
+	private modifiedRelations(patch: Operation[]) {
+		return this.extractNumber(patch, '/relations/', 2)
 	}
 }
