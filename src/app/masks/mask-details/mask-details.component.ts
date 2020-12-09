@@ -10,7 +10,7 @@ import * as fromMasks from '../store/masks.reducer';
 import * as masksActions from '../store/masks.actions';
 import * as maskSelectors from '../store/masks.selectors';
 
-import { Mask, PaymentList, TechSite, RemapType, MetricCalculation } from 'src/app/model/model';
+import { Mask, PaymentList, TechSite, RemapType, MetricCalculation, Cit } from 'src/app/model/model';
 import { DifferencesService } from '../differences.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MetricCalculationsDialogComponent } from '../metric-calculation-list/metric-calculations-dialog.component';
@@ -29,7 +29,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 	}
 
 	id: number;
-	editMode = false;
+	mode: 'edit' | 'view' | 'create' = 'view';
 
 	paymentLists: PaymentList[];
 	techSites: TechSite[];
@@ -38,9 +38,9 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 	dataTypes: RemapType[];
 	measurementUnits: RemapType[];
 	questionTypes: RemapType[];
+	cits: Cit[];
 
-	flags = [null, "Y", "N"];
-	flagsPlus = [null, "Y", "N", "X"];
+	flags = [{ id: null, description: '' }, { id: 'Y', description: 'SI' }, { id: 'N', description: 'NO' }];
 
 	maskAnagForm: FormGroup = this.fb.group({
 		id: null, code: null, description: null, tisp: null, tecnicalMask: null, version: null, paymentList: null, techSite: null, questions: this.fb.array([]),
@@ -58,7 +58,6 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.id = +this.route.snapshot.paramMap.get('id');
-		this.editMode = (this.id != null);
 		this.data = this.route.snapshot.data['data'];
 		this.data.questions.forEach((q) => {
 			this.addQuestion();
@@ -72,10 +71,13 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 		this.utilityStore.select(utilitySelectors.getMeasurementUnits).pipe(filter(d => d != null), take(1)).subscribe(d => this.measurementUnits = d);
 		this.utilityStore.select(utilitySelectors.getQuestionTypes).pipe(filter(d => d != null), take(1)).subscribe(d => this.questionTypes = d);
 		this.utilityStore.select(utilitySelectors.getExecutors).pipe(filter(d => d != null), take(1)).subscribe(d => this.executors = d);
+		this.utilityStore.select(utilitySelectors.getCits).pipe(filter(d => d != null), take(1)).subscribe(d => this.cits = d);
 
 		this.masksStore.select(maskSelectors.getMetricCalculations).pipe(filter(d => d != null && d.length > 0), takeWhile(() => this.active)).subscribe(d => this.openDialog(d));
 
 		this.maskAnagForm.setValue(this.data);
+		if (this.mode == 'view')
+			this.maskAnagForm.disable();
 	}
 
 	showMetricCalculations(answerCode: string, e: MouseEvent) {
@@ -117,7 +119,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 
 	addAnswer(i: number) {
 		(<FormArray>(<FormGroup>this.questionControls()[i]).controls.answers).push(this.fb.group({
-			id: null, code: null, description: null, priority: null, type: null, highLimit: null, lowLimit: null, category: null, citAnag: null, defaultAns: null, executor: null, visibilityCond: null, note: null,
+			id: null, code: null, description: null, priority: null, type: null, highLimit: null, lowLimit: null, category: null, cit: null, defaultAns: null, executor: null, visibilityCond: null, note: null,
 		}));
 		if ((<FormArray>(<FormGroup>this.questionControls()[i]).controls.answers).length > this.data.questions[i].answers.length)
 			this.data.questions[i].answers.push({});

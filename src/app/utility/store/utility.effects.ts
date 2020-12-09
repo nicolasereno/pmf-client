@@ -10,7 +10,7 @@ import * as utilityActions from './utility.actions';
 import { UtilityActions } from './utility.actions';
 import { HttpClient } from '@angular/common/http';
 
-import { BaseResponse, GeoObject, Mask, RemapType, PaymentList, TechSite } from 'src/app/model/model';
+import { BaseResponse, GeoObject, Mask, RemapType, PaymentList, TechSite, Cit } from 'src/app/model/model';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -35,6 +35,7 @@ export class UtilityEffects implements OnInitEffects {
 				this.http.get<BaseResponse<Mask[]>>(environment.baseUrl + 'maskStructure/getAllMasks'),
 				this.http.get<BaseResponse<{ (key: string): RemapType[] }>>(environment.baseUrl + 'infoUtils/getRemapData'),
 				this.http.get<BaseResponse<{ (key: string): TechSite[] }>>(environment.baseUrl + 'infoUtils/getTechSites'),
+				this.http.get<BaseResponse<{ (key: string): Cit[] }>>(environment.baseUrl + 'infoUtils/getCits'),
 			).pipe(
 				map(c => {
 					// FIX dati temporanea...
@@ -52,6 +53,7 @@ export class UtilityEffects implements OnInitEffects {
 						measurementUnits: c[3].body['measurementUnits'],
 						questionTypes: c[3].body['questionTypes'],
 						techSites: c[4].body['techSites'],
+						cits: c[5].body['cits'],
 					})
 				}),
 				catchError(err => {

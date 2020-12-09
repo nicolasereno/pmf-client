@@ -56,3 +56,8 @@ export const getTechSites = createSelector(
 	state => state.cache.techSites
 );
 
+export const getCits = createSelector(
+	selectUtilityState,
+	state => state.cache.cits
+);
+

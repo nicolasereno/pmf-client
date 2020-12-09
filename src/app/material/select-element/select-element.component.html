@@ -1,5 +1,5 @@
 <mat-form-field class="full-width" [formGroup]="form">
-	<mat-select matInput [placeholder]="label" [compareWith]="compareObjects" [formControlName]="name">
+	<mat-select matInput [placeholder]="label" [compareWith]="compareObjects" [formControlName]="name" class="alwaysBlack">
 		<mat-option *ngFor="let o of options" [value]="get?o[get]:o">{{view?o[view]:o}}</mat-option>
 	</mat-select>
 </mat-form-field>

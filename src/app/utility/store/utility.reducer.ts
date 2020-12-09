@@ -1,6 +1,6 @@
 import { UtilityActions, UtilityActionTypes } from './utility.actions';
 
-import { GeoObject, PaymentList, Mask, RemapType, TechSite } from 'src/app/model/model';
+import { GeoObject, PaymentList, Mask, RemapType, TechSite, Cit } from 'src/app/model/model';
 
 export const utilityFeatureKey = 'utility';
 
@@ -16,6 +16,7 @@ export interface State {
 		measurementUnits: RemapType[],
 		questionTypes: RemapType[],
 		techSites: TechSite[],
+		cits: Cit[],
 	},
 	error: string,
 	loading: boolean,
@@ -33,6 +34,7 @@ export const initialState: State = {
 		measurementUnits: null,
 		questionTypes: null,
 		techSites: null,
+		cits: null,
 	},
 	error: null,
 	loading: false,
@@ -55,6 +57,7 @@ export function reducer(state = initialState, action: UtilityActions): State {
 					measurementUnits: null,
 					questionTypes: null,
 					techSites: null,
+					cits: null,
 				},
 				loading: true
 			};
@@ -72,6 +75,7 @@ export function reducer(state = initialState, action: UtilityActions): State {
 					measurementUnits: action.payload.measurementUnits,
 					questionTypes: action.payload.questionTypes,
 					techSites: action.payload.techSites,
+					cits: action.payload.cits,
 				},
 				loading: false
 			};

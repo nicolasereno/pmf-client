@@ -7,20 +7,20 @@ export interface BaseResponse<T> {
 }
 
 export interface GeoObject {
+    id?: number;
     code?: string;
     description?: string;
-    id?: number;
     relations?: Relation[];
     version?: string;
 }
 
 export interface MetricCalculation {
+    id?: number;
     answerCondition?: string;
     checkCondition?: string;
     edKey?: RemapType;
     edType?: RemapType;
     executor?: RemapType;
-    id?: number;
     note?: string;
     parteEc?: RemapType;
     paymentList?: PaymentList;
@@ -30,8 +30,8 @@ export interface MetricCalculation {
 }
 
 export interface ProvisionCode {
-    code?: string;
     id?: number;
+    code?: string;
     note?: string;
     provisionType?: RemapType;
 }
@@ -44,14 +44,20 @@ export interface Relation {
 }
 
 export interface TechSite {
-	code?: string;
 	id?: number;
+	code?: string;
 	tip?: string;
 }
 
-export interface PaymentList {
-	code?: string;
+export interface Cit {
 	id?: number;
+	code?: string;
+	desc?: string;
+}
+
+export interface PaymentList {
+	id?: number;
+	code?: string;
 	prefix?: string;
 }
 
@@ -62,9 +68,9 @@ export interface RemapType {
 }
 
 export interface MaskRef {
+	id?: number;
 	code?: string;
 	description?: string;
-	id?: number;
 }
 
 export interface Mask extends MaskRef {
@@ -77,17 +83,17 @@ export interface Mask extends MaskRef {
 }
 
 export interface Question {
-	category?: RemapType;
+	id?: number;
 	code?: string;
+	priority?: number;
+	category?: RemapType;
 	copyFlag?: string;
 	dataType?: RemapType;
 	description?: string;
-	id?: number;
 	maxLength?: string;
 	measurementUnit?: RemapType;
 	modFlag?: string;
 	note?: string;
-	priority?: number;
 	requiredFlag?: string;
 	type?: RemapType;
 	visibilityCond?: string;
@@ -96,14 +102,14 @@ export interface Question {
 }
 
 export interface Answer {
-	category?: RemapType;
-	citAnag?: number;
+	id?: number;
 	code?: string;
+	category?: RemapType;
+	cit?: Cit;
 	defaultAns?: string;
 	description?: string;
 	executor?: RemapType;
 	highLimit?: string;
-	id?: number;
 	lowLimit?: string;
 	note?: string;
 	priority?: number;

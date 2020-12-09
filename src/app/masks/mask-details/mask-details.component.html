@@ -1,5 +1,6 @@
-<h1 *ngIf="editMode">Modifica Dati Maschera</h1>
-<h1 *ngIf="!editMode">Creazione nuova Maschera</h1>
+<h1 *ngIf="mode == 'view'">Visualizzazione dati Maschera</h1>
+<h1 *ngIf="mode == 'edit'">Modifica dati Maschera</h1>
+<h1 *ngIf="mode == 'create'">Creazione nuova Maschera</h1>
 
 <form [formGroup]="maskAnagForm" novalidate>
 
@@ -33,7 +34,7 @@
 			</div>
 			<div class="row">
 				<div class="col" class="full-width">
-					<pmf-select-element [form]="maskAnagForm" name="tecnicalMask" label="Maschera tecnica" [options]="flags"></pmf-select-element>
+					<pmf-select-element [form]="maskAnagForm" name="tecnicalMask" label="Maschera tecnica" [options]="flags" view="description" get="id"></pmf-select-element>
 				</div>
 			</div>
 			<div class="row">
@@ -47,8 +48,8 @@
 		<div *ngFor="let questionForm of questionControls(); let i=index" formArrayName="questions">
 		<mat-expansion-panel *ngIf="questionFormGroup(i).controls['id']?.value >= 0" class="row" [formGroupName]="i" class="question">
 			<mat-expansion-panel-header>
-				<mat-panel-title><strong>DOMANDA: {{questionFormGroup(i).controls['code']?.value}}</strong></mat-panel-title>			
-				<mat-icon class="delete-button" (click)="removeQuestion(i, $event)">remove_circle</mat-icon>
+				<mat-panel-title><strong>DOMANDA: {{questionFormGroup(i).controls['code']?.value}} [{{questionFormGroup(i).controls['priority']?.value}}]</strong></mat-panel-title>			
+				<mat-icon *ngIf="mode != 'view'" class="delete-button" (click)="removeQuestion(i, $event)">remove_circle</mat-icon>
 			</mat-expansion-panel-header>
 			<input type="hidden" name="id"> 
 			<div class="row">
@@ -98,22 +99,22 @@
 			</div>
 			<div class="row">
 				<div class="col" class="full-width">
-					<pmf-select-element [form]="questionForm" name="visibilityFlag" label="Visibilit&agrave;" [options]="flags"></pmf-select-element>
+					<pmf-select-element [form]="questionForm" name="visibilityFlag" label="Visibilit&agrave;" [options]="flags" view="description" get="id"></pmf-select-element>
 				</div>
 			</div>	
 			<div class="row">
 				<div class="col" class="full-width">
-					<pmf-select-element [form]="questionForm" name="requiredFlag" label="Richiesto" [options]="flags"></pmf-select-element>
+					<pmf-select-element [form]="questionForm" name="requiredFlag" label="Richiesto" [options]="flags" view="description" get="id"></pmf-select-element>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col" class="full-width">
-					<pmf-select-element [form]="questionForm" name="modFlag" label="modFlag" [options]="flags"></pmf-select-element>
+					<pmf-select-element [form]="questionForm" name="modFlag" label="modFlag" [options]="flags" view="description" get="id"></pmf-select-element>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col" class="full-width">
-					<pmf-select-element [form]="questionForm" name="copyFlag" label="Copia" [options]="flags"></pmf-select-element>
+					<pmf-select-element [form]="questionForm" name="copyFlag" label="Copia" [options]="flags" view="description" get="id"></pmf-select-element>
 				</div>
 			</div>
 			<div class="row">
@@ -125,9 +126,12 @@
 				<div *ngFor="let answerForm of answerControls(i); let j=index" formArrayName="answers">
 				<mat-expansion-panel *ngIf="answerFormGroup(i, j).controls['id']?.value >= 0" class="row" [formGroupName]="j" class="answer">
 					<mat-expansion-panel-header>
-						<mat-panel-title><strong>RISPOSTA: {{answerFormGroup(i, j).controls['code']?.value}}</strong></mat-panel-title>
+						<mat-panel-title>
+							<strong *ngIf="answerFormGroup(i, j).controls['priority']?.value >= 0">RISPOSTA: {{answerFormGroup(i, j).controls['code']?.value}} [{{answerFormGroup(i, j).controls['priority']?.value}}]</strong>
+							<p *ngIf="answerFormGroup(i, j).controls['priority']?.value < 0">RISPOSTA: {{answerFormGroup(i, j).controls['code']?.value}} [{{answerFormGroup(i, j).controls['priority']?.value}}]</p>
+						</mat-panel-title>
 						<mat-icon class="delete-button" (click)="showMetricCalculations(answerFormGroup(i, j).controls['code'].value, $event)" title="Visualizza la lista delle presazioni">view_list</mat-icon>
-						<mat-icon class="delete-button" (click)="removeAnswer(i, j, $event)" title="Elimina questa risposta">remove_circle</mat-icon>
+						<mat-icon *ngIf="mode != 'view'" class="delete-button" (click)="removeAnswer(i, j, $event)" title="Elimina questa risposta">remove_circle</mat-icon>
 					</mat-expansion-panel-header>
 					<input type="hidden" name="id"> 
 					<div class="row">
@@ -142,7 +146,7 @@
 					</div>
 					<div class="row">
 						<div class="col" class="full-width">
-							<pmf-select-element [form]="answerForm" name="defaultAns" label="Risposta default" [options]="flagsPlus"></pmf-select-element>
+							<pmf-select-element [form]="answerForm" name="defaultAns" label="Risposta default" [options]="flags" view="description" get="id"></pmf-select-element>
 						</div>
 					</div>
 					<div class="row">
@@ -172,7 +176,7 @@
 					</div>
 					<div class="row">
 						<div class="col" class="full-width">
-							<pmf-input-element [form]="answerForm" name="citAnag" label="Cit" type="number"></pmf-input-element>
+							<pmf-select-element [form]="answerForm" name="cit" label="Cit" [options]="cits" view="code"></pmf-select-element>
 						</div>
 					</div>
 
@@ -197,7 +201,7 @@
 			</mat-accordion>
 			<mat-card-content>
 				<mat-card-actions>
-					<button mat-raised-button color="primary" type="button" (click)="addAnswer(i)">Aggiungi Risposta</button>
+					<button *ngIf="mode != 'view'" mat-raised-button color="primary" type="button" (click)="addAnswer(i)">Aggiungi Risposta</button>
 				</mat-card-actions>
 			</mat-card-content>
 		</mat-expansion-panel>
@@ -206,8 +210,8 @@
 
 	<mat-card-content>
 		<mat-card-actions>
-			<button mat-raised-button color="primary" type="button" (click)="addQuestion()">Aggiungi Domanda</button>
-			<button mat-raised-button color="primary" type="button" (click)="onSubmit()">Salva</button>
+			<button *ngIf="mode != 'view'" mat-raised-button color="primary" type="button" (click)="addQuestion()">Aggiungi Domanda</button>
+			<button *ngIf="mode != 'view'" mat-raised-button color="primary" type="button" (click)="onSubmit()">Salva</button>
 		</mat-card-actions>
 	</mat-card-content>
 </mat-card>
