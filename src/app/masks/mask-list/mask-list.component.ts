@@ -86,7 +86,7 @@ export class MaskListComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	onModifyMask(id: number, e: MouseEvent) {
 		e.stopPropagation();
-		this.router.navigate(['/masks', 'mask-details', id + '']);
+		this.router.navigate(['/masks', 'mask-details', 'view', id + '']);
 	}
 
 	openDialog(data: MetricCalculation[]): void {

@@ -6,6 +6,10 @@
 
 <mat-card>
 	<mat-card-content>
+			
+			<button *ngIf="mode == 'view'" mat-fab color="primary" aria-label="Modifica i dati della maschera" (click)="edit()" class="edit"><mat-icon>edit</mat-icon></button>
+			<button *ngIf="mode != 'view'" mat-fab color="primary" aria-label="Salva le modifiche effettuate alla maschera" (click)="onSubmit()" class="edit"><mat-icon>save</mat-icon></button>
+			
 			<input type="hidden" name="id"> 
 			<div class="row">
 				<div class="col" class="full-width">
@@ -198,22 +202,13 @@
 					</div>
 				</mat-expansion-panel>
 				</div>
+				<button *ngIf="mode != 'view'" mat-mini-fab color="primary" aria-label="Aggiungi Risposta" (click)="addAnswer(i)"><mat-icon>add</mat-icon></button>
 			</mat-accordion>
-			<mat-card-content>
-				<mat-card-actions>
-					<button *ngIf="mode != 'view'" mat-raised-button color="primary" type="button" (click)="addAnswer(i)">Aggiungi Risposta</button>
-				</mat-card-actions>
-			</mat-card-content>
 		</mat-expansion-panel>
 		</div>
+		<button *ngIf="mode != 'view'" mat-mini-fab color="primary" aria-label="Aggiungi Domanda" (click)="addQuestion()"><mat-icon>add</mat-icon></button>
 	</mat-accordion>
 
-	<mat-card-content>
-		<mat-card-actions>
-			<button *ngIf="mode != 'view'" mat-raised-button color="primary" type="button" (click)="addQuestion()">Aggiungi Domanda</button>
-			<button *ngIf="mode != 'view'" mat-raised-button color="primary" type="button" (click)="onSubmit()">Salva</button>
-		</mat-card-actions>
-	</mat-card-content>
 </mat-card>
 
 </form>

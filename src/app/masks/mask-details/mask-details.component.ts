@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { filter, take, takeWhile } from 'rxjs/operators';
@@ -49,6 +49,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 	constructor(
 		private fb: FormBuilder,
 		private route: ActivatedRoute,
+		private router: Router,
 		private utilityStore: Store<fromUtility.State>,
 		private masksStore: Store<fromMasks.State>,
 		private diff: DifferencesService,
@@ -58,6 +59,12 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.id = +this.route.snapshot.paramMap.get('id');
+		this.setState(<'edit' | 'view' | 'create'>this.route.snapshot.paramMap.get('mode'));
+
+		// Per reindirizzamento a modalità di modifica
+		this.route.paramMap.pipe(takeWhile(() => this.active))
+			.subscribe(m => this.setState(<'edit' | 'view' | 'create'>m.get('mode')));
+
 		this.data = this.route.snapshot.data['data'];
 		this.data.questions.forEach((q) => {
 			this.addQuestion();
@@ -75,9 +82,19 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 
 		this.masksStore.select(maskSelectors.getMetricCalculations).pipe(filter(d => d != null && d.length > 0), takeWhile(() => this.active)).subscribe(d => this.openDialog(d));
 
-		this.maskAnagForm.setValue(this.data);
+		this.maskAnagForm.patchValue(this.data);
+	}
+
+	setState(m: 'edit' | 'view' | 'create') {
+		this.mode = m;
 		if (this.mode == 'view')
-			this.maskAnagForm.disable();
+			this.maskAnagForm.disable({onlySelf: false});
+		else 	
+			this.maskAnagForm.enable({onlySelf: false});
+	}
+
+	edit() {
+		this.router.navigate(['masks', 'mask-details', 'edit', this.id]);
 	}
 
 	showMetricCalculations(answerCode: string, e: MouseEvent) {
@@ -115,6 +132,9 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 		}));
 		if ((<FormArray>this.maskAnagForm.controls.questions).length > this.data.questions.length)
 			this.data.questions.push({ answers: [] });
+		if (this.mode == 'view')
+			(<FormArray>this.maskAnagForm.controls.questions).disable();
+		
 	}
 
 	addAnswer(i: number) {
@@ -123,11 +143,14 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 		}));
 		if ((<FormArray>(<FormGroup>this.questionControls()[i]).controls.answers).length > this.data.questions[i].answers.length)
 			this.data.questions[i].answers.push({});
+		if (this.mode == 'view')
+			(<FormArray>(<FormGroup>this.questionControls()[i]).controls.answers).disable();
 	}
 
 	removeQuestion(i: number, e?: MouseEvent) {
-		if (e)
-			e.stopPropagation();
+		e.stopPropagation();
+		if(!confirm('Eliminare la domanda?')) 
+			return;
 		if (this.questionFormGroup(i).controls['id'].value == null) {
 			// non presente in db: lo elimino
 			this.questionControls().splice(i, 1);
@@ -137,8 +160,9 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 	}
 
 	removeAnswer(i: number, j: number, e?: MouseEvent) {
-		if (e)
-			e.stopPropagation();
+		e.stopPropagation();
+		if(!confirm('Eliminare la risposta?')) 
+			return;
 		if (this.answerFormGroup(i, j).controls['id'].value == null) {
 			// non presente in db: lo elimino
 			this.answerControls(i).splice(j, 1);

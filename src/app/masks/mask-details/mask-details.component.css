@@ -13,3 +13,11 @@
 .answer {
 	background-color: #bbdefb;
 }
+
+.edit {
+	right: 20px;
+	top: 20px;
+	left: auto;
+	position: absolute;
+	z-index: 2;
+}

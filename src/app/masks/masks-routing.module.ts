@@ -9,10 +9,11 @@ import { MaskDetailsResolverService } from './mask-details/mask-details-resolver
 
 const routes: Routes = [
 	{ path: 'geo-object-list', component: GeoObjectListComponent },
-	{ path: 'geo-object-details/edit/:id', component: GeoObjectDetailsComponent },
-	{ path: 'geo-object-details/new', component: GeoObjectDetailsComponent },
+	{ path: 'geo-object-details/:mode', component: GeoObjectDetailsComponent },
+	{ path: 'geo-object-details/:mode/:id', component: GeoObjectDetailsComponent },
 	{ path: 'mask-list', component: MaskListComponent },
-	{ path: 'mask-details/:id', component: MaskDetailsComponent, resolve: { data: MaskDetailsResolverService } },
+	{ path: 'mask-details/:mode', component: MaskDetailsComponent, resolve: { data: MaskDetailsResolverService } },
+	{ path: 'mask-details/:mode/:id', component: MaskDetailsComponent, resolve: { data: MaskDetailsResolverService } },
 ];
 
 @NgModule({

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormArray, AbstractControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { take, filter, map } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { take, filter, map, takeWhile } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromUtility from '../../utility/store/utility.reducer';
@@ -17,10 +17,15 @@ import { DifferencesService } from '../differences.service';
 	templateUrl: './geo-object-details.component.html',
 	styleUrls: ['./geo-object-details.component.css']
 })
-export class GeoObjectDetailsComponent implements OnInit {
+export class GeoObjectDetailsComponent implements OnInit, OnDestroy {
+
+	active = true;
+	ngOnDestroy() {
+		this.active = false;
+	}
 
 	id: number;
-	editMode = false;
+	mode: 'edit' | 'view' | 'create' = 'view';
 
 	objectTypes = ['E', 'P'];
 	maskRelationTypes: RemapType[];
@@ -39,12 +44,18 @@ export class GeoObjectDetailsComponent implements OnInit {
 	constructor(
 		private fb: FormBuilder,
 		private route: ActivatedRoute,
+		private router: Router,
 		private diff: DifferencesService,
 		private utilityStore: Store<fromUtility.State>) { }
 
 	ngOnInit(): void {
-		this.id = this.route.snapshot.params['id'];
-		this.editMode = (this.id != null);
+		this.id = +this.route.snapshot.paramMap.get('id');
+		this.setState(<'edit' | 'view' | 'create'>this.route.snapshot.paramMap.get('mode'));
+
+		// Per reindirizzamento a modalità di modifica
+		this.route.paramMap.pipe(takeWhile(() => this.active))
+			.subscribe(m => this.setState(<'edit' | 'view' | 'create'>m.get('mode')));
+			
 		this.utilityStore.select(utilitySelectors.getMaskRelationTypes).pipe(
 			filter(d => d != null), take(1)).subscribe(d => this.maskRelationTypes = d);
 		this.utilityStore.select(utilitySelectors.getMaskAnags).pipe(filter(d => d != null),
@@ -62,6 +73,18 @@ export class GeoObjectDetailsComponent implements OnInit {
 		}
 	}
 
+	setState(m: 'edit' | 'view' | 'create') {
+		this.mode = m;
+		if (this.mode == 'view')
+			this.geoObjectForm.disable({onlySelf: false});
+		else 	
+			this.geoObjectForm.enable({onlySelf: false});
+	}
+
+	edit() {
+		this.router.navigate(['masks', 'geo-object-details', 'edit', this.id]);
+	}
+	
 	onRemoveMask(i: number) {
 		(<FormArray>this.geoObjectForm.controls.masks).removeAt(i);
 		this.data.relations.slice(i, i);
@@ -81,11 +104,14 @@ export class GeoObjectDetailsComponent implements OnInit {
 		}));
 		if ((<FormArray>this.geoObjectForm.controls.relations).length > this.data.relations.length)
 			this.data.relations.push({});
+		if (this.mode == 'view')
+			(<FormArray>this.geoObjectForm.controls.relations).disable();
 	}
 
 	removeRelation(i: number, e?: MouseEvent) {
-		if (e)
-			e.stopPropagation();
+		e.stopPropagation();
+		if(!confirm('Eliminare la domanda?')) 
+			return;
 		if (this.relationsFormGroup(i).controls['id'].value == null) {
 			// non presente in db: lo elimino
 			this.relationsControls().splice(i, 1);

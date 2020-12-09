@@ -23,3 +23,11 @@
 .relation {
 	background-color: #e3f2fd;
 }
+
+.edit {
+	right: 20px;
+	top: 20px;
+	left: auto;
+	position: absolute;
+	z-index: 2;
+}
