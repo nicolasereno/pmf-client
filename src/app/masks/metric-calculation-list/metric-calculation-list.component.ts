@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MetricCalculation } from 'src/app/model/model';
 
+
 @Component({
 	selector: 'pmf-metric-calculation-list',
 	templateUrl: './metric-calculation-list.component.html',

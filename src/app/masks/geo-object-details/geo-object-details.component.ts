@@ -1,16 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormArray, AbstractControl } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { take, filter, map, takeWhile } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-
+import { filter, map, take, takeWhile } from 'rxjs/operators';
+import { GeoObject, MaskRef, RemapType } from 'src/app/model/model';
+import { inOptions } from '../../material/autocomplete-element/autocomplete-element.component';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
-
-import { GeoObject, RemapType, MaskRef } from 'src/app/model/model';
-
-import { inOptions } from '../../material/autocomplete-element/autocomplete-element.component'
 import { DifferencesService } from '../differences.service';
+
 
 @Component({
 	selector: 'pmf-geo-object-details',
@@ -52,10 +50,10 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy {
 		this.id = +this.route.snapshot.paramMap.get('id');
 		this.setState(<'edit' | 'view' | 'create'>this.route.snapshot.paramMap.get('mode'));
 
-		// Per reindirizzamento a modalità di modifica
+		// Per reindirizzamento a modalitï¿½ di modifica
 		this.route.paramMap.pipe(takeWhile(() => this.active))
 			.subscribe(m => this.setState(<'edit' | 'view' | 'create'>m.get('mode')));
-			
+
 		this.utilityStore.select(utilitySelectors.getMaskRelationTypes).pipe(
 			filter(d => d != null), take(1)).subscribe(d => this.maskRelationTypes = d);
 		this.utilityStore.select(utilitySelectors.getMaskAnags).pipe(filter(d => d != null),
@@ -77,14 +75,14 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy {
 		this.mode = m;
 		if (this.mode == 'view')
 			this.geoObjectForm.disable({onlySelf: false});
-		else 	
+		else
 			this.geoObjectForm.enable({onlySelf: false});
 	}
 
 	edit() {
 		this.router.navigate(['masks', 'geo-object-details', 'edit', this.id]);
 	}
-	
+
 	onRemoveMask(i: number) {
 		(<FormArray>this.geoObjectForm.controls.masks).removeAt(i);
 		this.data.relations.slice(i, i);
@@ -110,7 +108,7 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy {
 
 	removeRelation(i: number, e?: MouseEvent) {
 		e.stopPropagation();
-		if(!confirm('Eliminare la domanda?')) 
+		if(!confirm('Eliminare la domanda?'))
 			return;
 		if (this.relationsFormGroup(i).controls['id'].value == null) {
 			// non presente in db: lo elimino

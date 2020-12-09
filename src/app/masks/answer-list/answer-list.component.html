@@ -2,26 +2,27 @@
 	<table mat-table [dataSource]="data" multiTemplateDataRows>
 
 		<ng-container matColumnDef="code">
-		<th mat-header-cell *matHeaderCellDef i18n="@@answers-code">Codice risposta</th>
-		<td mat-cell *matCellDef="let element" [title]="element.id">
-			<strong>{{element.code}}</strong>
-			<mat-icon class="link-prestazioni" (click)="onShowMetricCalculations(element)" title="Visualizza la lista delle presazioni">view_list</mat-icon>
-		</td>
+			<th mat-header-cell *matHeaderCellDef i18n="@@answers-code">Codice risposta</th>
+			<td mat-cell *matCellDef="let element" [title]="element.id">
+				<strong>{{element.code}}</strong>
+				<mat-icon class="link-prestazioni" (click)="onShowMetricCalculations(element)"
+					title="Visualizza la lista delle presazioni">view_list</mat-icon>
+			</td>
 		</ng-container>
 
 		<ng-container matColumnDef="description">
-		<th mat-header-cell *matHeaderCellDef i18n="@@answers-description">Descrizione</th>
-		<td mat-cell *matCellDef="let element">{{element.description}}</td>
+			<th mat-header-cell *matHeaderCellDef i18n="@@answers-description">Descrizione</th>
+			<td mat-cell *matCellDef="let element">{{element.description}}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="priority">
-		<th mat-header-cell *matHeaderCellDef i18n="@@answers-priority">Priorit&agrave;</th>
-		<td mat-cell *matCellDef="let element">{{element.priority}}</td>
+			<th mat-header-cell *matHeaderCellDef i18n="@@answers-priority">Priorit&agrave;</th>
+			<td mat-cell *matCellDef="let element">{{element.priority}}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="note">
-		<th mat-header-cell *matHeaderCellDef i18n="@@answers-note">Nota</th>
-		<td mat-cell *matCellDef="let element">{{element.note}}</td>
+			<th mat-header-cell *matHeaderCellDef i18n="@@answers-note">Nota</th>
+			<td mat-cell *matCellDef="let element">{{element.note}}</td>
 		</ng-container>
 
 		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

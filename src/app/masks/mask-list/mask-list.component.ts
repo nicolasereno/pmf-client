@@ -1,21 +1,19 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Router } from '@angular/router';
-import { filter, take, takeWhile, map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { filter, map, take, takeWhile } from 'rxjs/operators';
+import { Mask, MetricCalculation, PaymentList, Question } from 'src/app/model/model';
+import * as fromUtility from '../../utility/store/utility.reducer';
+import * as utilitySelectors from '../../utility/store/utility.selectors';
+import { MetricCalculationsDialogComponent } from '../metric-calculation-list/metric-calculations-dialog.component';
 import * as masksActions from '../store/masks.actions';
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
-import * as fromUtility from '../../utility/store/utility.reducer';
-import * as utilitySelectors from '../../utility/store/utility.selectors';
-import { PaymentList, Mask, Question, MetricCalculation } from 'src/app/model/model';
-import { MetricCalculationsDialogComponent } from '../metric-calculation-list/metric-calculations-dialog.component';
 
 
 @Component({

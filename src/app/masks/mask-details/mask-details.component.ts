@@ -1,19 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { filter, take, takeWhile } from 'rxjs/operators';
-
+import { Cit, Mask, MetricCalculation, PaymentList, RemapType, TechSite } from 'src/app/model/model';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
-import * as fromMasks from '../store/masks.reducer';
-import * as masksActions from '../store/masks.actions';
-import * as maskSelectors from '../store/masks.selectors';
-
-import { Mask, PaymentList, TechSite, RemapType, MetricCalculation, Cit } from 'src/app/model/model';
 import { DifferencesService } from '../differences.service';
-import { MatDialog } from '@angular/material/dialog';
 import { MetricCalculationsDialogComponent } from '../metric-calculation-list/metric-calculations-dialog.component';
+import * as masksActions from '../store/masks.actions';
+import * as fromMasks from '../store/masks.reducer';
+import * as maskSelectors from '../store/masks.selectors';
 
 
 @Component({
@@ -61,7 +59,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 		this.id = +this.route.snapshot.paramMap.get('id');
 		this.setState(<'edit' | 'view' | 'create'>this.route.snapshot.paramMap.get('mode'));
 
-		// Per reindirizzamento a modalità di modifica
+		// Per reindirizzamento a modalitï¿½ di modifica
 		this.route.paramMap.pipe(takeWhile(() => this.active))
 			.subscribe(m => this.setState(<'edit' | 'view' | 'create'>m.get('mode')));
 
@@ -88,9 +86,9 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 	setState(m: 'edit' | 'view' | 'create') {
 		this.mode = m;
 		if (this.mode == 'view')
-			this.maskAnagForm.disable({onlySelf: false});
-		else 	
-			this.maskAnagForm.enable({onlySelf: false});
+			this.maskAnagForm.disable({ onlySelf: false });
+		else
+			this.maskAnagForm.enable({ onlySelf: false });
 	}
 
 	edit() {
@@ -134,7 +132,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 			this.data.questions.push({ answers: [] });
 		if (this.mode == 'view')
 			(<FormArray>this.maskAnagForm.controls.questions).disable();
-		
+
 	}
 
 	addAnswer(i: number) {
@@ -149,7 +147,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 
 	removeQuestion(i: number, e?: MouseEvent) {
 		e.stopPropagation();
-		if(!confirm('Eliminare la domanda?')) 
+		if (!confirm('Eliminare la domanda?'))
 			return;
 		if (this.questionFormGroup(i).controls['id'].value == null) {
 			// non presente in db: lo elimino
@@ -161,7 +159,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 
 	removeAnswer(i: number, j: number, e?: MouseEvent) {
 		e.stopPropagation();
-		if(!confirm('Eliminare la risposta?')) 
+		if (!confirm('Eliminare la risposta?'))
 			return;
 		if (this.answerFormGroup(i, j).controls['id'].value == null) {
 			// non presente in db: lo elimino

@@ -4,59 +4,74 @@
 
 <form [formGroup]="geoObjectForm" novalidate>
 
-<mat-card *ngIf="data">
-	<mat-card-content>
+	<mat-card *ngIf="data">
+		<mat-card-content>
 
-		<button *ngIf="mode == 'view'" mat-fab color="primary" aria-label="Modifica i dati dell'elemanto di rete" (click)="edit()" class="edit"><mat-icon>edit</mat-icon></button>
-		<button *ngIf="mode != 'view'" mat-fab color="primary" aria-label="Salva le modifiche effettuate all'elemanto di rete" (click)="onSubmit()" class="edit"><mat-icon>save</mat-icon></button>
+			<button *ngIf="mode == 'view'" mat-fab color="primary" aria-label="Modifica i dati dell'elemanto di rete"
+				(click)="edit()" class="edit">
+				<mat-icon>edit</mat-icon>
+			</button>
+			<button *ngIf="mode != 'view'" mat-fab color="primary"
+				aria-label="Salva le modifiche effettuate all'elemanto di rete" (click)="onSubmit()" class="edit">
+				<mat-icon>save</mat-icon>
+			</button>
 
-		<input type="hidden" name="id">
-		<div class="row">
-			<div class="col" class="full-width">
-				<pmf-input-element [form]="geoObjectForm" name="code" label="Codice"></pmf-input-element>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col" class="full-width">
-				<pmf-input-element [form]="geoObjectForm" name="description" label="Descrizione"></pmf-input-element>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col" class="full-width">
-				<pmf-input-element [form]="geoObjectForm" name="version" label="Versione"></pmf-input-element>
-			</div>
-		</div>
-	</mat-card-content>
-
-	<mat-accordion>
-		<div *ngFor="let comp of relationsControls(); let i=index" formArrayName="relations">
-		<mat-expansion-panel *ngIf="relationsFormGroup(i).controls['id']?.value >= 0" class="row" [formGroupName]="i" class="relation">
-			<mat-expansion-panel-header>
-				<mat-panel-title><strong>{{relationsFormGroup(i).controls['relationType']?.value}}: {{relationsFormGroup(i).controls['mask']?.value?.description}} [{{relationsFormGroup(i).controls['order']?.value}}]</strong></mat-panel-title>			
-				<mat-icon *ngIf="mode != 'view'" class="delete-button" (click)="removeRelation(i, $event)">remove_circle</mat-icon>
-			</mat-expansion-panel-header>
-			<input type="hidden" name="id"> 
-			<div class="row" class="full-width">
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-input-element [form]="comp" name="order" label="Ordine" type="number"></pmf-input-element>
-					</div>
+			<input type="hidden" name="id">
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="geoObjectForm" name="code" label="Codice"></pmf-input-element>
 				</div>
-				<div class="row">
-					<div class="col" class="full-width">
-						<pmf-select-element [form]="comp" name="relationType" label="Tipologia" [options]="maskRelationTypes" view="infoValue" get="infoValue"></pmf-select-element>
-					</div>
-				</div>
-					<div class="row">
-						<div class="col" class="full-width">
-						<pmf-autocomplete-element [form]="comp" name="mask" label="Maschera" [options]="maskRefs" view="description"></pmf-autocomplete-element>
-					</div>
-				</div>            
 			</div>
-		</mat-expansion-panel>
-		</div>
-		<button *ngIf="mode != 'view'" mat-mini-fab color="primary" aria-label="Aggiungi relazione" (click)="addRelation()"><mat-icon>add</mat-icon></button>
-	</mat-accordion>
-</mat-card>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="geoObjectForm" name="description" label="Descrizione"></pmf-input-element>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col" class="full-width">
+					<pmf-input-element [form]="geoObjectForm" name="version" label="Versione"></pmf-input-element>
+				</div>
+			</div>
+		</mat-card-content>
+
+		<mat-accordion>
+			<div *ngFor="let comp of relationsControls(); let i=index" formArrayName="relations">
+				<mat-expansion-panel *ngIf="relationsFormGroup(i).controls['id']?.value >= 0" class="row" [formGroupName]="i"
+					class="relation">
+					<mat-expansion-panel-header>
+						<mat-panel-title><strong>{{relationsFormGroup(i).controls['relationType']?.value}}:
+								{{relationsFormGroup(i).controls['mask']?.value?.description}}
+								[{{relationsFormGroup(i).controls['order']?.value}}]</strong></mat-panel-title>
+						<mat-icon *ngIf="mode != 'view'" class="delete-button" (click)="removeRelation(i, $event)">remove_circle
+						</mat-icon>
+					</mat-expansion-panel-header>
+					<input type="hidden" name="id">
+					<div class="row" class="full-width">
+						<div class="row">
+							<div class="col" class="full-width">
+								<pmf-input-element [form]="comp" name="order" label="Ordine" type="number"></pmf-input-element>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col" class="full-width">
+								<pmf-select-element [form]="comp" name="relationType" label="Tipologia" [options]="maskRelationTypes"
+									view="infoValue" get="infoValue"></pmf-select-element>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col" class="full-width">
+								<pmf-autocomplete-element [form]="comp" name="mask" label="Maschera" [options]="maskRefs"
+									view="description"></pmf-autocomplete-element>
+							</div>
+						</div>
+					</div>
+				</mat-expansion-panel>
+			</div>
+			<button *ngIf="mode != 'view'" mat-mini-fab color="primary" aria-label="Aggiungi relazione"
+				(click)="addRelation()">
+				<mat-icon>add</mat-icon>
+			</button>
+		</mat-accordion>
+	</mat-card>
 
 </form>

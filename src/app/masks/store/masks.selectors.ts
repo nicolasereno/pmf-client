@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromMasks from './masks.reducer';
 
+
 export const selectMasksState = createFeatureSelector<fromMasks.State>(
 	fromMasks.masksFeatureKey
 );

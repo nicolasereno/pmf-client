@@ -1,11 +1,11 @@
 <h1 i18n="@@geoObjects-pageTitle">Lista degli Elementi di Rete</h1>
 
 <form>
-	<mat-form-field> <mat-label
-		i18n="@@geoObjects-labelFilter">Filtro</mat-label> <input matInput
-		i18n-placeholder="@@geoObjects-placeholderFilter"
-		placeholder="Filtra per codice o descrizione" name="filtro"
-		[(ngModel)]="filtro" (ngModelChange)="applicaFiltro()"> </mat-form-field>
+	<mat-form-field>
+		<mat-label i18n="@@geoObjects-labelFilter">Filtro</mat-label> <input matInput
+			i18n-placeholder="@@geoObjects-placeholderFilter" placeholder="Filtra per codice o descrizione" name="filtro"
+			[(ngModel)]="filtro" (ngModelChange)="applicaFiltro()">
+	</mat-form-field>
 </form>
 
 <div class="mat-elevation-z8">
@@ -13,59 +13,53 @@
 	<table mat-table [dataSource]="dataSource" matSort>
 
 		<ng-container matColumnDef="code">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header
-			i18n="@@geoObjects-geoObject">Elemento di Rete</th>
-		<td mat-cell *matCellDef="let element" [title]="element.id">
-			<h4>
-				<a [routerLink]="['/masks', 'geo-object-details', 'view', element.id]"><strong>{{element.code}}</strong></a>
-				{{element.description}}
-			</h4>
-		</td>
+			<th mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@geoObjects-geoObject">Elemento di Rete</th>
+			<td mat-cell *matCellDef="let element" [title]="element.id">
+				<h4>
+					<a [routerLink]="['/masks', 'geo-object-details', 'view', element.id]"><strong>{{element.code}}</strong></a>
+					{{element.description}}
+				</h4>
+			</td>
 		</ng-container>
 
 		<ng-container matColumnDef="maskAnagCodeSARC">
-		<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-adding">Modifica/Aggiunta Componente</th>
-		<td mat-cell *matCellDef="let element"><a
-			*ngFor="let ma of maschere(element.relations, 'ADDING')"
-			[title]="ma.order + ': ' + ma.mask.code"
-			[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
-		</a></td>
+			<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-adding">Modifica/Aggiunta Componente</th>
+			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.relations, 'ADDING')"
+					[title]="ma.order + ': ' + ma.mask.code"
+					[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
+				</a></td>
 		</ng-container>
 
 		<ng-container matColumnDef="maskAnagCodeREM">
-		<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-demolition">Demolizione/Dismissione</th>
-		<td mat-cell *matCellDef="let element"><a
-			*ngFor="let ma of maschere(element.relations, 'DEMOLITION')"
-			[title]="ma.order + ': ' + ma.mask.code"
-			[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
-		</a></td>
+			<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-demolition">Demolizione/Dismissione</th>
+			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.relations, 'DEMOLITION')"
+					[title]="ma.order + ': ' + ma.mask.code"
+					[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
+				</a></td>
 		</ng-container>
 
 		<ng-container matColumnDef="maskAnagCodeSEC">
-		<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-sicurezza">Sicurezza Lavori</th>
-		<td mat-cell *matCellDef="let element"><a
-			*ngFor="let ma of maschere(element.relations, 'SICUREZZA')"
-			[title]="ma.order + ': ' + ma.mask.code"
-			[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
-		</a></td>
+			<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-sicurezza">Sicurezza Lavori</th>
+			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.relations, 'SICUREZZA')"
+					[title]="ma.order + ': ' + ma.mask.code"
+					[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
+				</a></td>
 		</ng-container>
 
 		<ng-container matColumnDef="maskAnagCodeED">
-		<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-time_ed">Attivit&agrave; Personale ED</th>
-		<td mat-cell *matCellDef="let element"><a
-			*ngFor="let ma of maschere(element.relations, 'TIME_ED')"
-			[title]="ma.order + ': ' + ma.mask.code"
-			[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
-		</a></td>
+			<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-time_ed">Attivit&agrave; Personale ED</th>
+			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.relations, 'TIME_ED')"
+					[title]="ma.order + ': ' + ma.mask.code"
+					[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
+				</a></td>
 		</ng-container>
 
 		<ng-container matColumnDef="maskAnagCodeToolbox">
-		<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-toolbox">Cassetta degli Attrezzi</th>
-		<td mat-cell *matCellDef="let element"><a
-			*ngFor="let ma of maschere(element.relations, 'TOOLBOX')"
-			[title]="ma.order + ': ' + ma.mask.code"
-			[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
-		</a></td>
+			<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-toolbox">Cassetta degli Attrezzi</th>
+			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.relations, 'TOOLBOX')"
+					[title]="ma.order + ': ' + ma.mask.code"
+					[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
+				</a></td>
 		</ng-container>
 
 		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

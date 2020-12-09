@@ -7,40 +7,40 @@ export interface BaseResponse<T> {
 }
 
 export interface GeoObject {
-    id?: number;
-    code?: string;
-    description?: string;
-    relations?: Relation[];
-    version?: string;
+	id?: number;
+	code?: string;
+	description?: string;
+	relations?: Relation[];
+	version?: string;
 }
 
 export interface MetricCalculation {
-    id?: number;
-    answerCondition?: string;
-    checkCondition?: string;
-    edKey?: RemapType;
-    edType?: RemapType;
-    executor?: RemapType;
-    note?: string;
-    parteEc?: RemapType;
-    paymentList?: PaymentList;
-    provisionCode?: ProvisionCode;
-    quantity?: string;
-    questionCategory?: RemapType;
+	id?: number;
+	answerCondition?: string;
+	checkCondition?: string;
+	edKey?: RemapType;
+	edType?: RemapType;
+	executor?: RemapType;
+	note?: string;
+	parteEc?: RemapType;
+	paymentList?: PaymentList;
+	provisionCode?: ProvisionCode;
+	quantity?: string;
+	questionCategory?: RemapType;
 }
 
 export interface ProvisionCode {
-    id?: number;
-    code?: string;
-    note?: string;
-    provisionType?: RemapType;
+	id?: number;
+	code?: string;
+	note?: string;
+	provisionType?: RemapType;
 }
 
 export interface Relation {
-    id?: number;
+	id?: number;
 	order?: number;
-    relationType?: string;
-    mask?: MaskRef;
+	relationType?: string;
+	mask?: MaskRef;
 }
 
 export interface TechSite {

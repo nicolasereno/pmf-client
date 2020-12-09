@@ -1,6 +1,6 @@
+import { MetricCalculation, Question } from 'src/app/model/model';
 import { MasksActions, MasksActionTypes } from './masks.actions';
 
-import { Question, MetricCalculation } from 'src/app/model/model';
 
 export const masksFeatureKey = 'masks';
 

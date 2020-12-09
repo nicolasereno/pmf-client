@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { NgForm, AbstractControl, ValidatorFn } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, NgForm, ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 

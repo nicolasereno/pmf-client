@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
+import { Question } from 'src/app/model/model';
 import * as fromMasks from '../store/masks.reducer';
 import * as masksSelectors from '../store/masks.selectors';
-import { Question } from 'src/app/model/model';
+
 
 @Component({
 	selector: 'pmf-question-list',

@@ -1,17 +1,15 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { take, filter } from 'rxjs/operators';
-
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-
-import * as fromMasks from '../store/masks.reducer';
-import * as masksSelectors from '../store/masks.selectors';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
+import { GeoObject, Relation } from 'src/app/model/model';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
-import { GeoObject, Relation } from 'src/app/model/model';
+import * as fromMasks from '../store/masks.reducer';
+import * as masksSelectors from '../store/masks.selectors';
 
 
 @Component({

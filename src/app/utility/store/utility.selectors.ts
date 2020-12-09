@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-
 import * as fromUtility from './utility.reducer';
+
 
 export const selectUtilityState = createFeatureSelector<fromUtility.State>(
 	fromUtility.utilityFeatureKey

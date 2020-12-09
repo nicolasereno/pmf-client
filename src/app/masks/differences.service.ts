@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { createPatch, Operation } from 'rfc6902';
+import { GeoObject, Mask, _Answer, _GeoObject, _Mask, _Question, _Relation } from '../model/model';
 
-import { Mask, _Mask, _Question, _Answer, GeoObject, _GeoObject, _Relation } from '../model/model';
 
 @Injectable({ providedIn: 'root' })
 export class DifferencesService {

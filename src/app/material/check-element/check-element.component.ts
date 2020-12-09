@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
+
 @Component({
 	selector: 'pmf-check-element',
 	templateUrl: './check-element.component.html',

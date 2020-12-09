@@ -10,19 +10,19 @@
 }
 
 .sidenav-container {
-   height: 100%;
+	height: 100%;
 }
-    
+
 .sidenav {
-  width: 220px;
+	width: 220px;
 }
-  
+
 .sidenav .mat-toolbar {
-  background: inherit;
+	background: inherit;
 }
-    
+
 .mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 3;
+	position: sticky;
+	top: 0;
+	z-index: 3;
 }

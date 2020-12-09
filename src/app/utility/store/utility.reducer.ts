@@ -1,6 +1,6 @@
+import { Cit, GeoObject, Mask, PaymentList, RemapType, TechSite } from 'src/app/model/model';
 import { UtilityActions, UtilityActionTypes } from './utility.actions';
 
-import { GeoObject, PaymentList, Mask, RemapType, TechSite, Cit } from 'src/app/model/model';
 
 export const utilityFeatureKey = 'utility';
 

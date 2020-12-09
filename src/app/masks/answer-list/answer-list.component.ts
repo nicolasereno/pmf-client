@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-
+import { Answer } from 'src/app/model/model';
 import * as masksActions from '../store/masks.actions';
 import * as fromMasks from '../store/masks.reducer';
 
-import { Answer } from 'src/app/model/model';
 
 @Component({
 	selector: 'pmf-answer-list',

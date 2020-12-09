@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { mergeMap, map, catchError } from 'rxjs/operators';
-import { Action } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-
-import { MatSnackBar } from '@angular/material/snack-bar';
-
-import * as masksActions from './masks.actions';
-import { BaseResponse, Question } from 'src/app/model/model';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
+import { BaseResponse, Question } from 'src/app/model/model';
 import { environment } from 'src/environments/environment';
+import * as masksActions from './masks.actions';
+
 
 @Injectable()
 export class MasksEffects {
@@ -29,7 +28,7 @@ export class MasksEffects {
 					map((c) => {
 						// FIXME temporanea...
 						const mm = c.body;
-						mm.forEach(q => {delete q['operationType'];delete q['patch'];q.answers.forEach(a => {delete a['operationType'];delete a['patch'];});});							
+						mm.forEach(q => { delete q['operationType']; delete q['patch']; q.answers.forEach(a => { delete a['operationType']; delete a['patch']; }); });
 						return new masksActions.LoadQuestionsAnswersSuccess(mm);
 					}),
 					catchError(err => {

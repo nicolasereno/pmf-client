@@ -1,24 +1,21 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
-import { MasksRoutingModule } from './masks-routing.module';
-import { GeoObjectListComponent } from './geo-object-list/geo-object-list.component';
-import { MasksEffects } from './store/masks.effects';
+import { StoreModule } from '@ngrx/store';
 import { SharedModule } from '../material/shared.module';
-import { GeoObjectDetailsComponent } from './geo-object-details/geo-object-details.component';
-import { MaskListComponent } from './mask-list/mask-list.component';
-import { MaskDetailsComponent } from './mask-details/mask-details.component';
-import { QuestionListComponent } from './question-list/question-list.component';
 import { AnswerListComponent } from './answer-list/answer-list.component';
-import { MetricCalculationListComponent } from './metric-calculation-list/metric-calculation-list.component';
 import { FixMaskCodePipe } from './fix-mask-code.pipe';
-
-import * as fromMasks from './store/masks.reducer';
+import { GeoObjectDetailsComponent } from './geo-object-details/geo-object-details.component';
+import { GeoObjectListComponent } from './geo-object-list/geo-object-list.component';
+import { MaskDetailsComponent } from './mask-details/mask-details.component';
+import { MaskListComponent } from './mask-list/mask-list.component';
+import { MasksRoutingModule } from './masks-routing.module';
+import { MetricCalculationListComponent } from './metric-calculation-list/metric-calculation-list.component';
 import { MetricCalculationsDialogComponent } from './metric-calculation-list/metric-calculations-dialog.component';
+import { QuestionListComponent } from './question-list/question-list.component';
+import { MasksEffects } from './store/masks.effects';
+import * as fromMasks from './store/masks.reducer';
 
 
 @NgModule({

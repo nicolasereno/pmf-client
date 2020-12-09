@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { PaymentList, GeoObject, Mask, RemapType, TechSite, Cit } from 'src/app/model/model';
+import { Cit, GeoObject, Mask, PaymentList, RemapType, TechSite } from 'src/app/model/model';
+
 
 export enum UtilityActionTypes {
 	LoadCache = '[Utility] Load Payment Lists',

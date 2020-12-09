@@ -26,7 +26,7 @@ export class MaskDetailsResolverService implements Resolve<Mask> {
 	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 		const mode = route.params['mode']
 		if (mode == 'create') {
-			return {id: null, code: null, questions: []};
+			return { id: null, code: null, questions: [] };
 		}
 		const id = +route.params['id'];
 		this.masksStore.dispatch(new masksActions.LoadQuestionsAnswers(id));

@@ -1,17 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, forkJoin } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
-import { Action } from '@ngrx/store';
-import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
-
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
+import { BaseResponse, Cit, GeoObject, Mask, PaymentList, RemapType, TechSite } from 'src/app/model/model';
+import { environment } from 'src/environments/environment';
 import * as utilityActions from './utility.actions';
 import { UtilityActions } from './utility.actions';
-import { HttpClient } from '@angular/common/http';
 
-import { BaseResponse, GeoObject, Mask, RemapType, PaymentList, TechSite, Cit } from 'src/app/model/model';
-import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class UtilityEffects implements OnInitEffects {

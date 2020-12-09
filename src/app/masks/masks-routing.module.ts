@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { GeoObjectListComponent } from './geo-object-list/geo-object-list.component';
+import { RouterModule, Routes } from '@angular/router';
 import { GeoObjectDetailsComponent } from './geo-object-details/geo-object-details.component';
-import { MaskListComponent } from './mask-list/mask-list.component';
-import { MaskDetailsComponent } from './mask-details/mask-details.component';
+import { GeoObjectListComponent } from './geo-object-list/geo-object-list.component';
 import { MaskDetailsResolverService } from './mask-details/mask-details-resolver.service';
+import { MaskDetailsComponent } from './mask-details/mask-details.component';
+import { MaskListComponent } from './mask-list/mask-list.component';
+
 
 const routes: Routes = [
 	{ path: 'geo-object-list', component: GeoObjectListComponent },

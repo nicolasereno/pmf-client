@@ -10,62 +10,55 @@
 	</mat-form-field>
 	<mat-form-field>
 		<mat-label i18n="@@maskAnags-labelFilter">Filtro</mat-label>
-		<input matInput i18n-placeholder="@@maskAnags-placeholderFilter" placeholder="Filtra per codice o descrizione" name="filtro" [(ngModel)]="filtro" (ngModelChange)="applicaFiltro()">
+		<input matInput i18n-placeholder="@@maskAnags-placeholderFilter" placeholder="Filtra per codice o descrizione"
+			name="filtro" [(ngModel)]="filtro" (ngModelChange)="applicaFiltro()">
 	</mat-form-field>
 </form>
 
 <div class="mat-elevation-z8">
-	<table mat-table [dataSource]="dataSource" matSort
-		multiTemplateDataRows>
+	<table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
 
 		<ng-container matColumnDef="code">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header
-			i18n="@@maskAnags-code">Codice</th>
-		<td mat-cell *matCellDef="let element" [title]="element.id">
-			<strong (click)="onModifyMask(element.id, $event)" title="Modifica questa maschera">{{ element | fixMaskCode }}</strong>
-		</td>
+			<th mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@maskAnags-code">Codice</th>
+			<td mat-cell *matCellDef="let element" [title]="element.id">
+				<strong (click)="onModifyMask(element.id, $event)"
+					title="Modifica questa maschera">{{ element | fixMaskCode }}</strong>
+			</td>
 		</ng-container>
 
 		<ng-container matColumnDef="description">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header
-			i18n="@@maskAnags-description">Descrizione</th>
-		<td mat-cell *matCellDef="let element">{{element.description}}</td>
+			<th mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@maskAnags-description">Descrizione</th>
+			<td mat-cell *matCellDef="let element">{{element.description}}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="tisp">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header
-			i18n="@@maskAnags-tisp">TISP</th>
-		<td mat-cell *matCellDef="let element">{{element.tisp}}</td>
+			<th mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@maskAnags-tisp">TISP</th>
+			<td mat-cell *matCellDef="let element">{{element.tisp}}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="tecnicalMask">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header
-			i18n="@@maskAnags-technicalMask">Maschera tecnica</th>
-		<td mat-cell *matCellDef="let element">{{element.tecnicalMask}}</td>
+			<th mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@maskAnags-technicalMask">Maschera tecnica</th>
+			<td mat-cell *matCellDef="let element">{{element.tecnicalMask}}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="version">
-		<th mat-header-cell *matHeaderCellDef i18n="@@maskAnags-version">Versione</th>
-		<td mat-cell *matCellDef="let element">{{element.version}}</td>
+			<th mat-header-cell *matHeaderCellDef i18n="@@maskAnags-version">Versione</th>
+			<td mat-cell *matCellDef="let element">{{element.version}}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="expandedDetail">
-		<td mat-cell *matCellDef="let element"
-			[attr.colspan]="displayedColumns.length">
-			<div class="element-detail" 
-				[@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-				<div style="width: 100%;">
-					<pmf-question-list [data]="questionsAnswers"></pmf-question-list>
+			<td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+				<div class="element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+					<div style="width: 100%;">
+						<pmf-question-list [data]="questionsAnswers"></pmf-question-list>
+					</div>
 				</div>
-			</div>
-		</td>
+			</td>
 		</ng-container>
 
 		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-		<tr mat-row *matRowDef="let row; columns: displayedColumns;"
-			(click)="espandiMaschera(row)"></tr>
-		<tr mat-row *matRowDef="let row; columns: ['expandedDetail']"
-			class="detail-row"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="espandiMaschera(row)"></tr>
+		<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 	</table>
 	<mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
 
