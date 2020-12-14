@@ -19,7 +19,7 @@ export class DifferencesService {
 			rr.forEach(r => {
 				const relation = o2.relations[r];
 				const _relation: _Relation = { id: relation.id, operationType: this.operationType(relation.id) };
-				this.modifiedQuestionProperties(r, patch).forEach(p => _relation[p] = relation[p]);
+				this.modifiedRelationsProperties(r, patch).forEach(p => _relation[p] = relation[p]);
 				_relation.id = Math.abs(relation.id);
 				_geoObject.relations.push(_relation);
 			});
@@ -105,4 +105,9 @@ export class DifferencesService {
 	private modifiedRelations(patch: Operation[]) {
 		return this.extractNumber(patch, '/relations/', 2)
 	}
+	
+	private modifiedRelationsProperties(relation: number, patch: Operation[]) {
+		return this.extractString(patch, '/relations/' + relation + '/', 3);
+	}
+
 }
