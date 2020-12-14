@@ -142,3 +142,18 @@ export interface _GeoObject extends GeoObject {
 export interface _Relation extends Relation {
 	operationType?: 'INS' | 'MOD' | 'DEL'
 }
+
+export interface Project {
+	projectId?: number;
+	projectName?: string;
+	projcetDescription?: string;
+	projectUser?: string;
+	projectStatus?: string;
+	insertTime?: any;
+	modifyTime?: any;
+}
+
+export interface ProjectData {
+	masks?: _Mask[];
+	relations?: _GeoObject[];
+}

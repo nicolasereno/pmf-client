@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { filter, map, take, takeWhile } from 'rxjs/operators';
 import { GeoObject, MaskRef, RemapType } from 'src/app/model/model';
 import { inOptions } from '../../material/autocomplete-element/autocomplete-element.component';
+import { IsDirty } from '../../utility/dirty.guard';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
 import { DifferencesService } from '../differences.service';
@@ -15,7 +16,7 @@ import { DifferencesService } from '../differences.service';
 	templateUrl: './geo-object-details.component.html',
 	styleUrls: ['./geo-object-details.component.css']
 })
-export class GeoObjectDetailsComponent implements OnInit, OnDestroy {
+export class GeoObjectDetailsComponent implements OnInit, OnDestroy, IsDirty {
 
 	active = true;
 	ngOnDestroy() {
@@ -45,6 +46,13 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy {
 		private router: Router,
 		private diff: DifferencesService,
 		private utilityStore: Store<fromUtility.State>) { }
+
+	isDirty() {
+		const modified = this.diff.createMaskDifference(this.data, this.geoObjectForm.value) != null;
+		if (modified)
+			confirm('Le modifiche fatte alle relazini e non salvate saranno perse. Continuare?');
+		return modified;
+	}
 
 	ngOnInit(): void {
 		this.id = +this.route.snapshot.paramMap.get('id');
@@ -83,11 +91,6 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy {
 		this.router.navigate(['masks', 'geo-object-details', 'edit', this.id]);
 	}
 
-	onRemoveMask(i: number) {
-		(<FormArray>this.geoObjectForm.controls.masks).removeAt(i);
-		this.data.relations.slice(i, i);
-	}
-
 	relationsControls(): AbstractControl[] {
 		return (<FormArray>this.geoObjectForm.controls.relations).controls;
 	}
@@ -113,6 +116,7 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy {
 		if (this.relationsFormGroup(i).controls['id'].value == null) {
 			// non presente in db: lo elimino
 			this.relationsControls().splice(i, 1);
+			this.geoObjectForm.value.relations.splice(i, 1);
 			this.data.relations.splice(i, 1);
 		} else
 			this.relationsFormGroup(i).controls['id'].setValue(-1 * this.relationsFormGroup(i).controls['id'].value);

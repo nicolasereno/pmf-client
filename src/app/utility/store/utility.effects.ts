@@ -1,11 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { BaseResponse, Cit, GeoObject, Mask, PaymentList, RemapType, TechSite } from 'src/app/model/model';
+import { BaseResponse, Cit, GeoObject, Mask, PaymentList, Project, ProjectData, RemapType, TechSite } from 'src/app/model/model';
 import { environment } from 'src/environments/environment';
 import * as utilityActions from './utility.actions';
 import { UtilityActions } from './utility.actions';
@@ -23,7 +23,7 @@ export class UtilityEffects implements OnInitEffects {
 	errorLoadCache = $localize`:@@utilityEffects-errorLoadCache:Errore nel caricamento nella cache dei dati statici`;
 
 	@Effect()
-	loadPaymentLists$: Observable<Action> = this.actions$.pipe(
+	loadCache$: Observable<Action> = this.actions$.pipe(
 		ofType(utilityActions.UtilityActionTypes.LoadCache),
 		map((action: utilityActions.LoadCache) => action),
 		mergeMap(() =>
@@ -37,7 +37,7 @@ export class UtilityEffects implements OnInitEffects {
 			).pipe(
 				map(c => {
 					// FIX dati temporanea...
-					c[1].body.forEach(g => g.relations.forEach(r => { r.id = 1, r.mask = { id: r.mask.id, description: r.mask.description, code: r.mask.code } }));
+					c[1].body.forEach(g => g.relations.forEach(r => { r.mask = { id: r.mask.id, description: r.mask.description, code: r.mask.code } }));
 					c[2].body.forEach(m => { delete m['patch']; delete m['operationType']; });
 					// END FIX dati
 					return new utilityActions.LoadCacheSuccess({
@@ -59,6 +59,36 @@ export class UtilityEffects implements OnInitEffects {
 					return of(new utilityActions.LoadCacheFailure(err.statusText));
 				})
 			)
+		)
+	)
+
+	@Effect()
+	loadCacheSuccess$: Observable<Action> = this.actions$.pipe(
+		ofType(utilityActions.UtilityActionTypes.LoadCacheSuccess),
+		mergeMap(() => of(new utilityActions.LoadProject()))
+	);
+
+	PROJECT_NAME = 'default';
+	USER_NAME = 'TEST';
+	// FIXME Versione iniziale con utente 'FISSO', in attesa di SSO
+	@Effect()
+	loadDefaultProject$: Observable<Action> = this.actions$.pipe(
+		ofType(utilityActions.UtilityActionTypes.LoadProject),
+		mergeMap(() =>
+			this.http.get<BaseResponse<Project[]>>(environment.baseUrl + 'projectMask/getUsersProjects',
+				{ params: new HttpParams().append('user', this.USER_NAME) }).pipe(
+					mergeMap(c => {
+						const id = c.body.filter(e => e.projectName == this.PROJECT_NAME)[0].projectId;
+						return this.http.get<BaseResponse<ProjectData>>(environment.baseUrl + 'projectMask/getProjectData',
+							{ params: new HttpParams().append('projectUser', this.USER_NAME).append('projectId', '' + id) })
+					}),
+					map((c) => {
+						return new utilityActions.LoadProjectSuccess(c.body);
+					}),
+					catchError(err => {
+						return of(new utilityActions.LoadProjectFailure(err.statusText));
+					})
+				)
 		)
 	)
 

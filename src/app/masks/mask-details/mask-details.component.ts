@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, take, takeWhile } from 'rxjs/operators';
 import { Cit, Mask, MetricCalculation, PaymentList, RemapType, TechSite } from 'src/app/model/model';
+import { IsDirty } from '../../utility/dirty.guard';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
 import { DifferencesService } from '../differences.service';
@@ -19,7 +20,7 @@ import * as maskSelectors from '../store/masks.selectors';
 	templateUrl: './mask-details.component.html',
 	styleUrls: ['./mask-details.component.css']
 })
-export class MaskDetailsComponent implements OnInit, OnDestroy {
+export class MaskDetailsComponent implements OnInit, OnDestroy, IsDirty {
 
 	active = true;
 	ngOnDestroy() {
@@ -52,6 +53,13 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 		private masksStore: Store<fromMasks.State>,
 		private diff: DifferencesService,
 		private dialog: MatDialog) { }
+
+	isDirty() {
+		const modified = this.diff.createMaskDifference(this.data, this.maskAnagForm.value) != null;
+		if (modified)
+			confirm('Le modifiche fatte alla maschera e non salvate saranno perse. Continuare?');
+		return modified;
+	}
 
 	data: Mask;
 
@@ -152,6 +160,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 		if (this.questionFormGroup(i).controls['id'].value == null) {
 			// non presente in db: lo elimino
 			this.questionControls().splice(i, 1);
+			this.maskAnagForm.value.questions.splice(i, 1);
 			this.data.questions.splice(i, 1);
 		} else
 			this.questionFormGroup(i).controls['id'].setValue(-1 * this.questionFormGroup(i).controls['id'].value);
@@ -164,7 +173,9 @@ export class MaskDetailsComponent implements OnInit, OnDestroy {
 		if (this.answerFormGroup(i, j).controls['id'].value == null) {
 			// non presente in db: lo elimino
 			this.answerControls(i).splice(j, 1);
+			this.maskAnagForm.value.questions[i].answers[j].splice(i, 1);
 			this.data.questions[i].answers.splice(j, 1);
+			console.log(this.answerControls(i));
 		} else
 			this.answerFormGroup(i, j).controls['id'].setValue(-1 * this.answerFormGroup(i, j).controls['id'].value);
 	}

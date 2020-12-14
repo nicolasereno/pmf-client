@@ -7,6 +7,9 @@ import { GeoObject, Mask, _Answer, _GeoObject, _Mask, _Question, _Relation } fro
 export class DifferencesService {
 
 	createGeoObjectDifference(o1: GeoObject, o2: GeoObject) {
+		console.debug(JSON.stringify(o1));
+		console.debug(JSON.stringify(o2));
+
 		let patch = createPatch(o1, o2);
 		if (patch.length == 0)
 			return null;
@@ -29,6 +32,9 @@ export class DifferencesService {
 	}
 
 	createMaskDifference(o1: Mask, o2: Mask): _Mask {
+		console.debug(JSON.stringify(o1));
+		console.debug(JSON.stringify(o2));
+
 		let patch = createPatch(o1, o2);
 		if (patch.length == 0)
 			return null;
@@ -105,7 +111,7 @@ export class DifferencesService {
 	private modifiedRelations(patch: Operation[]) {
 		return this.extractNumber(patch, '/relations/', 2)
 	}
-	
+
 	private modifiedRelationsProperties(relation: number, patch: Operation[]) {
 		return this.extractString(patch, '/relations/' + relation + '/', 3);
 	}

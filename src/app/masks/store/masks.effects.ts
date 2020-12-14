@@ -28,7 +28,16 @@ export class MasksEffects {
 					map((c) => {
 						// FIXME temporanea...
 						const mm = c.body;
-						mm.forEach(q => { delete q['operationType']; delete q['patch']; q.answers.forEach(a => { delete a['operationType']; delete a['patch']; }); });
+						mm.forEach(q => {
+							delete q['operationType'];
+							delete q['patch'];
+							delete q['reallyMod'];
+							q.answers.forEach(a => {
+								delete a['operationType'];
+								delete a['patch'];
+								delete a['reallyMod'];
+							});
+						});
 						return new masksActions.LoadQuestionsAnswersSuccess(mm);
 					}),
 					catchError(err => {

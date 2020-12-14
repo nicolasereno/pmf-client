@@ -5,15 +5,16 @@ import { GeoObjectListComponent } from './geo-object-list/geo-object-list.compon
 import { MaskDetailsResolverService } from './mask-details/mask-details-resolver.service';
 import { MaskDetailsComponent } from './mask-details/mask-details.component';
 import { MaskListComponent } from './mask-list/mask-list.component';
+import { DirtyGuard } from '../utility/dirty.guard';
 
 
 const routes: Routes = [
 	{ path: 'geo-object-list', component: GeoObjectListComponent },
-	{ path: 'geo-object-details/:mode', component: GeoObjectDetailsComponent },
-	{ path: 'geo-object-details/:mode/:id', component: GeoObjectDetailsComponent },
+	{ path: 'geo-object-details/:mode', component: GeoObjectDetailsComponent, canDeactivate: [DirtyGuard] },
+	{ path: 'geo-object-details/:mode/:id', component: GeoObjectDetailsComponent, canDeactivate: [DirtyGuard] },
 	{ path: 'mask-list', component: MaskListComponent },
-	{ path: 'mask-details/:mode', component: MaskDetailsComponent, resolve: { data: MaskDetailsResolverService } },
-	{ path: 'mask-details/:mode/:id', component: MaskDetailsComponent, resolve: { data: MaskDetailsResolverService } },
+	{ path: 'mask-details/:mode', component: MaskDetailsComponent, resolve: { data: MaskDetailsResolverService }, canDeactivate: [DirtyGuard] },
+	{ path: 'mask-details/:mode/:id', component: MaskDetailsComponent, resolve: { data: MaskDetailsResolverService }, canDeactivate: [DirtyGuard] },
 ];
 
 @NgModule({

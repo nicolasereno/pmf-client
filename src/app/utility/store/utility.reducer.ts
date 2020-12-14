@@ -1,4 +1,4 @@
-import { Cit, GeoObject, Mask, PaymentList, RemapType, TechSite } from 'src/app/model/model';
+import { Cit, GeoObject, Mask, PaymentList, ProjectData, RemapType, TechSite } from 'src/app/model/model';
 import { UtilityActions, UtilityActionTypes } from './utility.actions';
 
 
@@ -18,6 +18,7 @@ export interface State {
 		techSites: TechSite[],
 		cits: Cit[],
 	},
+	projectData: ProjectData;
 	error: string,
 	loading: boolean,
 }
@@ -36,6 +37,7 @@ export const initialState: State = {
 		techSites: null,
 		cits: null,
 	},
+	projectData: null,
 	error: null,
 	loading: false,
 };
@@ -61,6 +63,13 @@ export function reducer(state = initialState, action: UtilityActions): State {
 				},
 				loading: true
 			};
+		case UtilityActionTypes.LoadProject:
+			return {
+				...state,
+				error: null,
+				projectData: null,
+				loading: true
+			};
 		case UtilityActionTypes.LoadCacheSuccess:
 			return {
 				...state,
@@ -79,7 +88,14 @@ export function reducer(state = initialState, action: UtilityActions): State {
 				},
 				loading: false
 			};
+		case UtilityActionTypes.LoadProjectSuccess:
+			return {
+				...state,
+				projectData: action.payload,
+				loading: false
+			};
 		case UtilityActionTypes.LoadCacheFailure:
+		case UtilityActionTypes.LoadProjectFailure:
 			return {
 				...state,
 				error: action.payload,
