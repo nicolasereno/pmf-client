@@ -18,6 +18,7 @@ import { HomeComponent } from './home/home.component';
 import { SharedModule } from './material/shared.module';
 import { NavComponent } from './nav/nav.component';
 import { UtilityModule } from './utility/utility.module';
+import { ModificationsComponent } from './modifications/modifications.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { UtilityModule } from './utility/utility.module';
 		AppComponent,
 		NavComponent,
 		HomeComponent,
+		ModificationsComponent,
 	],
 	imports: [
 		BrowserModule,

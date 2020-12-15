@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { filter, take, takeWhile } from 'rxjs/operators';
 import { Cit, Mask, MetricCalculation, PaymentList, RemapType, TechSite } from 'src/app/model/model';
 import { IsDirty } from '../../utility/dirty.guard';
+import * as utilityActions from '../../utility/store/utility.actions';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
 import { DifferencesService } from '../differences.service';
@@ -57,7 +58,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy, IsDirty {
 	isDirty() {
 		const modified = this.diff.createMaskDifference(this.data, this.maskAnagForm.value) != null;
 		if (modified)
-			confirm('Le modifiche fatte alla maschera e non salvate saranno perse. Continuare?');
+			return !confirm('Le modifiche fatte alla maschera e non salvate saranno perse. Continuare?');
 		return modified;
 	}
 
@@ -182,5 +183,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy, IsDirty {
 
 	onSubmit() {
 		const difference = this.diff.createMaskDifference(this.data, this.maskAnagForm.value);
+
+		this.utilityStore.dispatch(new utilityActions.MergeMaskEdits(difference));
 	}
 }

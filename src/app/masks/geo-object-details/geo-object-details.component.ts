@@ -9,6 +9,7 @@ import { IsDirty } from '../../utility/dirty.guard';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
 import { DifferencesService } from '../differences.service';
+import * as utilityActions from '../../utility/store/utility.actions';
 
 
 @Component({
@@ -50,7 +51,7 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy, IsDirty {
 	isDirty() {
 		const modified = this.diff.createMaskDifference(this.data, this.geoObjectForm.value) != null;
 		if (modified)
-			confirm('Le modifiche fatte alle relazini e non salvate saranno perse. Continuare?');
+			return !confirm('Le modifiche fatte alle relazini e non salvate saranno perse. Continuare?');
 		return modified;
 	}
 
@@ -124,6 +125,8 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy, IsDirty {
 
 	onSubmit() {
 		const difference = this.diff.createGeoObjectDifference(this.data, this.geoObjectForm.value);
+
+		this.utilityStore.dispatch(new utilityActions.MergeGeoObjectEdits(difference));
 	}
 
 }

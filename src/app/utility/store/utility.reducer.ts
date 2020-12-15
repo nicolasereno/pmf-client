@@ -19,6 +19,7 @@ export interface State {
 		cits: Cit[],
 	},
 	projectData: ProjectData;
+	patch: string,
 	error: string,
 	loading: boolean,
 }
@@ -38,6 +39,7 @@ export const initialState: State = {
 		cits: null,
 	},
 	projectData: null,
+	patch: null,
 	error: null,
 	loading: false,
 };
@@ -94,8 +96,25 @@ export function reducer(state = initialState, action: UtilityActions): State {
 				projectData: action.payload,
 				loading: false
 			};
+		case UtilityActionTypes.MergeGeoObjectEdits:
+		case UtilityActionTypes.MergeMaskEdits:
+			return {
+				...state,
+				patch: null,
+				loading: true
+			};
+		case UtilityActionTypes.MergeGeoObjectEditsSuccess:
+		case UtilityActionTypes.MergeMaskEditsSuccess:
+			return {
+				...state,
+				patch: action.payload.patch,
+				projectData: action.payload.projectData,
+				loading: false
+			};
 		case UtilityActionTypes.LoadCacheFailure:
 		case UtilityActionTypes.LoadProjectFailure:
+		case UtilityActionTypes.MergeGeoObjectEditsFailure:
+		case UtilityActionTypes.MergeMaskEditsFailure:
 			return {
 				...state,
 				error: action.payload,

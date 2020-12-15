@@ -13,7 +13,7 @@ export class DifferencesService {
 		let patch = createPatch(o1, o2);
 		if (patch.length == 0)
 			return null;
-		const _geoObject: _GeoObject = { id: o1.id, code: o2.code, operationType: this.operationType(o2.id), patch: JSON.stringify(patch) };
+		const _geoObject: _GeoObject = { id: o1.id, code: o2.code, operationType: this.operationType(o2.id) };
 		this.modifiedGeoObjectProperties(patch).forEach(p => _geoObject[p] = o2[p]);
 
 		const rr = this.modifiedRelations(patch);
@@ -24,10 +24,13 @@ export class DifferencesService {
 				const _relation: _Relation = { id: relation.id, operationType: this.operationType(relation.id) };
 				this.modifiedRelationsProperties(r, patch).forEach(p => _relation[p] = relation[p]);
 				_relation.id = Math.abs(relation.id);
+				// Patch per cicli di modifica lato backend
+				_relation['geoObjId'] = o1.id;
 				_geoObject.relations.push(_relation);
 			});
 		}
 		console.debug(JSON.stringify(_geoObject));
+		_geoObject.patch = btoa(JSON.stringify(o2));
 		return _geoObject;
 	}
 
@@ -38,7 +41,7 @@ export class DifferencesService {
 		let patch = createPatch(o1, o2);
 		if (patch.length == 0)
 			return null;
-		const _mask: _Mask = { id: o1.id, code: o2.code, operationType: this.operationType(o2.id), patch: JSON.stringify(patch) };
+		const _mask: _Mask = { id: o1.id, code: o2.code, operationType: this.operationType(o2.id) };
 		this.modifiedMaskProperties(patch).forEach(p => _mask[p] = o2[p]);
 
 		const qq = this.modifiedQuestions(patch);
@@ -55,7 +58,7 @@ export class DifferencesService {
 					aa.forEach(a => {
 						const answer = question.answers[a];
 						const _answer: _Answer = { code: answer.code, operationType: this.operationType(answer.id) };
-						_answer.operationType = _answer.id == null ? 'INS' : (_answer.id < 0 ? 'DEL' : 'MOD');
+						_answer.operationType = _answer.id == null ? 'ADD' : (_answer.id < 0 ? 'DEL' : 'MOD');
 						this.modifiedQuestionAnswerProperties(q, a, patch).forEach(p => _answer[p] = answer[p]);
 						_answer.id = Math.abs(answer.id);
 						_question.answers.push(_answer);
@@ -65,11 +68,12 @@ export class DifferencesService {
 			});
 		}
 		console.debug(JSON.stringify(_mask));
+		_mask.patch = btoa(JSON.stringify(o2));
 		return _mask;
 	}
 
 	private operationType(id: number) {
-		return id == null ? 'INS' : (id < 0 ? 'DEL' : 'MOD');
+		return id == null ? 'ADD' : (id < 0 ? 'DEL' : 'MOD');
 	}
 
 	private extractString(patch: Operation[], start: string, index: number, exclude?: string) {

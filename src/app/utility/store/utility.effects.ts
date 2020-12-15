@@ -2,14 +2,15 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
-import { forkJoin, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-import { BaseResponse, Cit, GeoObject, Mask, PaymentList, Project, ProjectData, RemapType, TechSite } from 'src/app/model/model';
+import { Action, Store } from '@ngrx/store';
+import { combineLatest, forkJoin, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, take } from 'rxjs/operators';
+import { BaseResponse, Cit, GeoObject, Mask, PaymentList, Project, ProjectData, ProjectEdits, RemapType, TechSite, _GeoObject, _Mask } from 'src/app/model/model';
 import { environment } from 'src/environments/environment';
+import * as fromUtility from '../../utility/store/utility.reducer';
+import * as utilitySelectors from '../../utility/store/utility.selectors';
 import * as utilityActions from './utility.actions';
 import { UtilityActions } from './utility.actions';
-
 
 @Injectable()
 export class UtilityEffects implements OnInitEffects {
@@ -21,6 +22,10 @@ export class UtilityEffects implements OnInitEffects {
 	error = $localize`:@@utilityEffects-error:ERRORE`;
 
 	errorLoadCache = $localize`:@@utilityEffects-errorLoadCache:Errore nel caricamento nella cache dei dati statici`;
+
+	errorSaveMaskData = $localize`:@@utilityEffects-errorSaveMaskData:Errore nel salvataggio delle modifiche effettuate alla Maschera`;
+
+	errorSaveGeoObjectData = $localize`:@@utilityEffects-errorSaveGeoObjectData:Errore nel salvataggio delle modifiche effettuate all'Elemento di Rete'`;
 
 	@Effect()
 	loadCache$: Observable<Action> = this.actions$.pipe(
@@ -78,12 +83,12 @@ export class UtilityEffects implements OnInitEffects {
 			this.http.get<BaseResponse<Project[]>>(environment.baseUrl + 'projectMask/getUsersProjects',
 				{ params: new HttpParams().append('user', this.USER_NAME) }).pipe(
 					mergeMap(c => {
-						const id = c.body.filter(e => e.projectName == this.PROJECT_NAME)[0].projectId;
-						return this.http.get<BaseResponse<ProjectData>>(environment.baseUrl + 'projectMask/getProjectData',
-							{ params: new HttpParams().append('projectUser', this.USER_NAME).append('projectId', '' + id) })
+						const project = c.body.filter(e => e.projectName == this.PROJECT_NAME)[0];
+						return combineLatest(of(project), this.http.get<BaseResponse<ProjectEdits>>(environment.baseUrl + 'projectMask/getProjectData',
+							{ params: new HttpParams().append('projectUser', this.USER_NAME).append('projectId', '' + project.projectId) }))
 					}),
-					map((c) => {
-						return new utilityActions.LoadProjectSuccess(c.body);
+					map(([project, c]) => {
+						return new utilityActions.LoadProjectSuccess({ project: project, projectData: c.body });
 					}),
 					catchError(err => {
 						return of(new utilityActions.LoadProjectFailure(err.statusText));
@@ -92,7 +97,52 @@ export class UtilityEffects implements OnInitEffects {
 		)
 	)
 
+	@Effect()
+	mergeMask$: Observable<Action> = this.actions$.pipe(
+		ofType(utilityActions.UtilityActionTypes.MergeMaskEdits),
+		map((action: utilityActions.MergeMaskEdits) => action.payload),
+		mergeMap((mask: _Mask) =>
+			this.utilityStore.select(utilitySelectors.getProjectData).pipe(take(1),
+				mergeMap((data: ProjectData) => {
+					let newData: ProjectData = JSON.parse(JSON.stringify(data));
+					if (newData.projectData.masks.filter(m => m.id == mask.id).length > 0)
+						newData.projectData.masks = newData.projectData.masks.map(m => (m.id == mask.id ? mask : m));
+					else
+						newData.projectData.masks.push(mask);
+					console.log(newData.projectData);
+					return this.http.post<BaseResponse<any>>(environment.baseUrl + 'projectMask/saveProject', newData.projectData, { params: new HttpParams().append('projectUser', this.USER_NAME).append('projectId', '' + data.project.projectId) }).pipe(
+						map(() => new utilityActions.MergeMaskEditsSuccess({ patch: mask.patch, projectData: newData })),
+						catchError(err => {
+							this.snackBar.open(this.errorSaveMaskData, this.error, { duration: 5000 })
+							return of(new utilityActions.MergeMaskEditsFailure(err.statusText));
+						}))
+				}))
+		));
+
+	@Effect()
+	mergeGeoObject$: Observable<Action> = this.actions$.pipe(
+		ofType(utilityActions.UtilityActionTypes.MergeGeoObjectEdits),
+		map((action: utilityActions.MergeGeoObjectEdits) => action.payload),
+		mergeMap((geoObject: _GeoObject) =>
+			this.utilityStore.select(utilitySelectors.getProjectData).pipe(take(1),
+				mergeMap((data: ProjectData) => {
+					let newData: ProjectData = JSON.parse(JSON.stringify(data));
+					if (newData.projectData.relations.filter(g => g.id == geoObject.id).length > 0)
+						newData.projectData.relations = newData.projectData.relations.map(g => (g.id == geoObject.id ? geoObject : g));
+					else
+						newData.projectData.relations.push(geoObject);
+					console.log(newData.projectData);
+					return this.http.post<BaseResponse<any>>(environment.baseUrl + 'projectMask/saveProject', newData.projectData, { params: new HttpParams().append('projectUser', this.USER_NAME).append('projectId', '' + data.project.projectId) }).pipe(
+						map(() => new utilityActions.MergeGeoObjectEditsSuccess({ patch: geoObject.patch, projectData: newData })),
+						catchError(err => {
+							this.snackBar.open(this.errorSaveGeoObjectData, this.error, { duration: 5000 })
+							return of(new utilityActions.MergeGeoObjectEditsFailure(err.statusText));
+						}))
+				}))
+		));
+
 	constructor(
+		private utilityStore: Store<fromUtility.State>,
 		private http: HttpClient,
 		private actions$: Actions<UtilityActions>,
 		private snackBar: MatSnackBar

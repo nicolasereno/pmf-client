@@ -61,3 +61,12 @@ export const getCits = createSelector(
 	state => state.cache.cits
 );
 
+export const getProjectData = createSelector(
+	selectUtilityState,
+	state => state.projectData
+);
+
+export const getProjectEdits = createSelector(
+	selectUtilityState,
+	state => state.projectData?.projectData
+);

@@ -4,7 +4,7 @@
 
 export const environment = {
 	production: false,
-	baseUrl: 'http://s6aawipalf00/ext/pmfController/v1/'
+	baseUrl: 'http://10.151.4.42:21832/pmfController/v1/'
 };
 
 /*

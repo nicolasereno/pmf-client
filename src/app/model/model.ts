@@ -119,28 +119,28 @@ export interface Answer {
 
 // Objects for Deltas
 export interface _Mask extends Mask {
-	operationType?: 'INS' | 'MOD' | 'DEL'
+	operationType?: 'ADD' | 'MOD' | 'DEL'
 	patch?: string;
 	questions?: _Question[];
 }
 
 export interface _Question extends Question {
-	operationType?: 'INS' | 'MOD' | 'DEL'
+	operationType?: 'ADD' | 'MOD' | 'DEL'
 	answers?: _Answer[];
 }
 
 export interface _Answer extends Answer {
-	operationType?: 'INS' | 'MOD' | 'DEL'
+	operationType?: 'ADD' | 'MOD' | 'DEL'
 }
 
 export interface _GeoObject extends GeoObject {
-	operationType?: 'INS' | 'MOD' | 'DEL'
+	operationType?: 'ADD' | 'MOD' | 'DEL'
 	patch?: string;
 	relations?: _Relation[];
 }
 
 export interface _Relation extends Relation {
-	operationType?: 'INS' | 'MOD' | 'DEL'
+	operationType?: 'ADD' | 'MOD' | 'DEL'
 }
 
 export interface Project {
@@ -153,7 +153,12 @@ export interface Project {
 	modifyTime?: any;
 }
 
-export interface ProjectData {
+export interface ProjectEdits {
 	masks?: _Mask[];
 	relations?: _GeoObject[];
+}
+
+export interface ProjectData {
+	project?: Project;
+	projectData?: ProjectEdits
 }

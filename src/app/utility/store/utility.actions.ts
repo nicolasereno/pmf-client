@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Cit, GeoObject, Mask, PaymentList, ProjectData, RemapType, TechSite } from 'src/app/model/model';
+import { Cit, GeoObject, Mask, PaymentList, ProjectData, RemapType, TechSite, _GeoObject, _Mask } from 'src/app/model/model';
 
 
 export enum UtilityActionTypes {
@@ -9,6 +9,12 @@ export enum UtilityActionTypes {
 	LoadProject = '[Utility] Load Project',
 	LoadProjectSuccess = '[Utility] Load Project Success',
 	LoadProjectFailure = '[Utility] Load Project Failure',
+	MergeMaskEdits = '[Utility] Merge Mask Edits',
+	MergeMaskEditsSuccess = '[Utility] Merge Mask Edits Success',
+	MergeMaskEditsFailure = '[Utility] Merge Mask Edits Failure',
+	MergeGeoObjectEdits = '[Utility] Merge GeoObject Edits',
+	MergeGeoObjectEditsSuccess = '[Utility] Merge GeoObject Edits Success',
+	MergeGeoObjectEditsFailure = '[Utility] Merge GeoObject Edits Failure',
 }
 
 export class LoadCache implements Action {
@@ -39,10 +45,46 @@ export class LoadProjectFailure implements Action {
 	constructor(public payload: string) { }
 }
 
+export class MergeMaskEdits implements Action {
+	readonly type = UtilityActionTypes.MergeMaskEdits;
+	constructor(public payload: _Mask) { }
+}
+
+export class MergeMaskEditsSuccess implements Action {
+	readonly type = UtilityActionTypes.MergeMaskEditsSuccess;
+	constructor(public payload: { patch: string, projectData: ProjectData }) { }
+}
+
+export class MergeMaskEditsFailure implements Action {
+	readonly type = UtilityActionTypes.MergeMaskEditsFailure;
+	constructor(public payload: string) { }
+}
+
+export class MergeGeoObjectEdits implements Action {
+	readonly type = UtilityActionTypes.MergeGeoObjectEdits;
+	constructor(public payload: _GeoObject) { }
+}
+
+export class MergeGeoObjectEditsSuccess implements Action {
+	readonly type = UtilityActionTypes.MergeGeoObjectEditsSuccess;
+	constructor(public payload: { patch: string, projectData: ProjectData }) { }
+}
+
+export class MergeGeoObjectEditsFailure implements Action {
+	readonly type = UtilityActionTypes.MergeGeoObjectEditsFailure;
+	constructor(public payload: string) { }
+}
+
 export type UtilityActions =
 	LoadCache |
 	LoadCacheSuccess |
 	LoadCacheFailure |
 	LoadProject |
 	LoadProjectSuccess |
-	LoadProjectFailure;
+	LoadProjectFailure |
+	MergeMaskEdits |
+	MergeMaskEditsSuccess |
+	MergeMaskEditsFailure |
+	MergeGeoObjectEdits |
+	MergeGeoObjectEditsSuccess |
+	MergeGeoObjectEditsFailure;

@@ -11,6 +11,7 @@ import * as fromUtility from './store/utility.reducer';
 		CommonModule,
 		StoreModule.forFeature(fromUtility.utilityFeatureKey, fromUtility.reducer),
 		EffectsModule.forFeature([UtilityEffects])
-	]
+	],
+	declarations: []
 })
 export class UtilityModule { }
