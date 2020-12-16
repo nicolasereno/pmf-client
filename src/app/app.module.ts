@@ -14,11 +14,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ChangesetComponent } from './changeset/changeset.component';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from './material/shared.module';
 import { NavComponent } from './nav/nav.component';
 import { UtilityModule } from './utility/utility.module';
-import { ModificationsComponent } from './modifications/modifications.component';
 
 
 @NgModule({
@@ -26,7 +26,7 @@ import { ModificationsComponent } from './modifications/modifications.component'
 		AppComponent,
 		NavComponent,
 		HomeComponent,
-		ModificationsComponent,
+		ChangesetComponent,
 	],
 	imports: [
 		BrowserModule,

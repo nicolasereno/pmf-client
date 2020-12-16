@@ -1,0 +1,40 @@
+<div *ngIf="projectEdits$ | async as projectEdits" class="spaced">
+	<h3>MASCHERE</h3>
+	<ul>
+		<li *ngFor="let m of projectEdits.masks" [ngClass]="m.operationType.toLowerCase()"><strong
+				(click)="toggleMask(m.code)" class="clickable">{{m.code}}</strong>
+			<ul *ngIf="isExpandedMask(m.code)">
+				<li *ngFor="let s of modifiedAttributes(m)">{{s}}: {{showValue(m[s])}}</li>
+			</ul>
+			<ul *ngIf="isExpandedMask(m.code)">
+				<li *ngFor="let q of m.questions" [ngClass]="q.operationType.toLowerCase()"><strong>{{q.code}}</strong>
+					<ul>
+						<li *ngFor="let s of modifiedAttributes(q)">{{s}}: {{showValue(q[s])}}</li>
+					</ul>
+					<ul>
+						<li *ngFor="let a of q.answers" [ngClass]="a.operationType.toLowerCase()"><strong>{{a.code}}</strong>
+							<ul>
+								<li *ngFor="let s of modifiedAttributes(a)">{{s}}: {{showValue(a[s])}}</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+
+	<h3>ELEMENTI DI RETE</h3>
+	<ul>
+		<li *ngFor="let g of projectEdits.geoObjectMaskMappings"><strong (click)="toggleGeoObject(g.code)"
+				class="clickable">{{g.code}}</strong>
+			<ul *ngIf="isExpandedGeoObject(g.code)">
+				<li *ngFor="let r of g.relations" [ngClass]="r.operationType.toLowerCase()"><strong>{{r.relationType}}
+						[{{r.order}}]</strong>
+					<ul>
+						<li *ngFor="let s of modifiedAttributes(s)">{{s}}: {{showValue(s[s])}}</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>

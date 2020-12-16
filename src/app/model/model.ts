@@ -10,7 +10,7 @@ export interface GeoObject {
 	id?: number;
 	code?: string;
 	description?: string;
-	relations?: Relation[];
+	geoObjectMaskMappings?: Relation[];
 	version?: string;
 }
 
@@ -155,7 +155,7 @@ export interface Project {
 
 export interface ProjectEdits {
 	masks?: _Mask[];
-	relations?: _GeoObject[];
+	geoObjectMaskMappings?: _GeoObject[];
 }
 
 export interface ProjectData {

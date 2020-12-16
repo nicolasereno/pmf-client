@@ -6,10 +6,10 @@ import { filter, map, take, takeWhile } from 'rxjs/operators';
 import { GeoObject, MaskRef, RemapType } from 'src/app/model/model';
 import { inOptions } from '../../material/autocomplete-element/autocomplete-element.component';
 import { IsDirty } from '../../utility/dirty.guard';
+import * as utilityActions from '../../utility/store/utility.actions';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
 import { DifferencesService } from '../differences.service';
-import * as utilityActions from '../../utility/store/utility.actions';
 
 
 @Component({
@@ -36,7 +36,7 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy, IsDirty {
 		code: null,
 		description: Validators.required,
 		version: Validators.required,
-		relations: this.fb.array([])
+		geoObjectMaskMappings: this.fb.array([])
 	});
 
 	data: GeoObject;
@@ -51,7 +51,7 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy, IsDirty {
 	isDirty() {
 		const modified = this.diff.createMaskDifference(this.data, this.geoObjectForm.value) != null;
 		if (modified)
-			return !confirm('Le modifiche fatte alle relazini e non salvate saranno perse. Continuare?');
+			return !confirm('Le modifiche fatte alle relazioni e non salvate saranno perse. Continuare?');
 		return modified;
 	}
 
@@ -74,7 +74,7 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy, IsDirty {
 				filter(d => d != null),
 				take(1), map(d => d.filter(e => e['id'] == this.id)[0])).subscribe((val) => {
 					this.data = JSON.parse(JSON.stringify(val));
-					this.data.relations.forEach(() => { this.addRelation(); });
+					this.data.geoObjectMaskMappings.forEach(() => { this.addRelation(); });
 					this.geoObjectForm.patchValue(this.data);
 				})
 		}
@@ -83,44 +83,44 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy, IsDirty {
 	setState(m: 'edit' | 'view' | 'create') {
 		this.mode = m;
 		if (this.mode == 'view')
-			this.geoObjectForm.disable({onlySelf: false});
+			this.geoObjectForm.disable({ onlySelf: false });
 		else
-			this.geoObjectForm.enable({onlySelf: false});
+			this.geoObjectForm.enable({ onlySelf: false });
 	}
 
 	edit() {
 		this.router.navigate(['masks', 'geo-object-details', 'edit', this.id]);
 	}
 
-	relationsControls(): AbstractControl[] {
-		return (<FormArray>this.geoObjectForm.controls.relations).controls;
+	geoObjectMaskMappingsControls(): AbstractControl[] {
+		return (<FormArray>this.geoObjectForm.controls.geoObjectMaskMappings).controls;
 	}
 
-	relationsFormGroup(i: number) {
-		return (<FormGroup>this.relationsControls()[i]);
+	geoObjectMaskMappingsFormGroup(i: number) {
+		return (<FormGroup>this.geoObjectMaskMappingsControls()[i]);
 	}
 
 	addRelation() {
-		(<FormArray>this.geoObjectForm.controls.relations).push(this.fb.group({
+		(<FormArray>this.geoObjectForm.controls.geoObjectMaskMappings).push(this.fb.group({
 			id: null, order: null, relationType: null, mask: [null, inOptions(this.maskRefs)]
 		}));
-		if ((<FormArray>this.geoObjectForm.controls.relations).length > this.data.relations.length)
-			this.data.relations.push({});
+		if ((<FormArray>this.geoObjectForm.controls.geoObjectMaskMappings).length > this.data.geoObjectMaskMappings.length)
+			this.data.geoObjectMaskMappings.push({});
 		if (this.mode == 'view')
-			(<FormArray>this.geoObjectForm.controls.relations).disable();
+			(<FormArray>this.geoObjectForm.controls.geoObjectMaskMappings).disable();
 	}
 
 	removeRelation(i: number, e?: MouseEvent) {
 		e.stopPropagation();
-		if(!confirm('Eliminare la domanda?'))
+		if (!confirm('Eliminare la relazione?'))
 			return;
-		if (this.relationsFormGroup(i).controls['id'].value == null) {
+		if (this.geoObjectMaskMappingsFormGroup(i).controls['id'].value == null) {
 			// non presente in db: lo elimino
-			this.relationsControls().splice(i, 1);
-			this.geoObjectForm.value.relations.splice(i, 1);
-			this.data.relations.splice(i, 1);
+			this.geoObjectMaskMappingsControls().splice(i, 1);
+			this.geoObjectForm.value.geoObjectMaskMappings.splice(i, 1);
+			this.data.geoObjectMaskMappings.splice(i, 1);
 		} else
-			this.relationsFormGroup(i).controls['id'].setValue(-1 * this.relationsFormGroup(i).controls['id'].value);
+			this.geoObjectMaskMappingsFormGroup(i).controls['id'].setValue(-1 * this.geoObjectMaskMappingsFormGroup(i).controls['id'].value);
 	}
 
 	onSubmit() {

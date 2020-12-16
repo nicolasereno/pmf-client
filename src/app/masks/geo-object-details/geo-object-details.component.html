@@ -35,13 +35,13 @@
 		</mat-card-content>
 
 		<mat-accordion>
-			<div *ngFor="let comp of relationsControls(); let i=index" formArrayName="relations">
-				<mat-expansion-panel *ngIf="relationsFormGroup(i).controls['id']?.value >= 0" class="row" [formGroupName]="i"
-					class="relation">
+			<div *ngFor="let comp of geoObjectMaskMappingsControls(); let i=index" formArrayName="geoObjectMaskMappings">
+				<mat-expansion-panel *ngIf="geoObjectMaskMappingsFormGroup(i).controls['id']?.value >= 0" class="row"
+					[formGroupName]="i" class="relation">
 					<mat-expansion-panel-header>
-						<mat-panel-title><strong>{{relationsFormGroup(i).controls['relationType']?.value}}:
-								{{relationsFormGroup(i).controls['mask']?.value?.description}}
-								[{{relationsFormGroup(i).controls['order']?.value}}]</strong></mat-panel-title>
+						<mat-panel-title><strong>{{geoObjectMaskMappingsFormGroup(i).controls['relationType']?.value}}:
+								{{geoObjectMaskMappingsFormGroup(i).controls['mask']?.value?.description}}
+								[{{geoObjectMaskMappingsFormGroup(i).controls['order']?.value}}]</strong></mat-panel-title>
 						<mat-icon *ngIf="mode != 'view'" class="delete-button" (click)="removeRelation(i, $event)">remove_circle
 						</mat-icon>
 					</mat-expansion-panel-header>

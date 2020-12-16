@@ -16,13 +16,13 @@ export class DifferencesService {
 		const _geoObject: _GeoObject = { id: o1.id, code: o2.code, operationType: this.operationType(o2.id) };
 		this.modifiedGeoObjectProperties(patch).forEach(p => _geoObject[p] = o2[p]);
 
-		const rr = this.modifiedRelations(patch);
+		const rr = this.modifiedGeoObjectMaskMappings(patch);
 		if (rr.length > 0) {
 			_geoObject.relations = [];
 			rr.forEach(r => {
-				const relation = o2.relations[r];
-				const _relation: _Relation = { id: relation.id, operationType: this.operationType(relation.id) };
-				this.modifiedRelationsProperties(r, patch).forEach(p => _relation[p] = relation[p]);
+				const relation = o2.geoObjectMaskMappings[r];
+				const _relation: _Relation = { id: relation.id, operationType: this.operationType(relation.id), relationType: o1.geoObjectMaskMappings[r].relationType, order: o2.geoObjectMaskMappings[r].order };
+				this.modifiedGeoObjectMaskMappingsProperties(r, patch).forEach(p => _relation[p] = relation[p]);
 				_relation.id = Math.abs(relation.id);
 				// Patch per cicli di modifica lato backend
 				_relation['geoObjId'] = o1.id;
@@ -109,15 +109,15 @@ export class DifferencesService {
 	}
 
 	private modifiedGeoObjectProperties(patch: Operation[]) {
-		return this.extractString(patch, '/', 1, 'relations');
+		return this.extractString(patch, '/', 1, 'geoObjectMaskMappings');
 	}
 
-	private modifiedRelations(patch: Operation[]) {
-		return this.extractNumber(patch, '/relations/', 2)
+	private modifiedGeoObjectMaskMappings(patch: Operation[]) {
+		return this.extractNumber(patch, '/geoObjectMaskMappings/', 2)
 	}
 
-	private modifiedRelationsProperties(relation: number, patch: Operation[]) {
-		return this.extractString(patch, '/relations/' + relation + '/', 3);
+	private modifiedGeoObjectMaskMappingsProperties(relation: number, patch: Operation[]) {
+		return this.extractString(patch, '/geoObjectMaskMappings/' + relation + '/', 3);
 	}
 
 }

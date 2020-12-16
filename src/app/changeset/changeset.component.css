@@ -1,0 +1,36 @@
+h3 {
+	margin-top: 20px;
+	margin-left: 20px;
+}
+
+ul {
+	padding-left: 20px;
+}
+
+ul>li {
+	list-style-type: square;
+}
+
+.invisible-tabs {
+	display: none;
+}
+
+.clickable {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.mod {
+	color: black;
+	background-color: #FFC107;
+}
+
+.del {
+	color: white;
+	background-color: #C62828;
+}
+
+.add {
+	color: white;
+	background-color: #2E7D32;
+}

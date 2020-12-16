@@ -24,7 +24,7 @@
 
 		<ng-container matColumnDef="maskAnagCodeSARC">
 			<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-adding">Modifica/Aggiunta Componente</th>
-			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.relations, 'ADDING')"
+			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.geoObjectMaskMappings, 'ADDING')"
 					[title]="ma.order + ': ' + ma.mask.code"
 					[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
 				</a></td>
@@ -32,7 +32,7 @@
 
 		<ng-container matColumnDef="maskAnagCodeREM">
 			<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-demolition">Demolizione/Dismissione</th>
-			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.relations, 'DEMOLITION')"
+			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.geoObjectMaskMappings, 'DEMOLITION')"
 					[title]="ma.order + ': ' + ma.mask.code"
 					[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
 				</a></td>
@@ -40,7 +40,7 @@
 
 		<ng-container matColumnDef="maskAnagCodeSEC">
 			<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-sicurezza">Sicurezza Lavori</th>
-			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.relations, 'SICUREZZA')"
+			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.geoObjectMaskMappings, 'SICUREZZA')"
 					[title]="ma.order + ': ' + ma.mask.code"
 					[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
 				</a></td>
@@ -48,7 +48,7 @@
 
 		<ng-container matColumnDef="maskAnagCodeED">
 			<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-time_ed">Attivit&agrave; Personale ED</th>
-			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.relations, 'TIME_ED')"
+			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.geoObjectMaskMappings, 'TIME_ED')"
 					[title]="ma.order + ': ' + ma.mask.code"
 					[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
 				</a></td>
@@ -56,7 +56,7 @@
 
 		<ng-container matColumnDef="maskAnagCodeToolbox">
 			<th mat-header-cell *matHeaderCellDef i18n="@@geoObjects-toolbox">Cassetta degli Attrezzi</th>
-			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.relations, 'TOOLBOX')"
+			<td mat-cell *matCellDef="let element"><a *ngFor="let ma of maschere(element.geoObjectMaskMappings, 'TOOLBOX')"
 					[title]="ma.order + ': ' + ma.mask.code"
 					[routerLink]="['/masks', 'mask-details', 'view',  ma.mask.id]">{{ma.mask.description}}
 				</a></td>

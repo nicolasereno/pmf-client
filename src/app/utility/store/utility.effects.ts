@@ -5,7 +5,7 @@ import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, take } from 'rxjs/operators';
-import { BaseResponse, Cit, GeoObject, Mask, PaymentList, Project, ProjectData, ProjectEdits, RemapType, TechSite, _GeoObject, _Mask } from 'src/app/model/model';
+import { BaseResponse, Cit, GeoObject, Mask, PaymentList, Project, ProjectData, RemapType, TechSite, _GeoObject, _Mask } from 'src/app/model/model';
 import { environment } from 'src/environments/environment';
 import * as fromUtility from '../../utility/store/utility.reducer';
 import * as utilitySelectors from '../../utility/store/utility.selectors';
@@ -42,7 +42,7 @@ export class UtilityEffects implements OnInitEffects {
 			).pipe(
 				map(c => {
 					// FIX dati temporanea...
-					c[1].body.forEach(g => g.relations.forEach(r => { r.mask = { id: r.mask.id, description: r.mask.description, code: r.mask.code } }));
+					c[1].body.forEach(g => { g.geoObjectMaskMappings = g['relations']; delete g['relations']; g.geoObjectMaskMappings.forEach(r => { r.mask = { id: r.mask.id, description: r.mask.description, code: r.mask.code } }) });
 					c[2].body.forEach(m => { delete m['patch']; delete m['operationType']; });
 					// END FIX dati
 					return new utilityActions.LoadCacheSuccess({
@@ -84,11 +84,11 @@ export class UtilityEffects implements OnInitEffects {
 				{ params: new HttpParams().append('user', this.USER_NAME) }).pipe(
 					mergeMap(c => {
 						const project = c.body.filter(e => e.projectName == this.PROJECT_NAME)[0];
-						return combineLatest(of(project), this.http.get<BaseResponse<ProjectEdits>>(environment.baseUrl + 'projectMask/getProjectData',
+						return combineLatest(of(project), this.http.get<BaseResponse<string>>(environment.baseUrl + 'projectMask/getProjectData',
 							{ params: new HttpParams().append('projectUser', this.USER_NAME).append('projectId', '' + project.projectId) }))
 					}),
 					map(([project, c]) => {
-						return new utilityActions.LoadProjectSuccess({ project: project, projectData: c.body });
+						return new utilityActions.LoadProjectSuccess({ project: project, projectData: JSON.parse(c.body) });
 					}),
 					catchError(err => {
 						return of(new utilityActions.LoadProjectFailure(err.statusText));
@@ -127,10 +127,12 @@ export class UtilityEffects implements OnInitEffects {
 			this.utilityStore.select(utilitySelectors.getProjectData).pipe(take(1),
 				mergeMap((data: ProjectData) => {
 					let newData: ProjectData = JSON.parse(JSON.stringify(data));
-					if (newData.projectData.relations.filter(g => g.id == geoObject.id).length > 0)
-						newData.projectData.relations = newData.projectData.relations.map(g => (g.id == geoObject.id ? geoObject : g));
+					if (!newData.projectData.geoObjectMaskMappings)
+						newData.projectData.geoObjectMaskMappings = [];
+					if (newData.projectData.geoObjectMaskMappings.filter(g => g.id == geoObject.id).length > 0)
+						newData.projectData.geoObjectMaskMappings = newData.projectData.geoObjectMaskMappings.map(g => (g.id == geoObject.id ? geoObject : g));
 					else
-						newData.projectData.relations.push(geoObject);
+						newData.projectData.geoObjectMaskMappings.push(geoObject);
 					console.log(newData.projectData);
 					return this.http.post<BaseResponse<any>>(environment.baseUrl + 'projectMask/saveProject', newData.projectData, { params: new HttpParams().append('projectUser', this.USER_NAME).append('projectId', '' + data.project.projectId) }).pipe(
 						map(() => new utilityActions.MergeGeoObjectEditsSuccess({ patch: geoObject.patch, projectData: newData })),

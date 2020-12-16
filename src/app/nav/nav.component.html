@@ -4,7 +4,8 @@
 		<mat-toolbar><img src="assets/logo.png" width="120px">
 			<span class="example-spacer"></span>
 		</mat-toolbar>
-		<mat-nav-list>
+
+		<mat-nav-list *ngIf="menuView">
 			<!-- Home -->
 			<a mat-list-item [routerLink]="'/home'" [routerLinkActive]="'selected'" role="menuItem">
 				<mat-icon aria-hidden="false">home</mat-icon>
@@ -21,6 +22,9 @@
 				<div i18n="@@menuMaskAnags">Anagrafica Maschere</div>
 			</a>
 		</mat-nav-list>
+
+		<pmf-changeset *ngIf="!menuView"></pmf-changeset>
+
 	</mat-sidenav>
 	<mat-sidenav-content>
 		<mat-toolbar color="primary">
@@ -28,8 +32,12 @@
 				*ngIf="isHandset$ | async">
 				<mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
 			</button>
-			<span i18n="Title of the application@@siteHeader">Pannello Modifica Formule</span>
+			<span i18n="@@siteHeader">Pannello Modifica Formule</span>
 			<span style="flex: 1 1 auto;"></span>
+			<button mat-icon-button (click)="toggleView()">
+				<mat-icon *ngIf="menuView">account_tree</mat-icon>
+				<mat-icon *ngIf="!menuView">menu</mat-icon>
+			</button>
 			<button mat-icon-button [matMenuTriggerFor]="menu">
 				<mat-icon>language</mat-icon>
 			</button>

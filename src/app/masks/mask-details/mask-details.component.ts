@@ -138,7 +138,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy, IsDirty {
 			id: null, code: null, description: null, priority: null, category: null, type: null, dataType: null, maxLength: null, measurementUnit: null, visibilityCond: null, visibilityFlag: null, requiredFlag: null, modFlag: null, copyFlag: null, note: null, answers: answers
 		}));
 		if ((<FormArray>this.maskAnagForm.controls.questions).length > this.data.questions.length)
-			this.data.questions.push({ answers: [] });
+			this.data.questions.push({ id: null, code: null, description: null, priority: null, category: null, type: null, dataType: null, maxLength: null, measurementUnit: null, visibilityCond: null, visibilityFlag: null, requiredFlag: null, modFlag: null, copyFlag: null, note: null, answers: [] });
 		if (this.mode == 'view')
 			(<FormArray>this.maskAnagForm.controls.questions).disable();
 
@@ -149,7 +149,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy, IsDirty {
 			id: null, code: null, description: null, priority: null, type: null, highLimit: null, lowLimit: null, category: null, cit: null, defaultAns: null, executor: null, visibilityCond: null, note: null,
 		}));
 		if ((<FormArray>(<FormGroup>this.questionControls()[i]).controls.answers).length > this.data.questions[i].answers.length)
-			this.data.questions[i].answers.push({});
+			this.data.questions[i].answers.push({ id: null, code: null, description: null, priority: null, type: null, highLimit: null, lowLimit: null, category: null, cit: null, defaultAns: null, executor: null, visibilityCond: null, note: null });
 		if (this.mode == 'view')
 			(<FormArray>(<FormGroup>this.questionControls()[i]).controls.answers).disable();
 	}
