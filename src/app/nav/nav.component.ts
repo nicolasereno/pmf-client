@@ -17,8 +17,6 @@ export interface MenuItem {
 })
 export class NavComponent {
 
-	menuView = true;
-
 	isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
 		.pipe(
 			map(result => result.matches),
@@ -26,9 +24,5 @@ export class NavComponent {
 		);
 
 	constructor(private breakpointObserver: BreakpointObserver) { }
-
-	toggleView() {
-		this.menuView = !this.menuView;
-	}
 
 }

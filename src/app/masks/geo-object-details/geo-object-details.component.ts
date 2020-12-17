@@ -70,13 +70,9 @@ export class GeoObjectDetailsComponent implements OnInit, OnDestroy, IsDirty {
 			.subscribe(d => this.maskRefs = d);
 
 		if (this.id) {
-			this.utilityStore.select(utilitySelectors.getGeoObjects).pipe(
-				filter(d => d != null),
-				take(1), map(d => d.filter(e => e['id'] == this.id)[0])).subscribe((val) => {
-					this.data = JSON.parse(JSON.stringify(val));
-					this.data.geoObjectMaskMappings.forEach(() => { this.addRelation(); });
-					this.geoObjectForm.patchValue(this.data);
-				})
+			this.data = this.route.snapshot.data['data'];
+			this.data.geoObjectMaskMappings.forEach(() => { this.addRelation(); });
+			this.geoObjectForm.patchValue(this.data);
 		}
 	}
 

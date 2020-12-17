@@ -1,30 +1,11 @@
 <mat-sidenav-container class="sidenav-container">
-	<mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-		[mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+	<mat-sidenav #drawer class="sidenav" fixedInViewport="false"
+		[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+		[opened]="(isHandset$ | async) === false">
 		<mat-toolbar><img src="assets/logo.png" width="120px">
 			<span class="example-spacer"></span>
 		</mat-toolbar>
-
-		<mat-nav-list *ngIf="menuView">
-			<!-- Home -->
-			<a mat-list-item [routerLink]="'/home'" [routerLinkActive]="'selected'" role="menuItem">
-				<mat-icon aria-hidden="false">home</mat-icon>
-				<div i18n="@@menuHome">Home</div>
-			</a>
-			<!-- GeoObjects -->
-			<a mat-list-item [routerLink]="'/masks/geo-object-list'" [routerLinkActive]="'selected'" role="menuItem">
-				<mat-icon aria-hidden="false">dashboard</mat-icon>
-				<div i18n="@@menuGeoObjects">Elementi di Rete</div>
-			</a>
-			<!-- maskAnags -->
-			<a mat-list-item [routerLink]="'/masks/mask-list'" [routerLinkActive]="'selected'" role="menuItem">
-				<mat-icon aria-hidden="false">fact_check</mat-icon>
-				<div i18n="@@menuMaskAnags">Anagrafica Maschere</div>
-			</a>
-		</mat-nav-list>
-
-		<pmf-changeset *ngIf="!menuView"></pmf-changeset>
-
+		<pmf-changeset></pmf-changeset>
 	</mat-sidenav>
 	<mat-sidenav-content>
 		<mat-toolbar color="primary">
@@ -33,11 +14,19 @@
 				<mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
 			</button>
 			<span i18n="@@siteHeader">Pannello Modifica Formule</span>
-			<span style="flex: 1 1 auto;"></span>
-			<button mat-icon-button (click)="toggleView()">
-				<mat-icon *ngIf="menuView">account_tree</mat-icon>
-				<mat-icon *ngIf="!menuView">menu</mat-icon>
+
+			<button mat-button [routerLink]="'/home'" i18n="@@menuHome" [routerLinkActive]="'selected'">
+				<mat-icon aria-hidden="false">home</mat-icon>Home
 			</button>
+			<button mat-button [routerLink]="'/masks/geo-object-list'" i18n="@@menuGeoObjects"
+				[routerLinkActive]="'selected'">
+				<mat-icon aria-hidden="false">dashboard</mat-icon>Elementi di Rete
+			</button>
+			<button mat-button [routerLink]="'/masks/mask-list'" i18n="@@menuMaskAnags" [routerLinkActive]="'selected'">
+				<mat-icon aria-hidden="false">fact_check</mat-icon>Maschere
+			</button>
+			<span style="flex: 1 1 auto;"></span>
+
 			<button mat-icon-button [matMenuTriggerFor]="menu">
 				<mat-icon>language</mat-icon>
 			</button>

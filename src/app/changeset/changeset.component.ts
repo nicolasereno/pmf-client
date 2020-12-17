@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ProjectEdits } from 'src/app/model/model';
+import { ProjectEdits, _Mask } from 'src/app/model/model';
+import * as utilityActions from '../utility/store/utility.actions';
 import * as fromUtility from '../utility/store/utility.reducer';
 import * as utilitySelectors from '../utility/store/utility.selectors';
 
@@ -21,7 +22,7 @@ export class ChangesetComponent implements OnInit {
 		this.projectEdits$ = this.utilityStore.select(utilitySelectors.getProjectEdits);
 	}
 
-	private EXCLUDES = ['id', 'code', 'operationType', 'patch', 'relations', 'questions', 'answers', 'relationType', 'order'];
+	private EXCLUDES = ['id', 'code', 'operationType', 'patch', 'relations', 'questions', 'answers', 'relationType', 'order', 'geoObjId'];
 	modifiedAttributes(o: any) {
 		return Object.keys(o).filter(o => this.EXCLUDES.indexOf(o) < 0);
 	}
@@ -49,10 +50,10 @@ export class ChangesetComponent implements OnInit {
 		const index = this.expandedMasks.indexOf(m);
 		if (index < 0)
 			this.expandedMasks.push(m);
-		else 
-			this.expandedMasks.splice(index, 1);	
+		else
+			this.expandedMasks.splice(index, 1);
 	}
-	
+
 	expandedGeoObjects = [];
 	isExpandedGeoObject(code: string) {
 		return this.expandedGeoObjects.indexOf(code) >= 0;
@@ -62,7 +63,19 @@ export class ChangesetComponent implements OnInit {
 		const index = this.expandedGeoObjects.indexOf(m);
 		if (index < 0)
 			this.expandedGeoObjects.push(m);
-		else 
-			this.expandedGeoObjects.splice(index, 1);	
+		else
+			this.expandedGeoObjects.splice(index, 1);
+	}
+
+	undoMask(m: _Mask, e: MouseEvent) {
+		e.stopPropagation();
+		if (confirm('Annullare tutte le modifiche effettuate alla Maschera ' + m.code + '?'))
+			this.utilityStore.dispatch(new utilityActions.UndoEdits({ type: 'Mask', code: m.code }));
+	}
+
+	undoGeoObject(g: _Mask, e: MouseEvent) {
+		e.stopPropagation();
+		if (confirm("Annullare tutte le modifiche effettuate alla relazioni dell'Elemento di Rete " + g.code + '?'))
+			this.utilityStore.dispatch(new utilityActions.UndoEdits({ type: 'GeoObject', code: g.code }));
 	}
 }

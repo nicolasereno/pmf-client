@@ -39,6 +39,7 @@ export class UtilityEffects implements OnInitEffects {
 				this.http.get<BaseResponse<{ (key: string): RemapType[] }>>(environment.baseUrl + 'infoUtils/getRemapData'),
 				this.http.get<BaseResponse<{ (key: string): TechSite[] }>>(environment.baseUrl + 'infoUtils/getTechSites'),
 				this.http.get<BaseResponse<{ (key: string): Cit[] }>>(environment.baseUrl + 'infoUtils/getCits'),
+				this.http.get<BaseResponse<string[]>>(environment.baseUrl + 'infoUtils/getAnswerWithMetricCalcs'),
 			).pipe(
 				map(c => {
 					// FIX dati temporanea...
@@ -57,6 +58,7 @@ export class UtilityEffects implements OnInitEffects {
 						questionTypes: c[3].body['questionTypes'],
 						techSites: c[4].body['techSites'],
 						cits: c[5].body['cits'],
+						metricCalculationsAnswerCodes: c[6].body,
 					})
 				}),
 				catchError(err => {
@@ -109,7 +111,7 @@ export class UtilityEffects implements OnInitEffects {
 						newData.projectData.masks = newData.projectData.masks.map(m => (m.id == mask.id ? mask : m));
 					else
 						newData.projectData.masks.push(mask);
-					console.log(newData.projectData);
+					console.debug(newData.projectData);
 					return this.http.post<BaseResponse<any>>(environment.baseUrl + 'projectMask/saveProject', newData.projectData, { params: new HttpParams().append('projectUser', this.USER_NAME).append('projectId', '' + data.project.projectId) }).pipe(
 						map(() => new utilityActions.MergeMaskEditsSuccess({ patch: mask.patch, projectData: newData })),
 						catchError(err => {
@@ -133,12 +135,37 @@ export class UtilityEffects implements OnInitEffects {
 						newData.projectData.geoObjectMaskMappings = newData.projectData.geoObjectMaskMappings.map(g => (g.id == geoObject.id ? geoObject : g));
 					else
 						newData.projectData.geoObjectMaskMappings.push(geoObject);
-					console.log(newData.projectData);
+					console.debug(newData.projectData);
 					return this.http.post<BaseResponse<any>>(environment.baseUrl + 'projectMask/saveProject', newData.projectData, { params: new HttpParams().append('projectUser', this.USER_NAME).append('projectId', '' + data.project.projectId) }).pipe(
 						map(() => new utilityActions.MergeGeoObjectEditsSuccess({ patch: geoObject.patch, projectData: newData })),
 						catchError(err => {
 							this.snackBar.open(this.errorSaveGeoObjectData, this.error, { duration: 5000 })
 							return of(new utilityActions.MergeGeoObjectEditsFailure(err.statusText));
+						}))
+				}))
+		));
+
+	@Effect()
+	undoEdits$: Observable<Action> = this.actions$.pipe(
+		ofType(utilityActions.UtilityActionTypes.UndoEdits),
+		map((action: utilityActions.UndoEdits) => action.payload),
+		mergeMap(({ type: t, code: c }) =>
+			this.utilityStore.select(utilitySelectors.getProjectData).pipe(take(1),
+				mergeMap((data: ProjectData) => {
+					let newData: ProjectData = JSON.parse(JSON.stringify(data));
+					if (t == 'Mask') {
+						const index = newData.projectData.masks.findIndex(m => m.code == c);
+						newData.projectData.masks.splice(index, 1);
+					} else if (t == 'GeoObject') {
+						const index = newData.projectData.geoObjectMaskMappings.findIndex(g => g.code == c);
+						newData.projectData.geoObjectMaskMappings.splice(index, 1);
+					}
+					console.debug(newData.projectData);
+					return this.http.post<BaseResponse<any>>(environment.baseUrl + 'projectMask/saveProject', newData.projectData, { params: new HttpParams().append('projectUser', this.USER_NAME).append('projectId', '' + data.project.projectId) }).pipe(
+						map(() => new utilityActions.UndoEditsSuccess(newData)),
+						catchError(err => {
+							this.snackBar.open(this.errorSaveGeoObjectData, this.error, { duration: 5000 })
+							return of(new utilityActions.UndoEditsFailure(err.statusText));
 						}))
 				}))
 		));

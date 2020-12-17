@@ -39,6 +39,7 @@ export class MaskDetailsComponent implements OnInit, OnDestroy, IsDirty {
 	measurementUnits: RemapType[];
 	questionTypes: RemapType[];
 	cits: Cit[];
+	metricCalculationsAnswerCodes: string[]
 
 	flags = [{ id: null, description: '' }, { id: 'Y', description: 'SI' }, { id: 'N', description: 'NO' }];
 
@@ -87,9 +88,14 @@ export class MaskDetailsComponent implements OnInit, OnDestroy, IsDirty {
 		this.utilityStore.select(utilitySelectors.getExecutors).pipe(filter(d => d != null), take(1)).subscribe(d => this.executors = d);
 		this.utilityStore.select(utilitySelectors.getCits).pipe(filter(d => d != null), take(1)).subscribe(d => this.cits = d);
 
+		this.utilityStore.select(utilitySelectors.getMetricCalculationsAnswerCodes).pipe(filter(d => d != null), take(1)).subscribe(d => this.metricCalculationsAnswerCodes = d)
 		this.masksStore.select(maskSelectors.getMetricCalculations).pipe(filter(d => d != null && d.length > 0), takeWhile(() => this.active)).subscribe(d => this.openDialog(d));
 
 		this.maskAnagForm.patchValue(this.data);
+	}
+
+	codeWithMetricCalculations(c: string) {
+		return this.metricCalculationsAnswerCodes?.indexOf(c) >= 0;
 	}
 
 	setState(m: 'edit' | 'view' | 'create') {

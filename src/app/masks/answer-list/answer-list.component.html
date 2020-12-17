@@ -5,8 +5,8 @@
 			<th mat-header-cell *matHeaderCellDef i18n="@@answers-code">Codice risposta</th>
 			<td mat-cell *matCellDef="let element" [title]="element.id">
 				<strong>{{element.code}}</strong>
-				<mat-icon class="link-prestazioni" (click)="onShowMetricCalculations(element)"
-					title="Visualizza la lista delle presazioni">view_list</mat-icon>
+				<mat-icon class="link-prestazioni" *ngIf="codeWithMetricCalculations(element.code)"
+					(click)="onShowMetricCalculations(element)" title="Visualizza la lista delle presazioni">view_list</mat-icon>
 			</td>
 		</ng-container>
 

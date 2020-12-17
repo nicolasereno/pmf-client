@@ -15,6 +15,9 @@ export enum UtilityActionTypes {
 	MergeGeoObjectEdits = '[Utility] Merge GeoObject Edits',
 	MergeGeoObjectEditsSuccess = '[Utility] Merge GeoObject Edits Success',
 	MergeGeoObjectEditsFailure = '[Utility] Merge GeoObject Edits Failure',
+	UndoEdits = '[Utility] Undo Edits',
+	UndoEditsSuccess = '[Utility] Undo Edits Success',
+	UndoEditsFailure = '[Utility] Undo Edits Failure',
 }
 
 export class LoadCache implements Action {
@@ -23,7 +26,7 @@ export class LoadCache implements Action {
 
 export class LoadCacheSuccess implements Action {
 	readonly type = UtilityActionTypes.LoadCacheSuccess;
-	constructor(public payload: { paymentList: PaymentList[], geoObjects: GeoObject[], maskAnags: Mask[], categories: RemapType[], dataTypes: RemapType[], executors: RemapType[], maskRelationTypes: RemapType[], measurementUnits: RemapType[], questionTypes: RemapType[], techSites: TechSite[], cits: Cit[] }) { }
+	constructor(public payload: { paymentList: PaymentList[], geoObjects: GeoObject[], maskAnags: Mask[], categories: RemapType[], dataTypes: RemapType[], executors: RemapType[], maskRelationTypes: RemapType[], measurementUnits: RemapType[], questionTypes: RemapType[], techSites: TechSite[], cits: Cit[], metricCalculationsAnswerCodes: string[] }) { }
 }
 
 export class LoadCacheFailure implements Action {
@@ -75,6 +78,21 @@ export class MergeGeoObjectEditsFailure implements Action {
 	constructor(public payload: string) { }
 }
 
+export class UndoEdits implements Action {
+	readonly type = UtilityActionTypes.UndoEdits;
+	constructor(public payload: { type: 'Mask' | 'GeoObject', code: string }) { }
+}
+
+export class UndoEditsSuccess implements Action {
+	readonly type = UtilityActionTypes.UndoEditsSuccess;
+	constructor(public payload: ProjectData) { }
+}
+
+export class UndoEditsFailure implements Action {
+	readonly type = UtilityActionTypes.UndoEditsFailure;
+	constructor(public payload: string) { }
+}
+
 export type UtilityActions =
 	LoadCache |
 	LoadCacheSuccess |
@@ -87,4 +105,7 @@ export type UtilityActions =
 	MergeMaskEditsFailure |
 	MergeGeoObjectEdits |
 	MergeGeoObjectEditsSuccess |
-	MergeGeoObjectEditsFailure;
+	MergeGeoObjectEditsFailure |
+	UndoEdits |
+	UndoEditsSuccess |
+	UndoEditsFailure;

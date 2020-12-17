@@ -17,6 +17,7 @@ export interface State {
 		questionTypes: RemapType[],
 		techSites: TechSite[],
 		cits: Cit[],
+		metricCalculationsAnswerCodes: string[],
 	},
 	projectData: ProjectData;
 	patch: string,
@@ -37,6 +38,7 @@ export const initialState: State = {
 		questionTypes: null,
 		techSites: null,
 		cits: null,
+		metricCalculationsAnswerCodes: null,
 	},
 	projectData: null,
 	patch: null,
@@ -62,6 +64,7 @@ export function reducer(state = initialState, action: UtilityActions): State {
 					questionTypes: null,
 					techSites: null,
 					cits: null,
+					metricCalculationsAnswerCodes: null
 				},
 				loading: true
 			};
@@ -87,6 +90,7 @@ export function reducer(state = initialState, action: UtilityActions): State {
 					questionTypes: action.payload.questionTypes,
 					techSites: action.payload.techSites,
 					cits: action.payload.cits,
+					metricCalculationsAnswerCodes: action.payload.metricCalculationsAnswerCodes,
 				},
 				loading: false
 			};
@@ -98,6 +102,7 @@ export function reducer(state = initialState, action: UtilityActions): State {
 			};
 		case UtilityActionTypes.MergeGeoObjectEdits:
 		case UtilityActionTypes.MergeMaskEdits:
+		case UtilityActionTypes.UndoEdits:
 			return {
 				...state,
 				patch: null,
@@ -111,10 +116,17 @@ export function reducer(state = initialState, action: UtilityActions): State {
 				projectData: action.payload.projectData,
 				loading: false
 			};
+		case UtilityActionTypes.UndoEditsSuccess:
+			return {
+				...state,
+				projectData: action.payload,
+				loading: false
+			};
 		case UtilityActionTypes.LoadCacheFailure:
 		case UtilityActionTypes.LoadProjectFailure:
 		case UtilityActionTypes.MergeGeoObjectEditsFailure:
 		case UtilityActionTypes.MergeMaskEditsFailure:
+		case UtilityActionTypes.UndoEditsFailure:
 			return {
 				...state,
 				error: action.payload,

@@ -163,6 +163,7 @@
 											[{{answerFormGroup(i, j).controls['priority']?.value}}]</p>
 									</mat-panel-title>
 									<mat-icon class="delete-button"
+										*ngIf="codeWithMetricCalculations(answerFormGroup(i, j).controls['code'].value)"
 										(click)="showMetricCalculations(answerFormGroup(i, j).controls['code'].value, $event)"
 										title="Visualizza la lista delle presazioni">view_list</mat-icon>
 									<mat-icon *ngIf="mode != 'view'" class="delete-button" (click)="removeAnswer(i, j, $event)"

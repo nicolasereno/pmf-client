@@ -61,6 +61,11 @@ export const getCits = createSelector(
 	state => state.cache.cits
 );
 
+export const getMetricCalculationsAnswerCodes = createSelector(
+	selectUtilityState,
+	state => state.cache.metricCalculationsAnswerCodes
+);
+
 export const getProjectData = createSelector(
 	selectUtilityState,
 	state => state.projectData

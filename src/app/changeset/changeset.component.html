@@ -1,40 +1,45 @@
 <div *ngIf="projectEdits$ | async as projectEdits" class="spaced">
 	<h3>MASCHERE</h3>
-	<ul>
-		<li *ngFor="let m of projectEdits.masks" [ngClass]="m.operationType.toLowerCase()"><strong
-				(click)="toggleMask(m.code)" class="clickable">{{m.code}}</strong>
-			<ul *ngIf="isExpandedMask(m.code)">
-				<li *ngFor="let s of modifiedAttributes(m)">{{s}}: {{showValue(m[s])}}</li>
-			</ul>
-			<ul *ngIf="isExpandedMask(m.code)">
-				<li *ngFor="let q of m.questions" [ngClass]="q.operationType.toLowerCase()"><strong>{{q.code}}</strong>
-					<ul>
-						<li *ngFor="let s of modifiedAttributes(q)">{{s}}: {{showValue(q[s])}}</li>
-					</ul>
-					<ul>
-						<li *ngFor="let a of q.answers" [ngClass]="a.operationType.toLowerCase()"><strong>{{a.code}}</strong>
-							<ul>
-								<li *ngFor="let s of modifiedAttributes(a)">{{s}}: {{showValue(a[s])}}</li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-	</ul>
+
+	<div *ngFor="let m of projectEdits.masks">
+		<div class="mask clickable" [ngClass]="m.operationType.toLowerCase()" (click)="toggleMask(m.code)">
+			<strong>{{ m.code }}</strong>
+			<mat-icon small class="small-icon" (click)="undoMask(m, $event)">highlight_off</mat-icon>
+			<mat-icon small *ngIf="!isExpandedMask(m.code)" class="small-icon">expand_more</mat-icon>
+			<mat-icon small *ngIf="isExpandedMask(m.code)" class="small-icon">expand_less</mat-icon>
+		</div>
+		<div *ngIf="isExpandedMask(m.code)">
+			<div *ngFor="let s of modifiedAttributes(m)" class="mask attribue" [ngClass]="m.operationType.toLowerCase()">{{ s
+				}}: {{ showValue(m[s]) }}</div>
+			<div *ngFor="let q of m.questions">
+				<div class="question" [ngClass]="q.operationType.toLowerCase()"><strong>{{ q.code }}</strong></div>
+				<div *ngFor="let s of modifiedAttributes(q)" class="question attribue"
+					[ngClass]="q.operationType.toLowerCase()">{{ s }}: {{ showValue(q[s]) }}</div>
+				<div *ngFor="let a of q.answers">
+					<div class="answer" [ngClass]="a.operationType.toLowerCase()"><strong>{{ a.code }}</strong></div>
+					<div *ngFor="let s of modifiedAttributes(a)" class="answer attribue"
+						[ngClass]="a.operationType.toLowerCase()">{{ s }}: {{ showValue(a[s]) }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<h3>ELEMENTI DI RETE</h3>
-	<ul>
-		<li *ngFor="let g of projectEdits.geoObjectMaskMappings"><strong (click)="toggleGeoObject(g.code)"
-				class="clickable">{{g.code}}</strong>
-			<ul *ngIf="isExpandedGeoObject(g.code)">
-				<li *ngFor="let r of g.relations" [ngClass]="r.operationType.toLowerCase()"><strong>{{r.relationType}}
-						[{{r.order}}]</strong>
-					<ul>
-						<li *ngFor="let s of modifiedAttributes(s)">{{s}}: {{showValue(s[s])}}</li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-	</ul>
+
+	<div *ngFor="let g of projectEdits.geoObjectMaskMappings">
+		<div class="mask clickable" [ngClass]="g.operationType.toLowerCase()" (click)="toggleGeoObject(g.code)">
+			<strong>{{ g.code }}</strong>
+			<mat-icon small class="small-icon" (click)="undoGeoObject(g, $event)">highlight_off</mat-icon>
+			<mat-icon small *ngIf="!isExpandedGeoObject(g.code)" class="small-icon">expand_more</mat-icon>
+			<mat-icon small *ngIf="isExpandedGeoObject(g.code)" class="small-icon">expand_less</mat-icon>
+		</div>
+		<div *ngIf="isExpandedGeoObject(g.code)">
+			<div *ngFor="let r of g.relations">
+				<div class="question" [ngClass]="r.operationType.toLowerCase()"><strong>{{r.relationType}}
+						[{{r.order}}]</strong></div>
+				<div *ngFor="let s of modifiedAttributes(r)" class="question attribue"
+					[ngClass]="r.operationType.toLowerCase()">{{ s }}: {{ showValue(r[s]) }}</div>
+			</div>
+		</div>
+	</div>
 </div>

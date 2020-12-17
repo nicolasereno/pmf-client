@@ -58,7 +58,6 @@ export class DifferencesService {
 					aa.forEach(a => {
 						const answer = question.answers[a];
 						const _answer: _Answer = { code: answer.code, operationType: this.operationType(answer.id) };
-						_answer.operationType = _answer.id == null ? 'ADD' : (_answer.id < 0 ? 'DEL' : 'MOD');
 						this.modifiedQuestionAnswerProperties(q, a, patch).forEach(p => _answer[p] = answer[p]);
 						_answer.id = Math.abs(answer.id);
 						_question.answers.push(_answer);
